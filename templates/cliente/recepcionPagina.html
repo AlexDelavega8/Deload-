@@ -1,0 +1,260 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Inicio</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+  
+    <a layout:fragment="submenu-titulo">
+		<span>Inicio</span>
+    </a>
+
+    <div layout:fragment="submenu-seccion-izquierda">
+		<span th:unless="${suscripcionCaducada}" th:text="|${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(cliente.suscripcion.fechaPeriodoDesde), 'dd/MM')} - ${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(cliente.suscripcion.fechaPeriodoHasta), 'dd/MM')}|"></span>
+    </div>
+    
+    <div layout:fragment="submenu-seccion-derecha">
+		<a th:if="${mostrarBotonVideoconferencia && cliente.suscripcion.estado.codigo  != T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).CADUCADA.codigo()}" th:href="@{/videoconferencia}" class="btn btn-sm btn-outline-azul"><i class="fas fa-video"></i> Videoconferencia</a>
+		<a th:href="@{/reactivarSuscripcion}" class="btn btn-sm btn-outline-azul"
+			th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).CADUCADA.codigo()}">
+			<i class="fas fa-rocket"></i> Reactivar suscripcion
+		</a>
+    </div>
+    
+  	<div layout:fragment="content" class="row">
+
+			<div class="container d-flex flex-column">
+
+			<th:block th:if="${suscripcionCaducada}">
+				<div class="alert alert-warning" role="alert">
+					<strong>¡Hola de nuevo!</strong>, ¿quieres volver a entrenar con nosotros?, para ello es necesario que reactives de nuevo tu suscripción. 
+					Pulsa el botón situado arriba a la derecha con el texto "Reactivar suscripción". En ese instante se te redirigirá a la TPV virtual para que realices el pago y una vez 
+					finalizado el proceso, volverás a tener tu suscripción 100% activa. ¡te estamos esperando!.
+				</div>
+			</th:block>
+			
+			<th:block th:if="${conProblemasPagoInicial}">
+				<div class="alert alert-danger" role="alert" th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).IMPAGADA_INICIAL.codigo()}">
+					<strong>Atención</strong>, hubo algún error a la hora de realizar el cobro de la suscripción. Es necesario que acceda a la opción de menú "Suscripción" y que realice el pago pulsando el botón situado arriba a la derecha con el texto "Pagar suscripción".
+				  	Si no se completa el pago en las 48 horas siguientes a la creación de la cuenta, consideraremos que no se quiere activar la suscripción y por tanto borraremos todos los datos de la cuenta.
+				</div>
+			</th:block>
+			
+			<th:block th:if="${conProblemasPagoRenovacion}">
+				<div class="alert alert-danger" role="alert" th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).IMPAGADA.codigo()}">
+					<strong>Atención</strong>, hubo algún error a la hora de realizar el cobro de la suscripción. Es necesario que acceda a la opción de menú "Suscripción" y que realice el pago pulsando el botón situado arriba a la derecha con el texto "Pagar suscripción".
+					Si no se completa el pago en las 48 horas siguientes al primer intento de cobro, la suscripción quedará cancelada.				
+				</div>
+			</th:block>
+			
+			<th:block th:if="${sinEntrenadorSinrutinas}">
+				<!-- Entrenador -->
+				<div class="row no-gutters pb-3">
+					<div class="col-12 col-sm-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268; font-weight: bold; color: #0F4C81;" >
+						<span>Sin entrenador</span>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-12">
+						<p>Bienvenid@ <span th:text="${cliente.nombre}"></span></p>
+						<p>Estamos asignándote un entrenador personal. En las próximas 24 horas laborables te llamará por teléfono personalmente para confirmar la información que nos has facilitado.</p>
+						<p>Mientras tanto accede al apartado "Mis datos" y cubre todos los campos vacíos en los apartados de "personales", "entrenamiento" y "más" para conocerte mejor y garantizar la adaptación e individualización de tu entrenamiento al 100%.</p>
+					</div>
+				</div>
+				
+			</th:block>
+			<th:block th:if="${conEntrenadorNuevoSinrutinas}">
+				<div class="row no-gutters pb-3">
+					<div class="col-12 col-sm-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268; font-weight: bold; color: #0F4C81;" >
+						<span>Tu entrenador:</span> <span th:text="${cliente.entrenador.nombre}">Alejandro de la Vega</span> <span th:text="${cliente.entrenador.apellido1}">de la Vega</span>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-12">
+						<p>Hola <span th:text="${cliente.nombre}"></span> ¡Tenemos novedades!</p>
+						<p>Ya tienes asignado tu entrenador personal, <span th:text="${cliente.entrenador.nombre}">Alejandro de la Vega</span> <span th:text="${cliente.entrenador.apellido1}">de la Vega</span>. En breves se pondrá en contacto contigo.</p>
+						<p>Mientras tanto accede al apartado "Mis datos" y cubre todos los campos vacíos en los apartados de "personales", "entrenamiento" y "más" para conocerte mejor y garantizar la adaptación e individualización de tu entrenamiento al 100%.
+					</div>
+				</div>
+			</th:block>
+			<th:block th:if="${conEntrenadorSinrutinas}">
+				<div class="row no-gutters pb-3">
+					<div class="col-12 col-sm-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268; font-weight: bold; color: #0F4C81;" >
+						<span>Tu entrenador:</span> <span th:text="${cliente.entrenador.nombre}">Alejandro de la Vega</span> <span th:text="${cliente.entrenador.apellido1}">de la Vega</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						Tu entrenador ya está elaborando tus entrenamientos y en breves los tendrás disponibles.
+					</div>
+				</div>
+			</th:block>
+			
+			
+			<th:block th:if="${conEntrenadorEsperandoNuevasRutinas}">
+				<div class="row no-gutters pb-3">
+					<div class="col-12 col-sm-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268; font-weight: bold; color: #0F4C81;" >
+						<span>Tu entrenador:</span> <span th:text="${cliente.entrenador.nombre}">Alejandro de la Vega</span> <span th:text="${cliente.entrenador.apellido1}">de la Vega</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						Tu entrenador ya está elaborando tus nuevos entrenamientos y en breves los tendrás disponibles.
+					</div>
+				</div>
+			</th:block>
+			
+			<th:block th:if="${conEntrenadorConrutinas}">
+			
+				<!-- Entrenador -->
+				<div class="row no-gutters pb-3">
+					<div class="col-12 col-sm-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268; font-weight: bold; color: #0F4C81;" >
+						<span>Tu entrenador:</span> <span th:text="${cliente.entrenador.nombre}">Alejandro de la Vega</span> <span th:text="${cliente.entrenador.apellido1}">de la Vega</span>
+					</div>
+				</div>
+				
+				<!-- Informacion de entrenamientos que le toca -->
+				<div id="recepcion-indicaciones" class="row no-gutters pb-3">
+					<p th:if="${!rutinasHoyIdLista.isEmpty()}">Hola <span th:text="${cliente.nombre}"></span>, hoy te toca hacer
+					
+					<a href="#" th:onClick="|event.preventDefault(); scrollSuave('entrenamiento${rutinasHoyIdLista.get(0)}')|"  th:if="${rutinasHoyIdLista.size() == 1}" th:text="| ${rutinasHoyNombreLista.get(0)}.|"></a>
+					
+					<th:block th:if="${rutinasHoyIdLista.size() == 2}">
+						el <a href="#" th:onClick="|event.preventDefault(); scrollSuave('entrenamiento${rutinasHoyIdLista.get(0)}')|" 
+							th:text="| ${rutinasHoyNombreLista.get(0)}|"></a> y 
+							
+						    <a href="#" th:onClick="|event.preventDefault(); scrollSuave('entrenamiento${rutinasHoyIdLista.get(1)}')|" 
+						    th:text="| ${rutinasHoyNombreLista.get(1)}.|"></a>
+					</th:block>
+					
+					<th:block th:if="${rutinasHoyIdLista.size() == 3}">
+						el<a href="#" th:onClick="|event.preventDefault(); scrollSuave('entrenamiento${rutinasHoyIdLista.get(0)}')|" th:text="| ${rutinasHoyNombreLista.get(0)}|"></a>, 
+						<a href="#" th:onClick="|event.preventDefault(); scrollSuave('entrenamiento${rutinasHoyIdLista.get(1)}')|" th:text="| ${rutinasHoyNombreLista.get(1)}|"></a> y 
+						<a href="#" th:onClick="|event.preventDefault(); scrollSuave('entrenamiento${rutinasHoyIdLista.get(2)}')|" th:text="| ${rutinasHoyNombreLista.get(2)}.|"></a>
+					</th:block>
+					
+					<th:block th:if="${rutinasHoyIdLista.size() > 3}">
+						<a href="#" th:onClick="|event.preventDefault(); scrollSuave('entrenamiento${rutinasHoyIdLista.get(stat.index)}')|" th:each="entrenamientoNombre, stat: ${rutinasHoyNombreLista}" th:text="|${entrenamientoNombre}, |"></a>
+					</th:block>
+					
+					
+					</p>
+					<p th:if="${rutinasHoyIdLista.isEmpty()}">Hola <span th:text="${cliente.nombre}"></span>, no tienes ningún entrenamiento programado para hoy.</p>
+					
+				</div>
+				
+				<!-- Ejercicios -->
+				<div class="form-row">
+					<div th:id="|entrenamiento${rutina.id}|" th:class="|col-12 col-sm-6 col-lg-3 col-xl-3 pb-3 ${rutinasHoyIdLista.contains(rutina.id) ? 'rutina-presentacion-rutina-hoy' : 'rutina-presentacion-rutina-normal'}|" 
+						th:each="rutina,numeroRutina : ${rutinasActuales}">
+						
+						<a th:href="@{/previsualizarEntrenamiento/} + ${rutina.id}" style="text-decoration: none;">
+						
+							<div class="row no-gutters shadow-sm" style="position: relative;">
+								<div class="col-6" th:each="rutaFoto : ${rutinaFotosMapa.get(rutina.id)}">
+									 <div class="embed-responsive embed-responsive-4by3" draggable="false">
+										<img draggable="false" class="embed-responsive-item" style="object-fit: cover; " th:src="|${urlEstaticosEjerciciosFotos}${rutaFoto}.png|" alt="Ejercicio imagen">
+						  			</div>
+								</div>
+								<div class="text-center rutina-presentacion-titulo">
+									<span th:if="${rutina.nombre != null && !rutina.nombre.isBlank()}" th:text="${rutina.nombre}"></span>
+									<span th:unless="${rutina.nombre != null && !rutina.nombre.isBlank()}" th:text="${'Entrenamiento ' + numeroRutina.count}"></span>
+								</div>
+						   </div>
+
+							<div class="row no-gutters shadow-sm" style="font-size: 0.9rem; color: #495057;">
+								<div class="col-12">
+							 		<div class="row pl-2 pr-2 pt-1 pb-1">
+					 					<div class="col-12">
+											<i class="far fa-calendar-alt"></i>
+											<span th:each="rutinaFecha : ${rutina.rutinaFechaLista}" th:text="|${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(rutinaFecha), 'dd/MM')} |"></span>
+										</div>
+										
+									</div>
+							 		<div class="row pl-2 pr-2 pt-1 pb-1">
+					 					<div class="col-6">
+											<i class="fas fa-stopwatch"></i> <span th:text="|${rutina.tiempo}'|"></span>
+										</div>
+										<div class="col-6">
+											<i class="fas fa-list-ol"></i> <span th:text="|${rutina.numeroEjercicios} ejercicios|"></span>
+										</div>
+								 	</div>
+	
+						 		</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</th:block>
+			
+				
+			</div>
+
+		<!-- Aceptación modal -->
+		<div class="modal fade" id="nuevasCondicionesModal" tabindex="-1" role="dialog" aria-labelledby="nuevasCondicionesModalLabel"aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="nuevasCondicionesModalLabel">Comunicación de cambios</h5>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-12">
+								<p>Hola <span th:text="${cliente.nombre}"></span>, hemos hecho cambios tanto en nuestra política de privacidad como en los términos y condiciones, por lo que
+								es necesario que <strong>leas y aceptes</strong> de nuevo ambos textos expuestos más abajo.</p>
+								<p>La única modificación realizada es el cambio de empresa, que ahora es Educa Salud Global S.L.. Tanto los entrenadores como el equipo que hay
+								detrás de Pocketrainer sigue siendo el mismo y no notarás ningún cambio. Por supuesto tampoco hemos modificado nada de tu servicio contratado. 
+								No dudes en contactar con nosotros si tienes alguna duda.</p>
+							</div>
+							<div class="col-12" style="background: #f2f2f2">
+								<h3 class="mt-2">Política de privacidad</h3>
+								<div th:replace="politicaPrivacidadPagina.html :: politicaPrivacidadFragment"></div>
+							</div>
+							
+							<div class="col-12 mt-2" style="background: #f2f2f2">
+								<h3 class="pt-2">Términos y condiciones</h3>
+								<div th:replace="terminosCondicionesPagina.html :: terminosCondicionesFragment(mostrarEnlaces=false)"></div>
+							</div>
+							
+							<div class="col-12 mt-3">
+								<form id="nuevasCondicionesFormulario" th:action="@{/nuevasCondicionesFormulario}" th:object="${nuevasCondicionesFormulario}" method="post" novalidate>
+									<div class="form-row">
+										<div class=" col-12">
+		  										<label class="sr-only">Política de privacidad</label>
+												<div class="form-check form-check-inline form-check-required"style="margin-right: 0px;">
+													<input id="politicaPrivacidadCheckBox" class="form-check-input" type="checkbox" th:field="*{aceptaPoliticaPrivacidad}" required> 
+													<label class="form-check-label" for="politicaPrivacidadCheckBox">He leído y acepto la política de privacidad</label>
+												</div>
+										</div>
+										<div class=" col-12">
+		  										<label class="sr-only">Términos y condiciones</label>
+												<div class="form-check form-check-inline form-check-required" style="margin-right: 0px;">
+													<input id="terminosCondicionesCheckBox" class="form-check-input" type="checkbox" th:field="*{aceptaTerminosCondiciones}" required> 
+													<label class="form-check-label" for="terminosCondicionesCheckBox">He leído y acepto los términos y condiciones</label>
+												</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" onClick="$('#nuevasCondicionesFormulario').submit()" class="btn btn-outline-azul">Aceptar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<script src="/js/recepcionPagina.js" th:src="@{/js/recepcionPagina.js}"></script>
+		<script th:inline="javascript">
+			abrirNuevasCondicionesModal(/*[[${!cliente.aceptaPoliticaPrivacidad}]]*/)
+		</script>
+	
+    </div>
+
+  </body>
+</html>

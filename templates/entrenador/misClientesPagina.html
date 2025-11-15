@@ -1,0 +1,138 @@
+<!doctype html>
+<html layout:decorate="~{plantillaEntrenador}">
+  <head>
+    <title>Clientes</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+	<div layout:fragment="submenu-titulo">
+		<span>Mis clientes</span>
+    </div>
+  		
+  	<div layout:fragment="content" style="height: 100vh;">
+  	
+		<!-- Filtros -->
+		<form id="buscarClienteDesdeMisClientesFormulario" th:action="@{/buscarClienteDesdeMisClientesFormulario}" th:object="${buscarClienteFormulario}" onsubmit="buscarClienteDesdeMisClientesFormulario(this, event)" method="post" novalidate>
+  			<div class="form-row">
+				<div class="form-group col-auto">
+	            	<label for="nombre"> Nombre </label>
+	            	<div class="input-group">					            	
+		            	<input id="nombre" type="text" class="form-control" th:field="*{nombre}" maxlength="100" placeholder="Nombre"/>
+		            	<div class="input-group-append">
+					    	<button class="btn-borrar-input btn btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+					  	</div>
+					</div>
+	            </div>
+				<div class="form-group col-2">
+					<label for="suscripcionEstado">Estado suscripción</label>
+					<select class="form-control selectpicker" th:field="*{suscripcionEstadoCodigoLista}" data-style="btn-select" title="Estado suscripcion" multiple>
+						<option th:each="estado : ${suscripcionEstadoSeleccionLista}" th:value="${estado.codigo}" th:text="${estado.nombre}"></option>
+					</select>
+				</div>
+				<div class="form-group col-auto mt-auto">
+					<button id="buscarClienteFormularioSubmit" type="submit" class="btn btn-outline-azul"><i class="fas fa-search"></i> Buscar</button>
+				</div>
+  			</div>
+  		</form>
+
+		<!-- Listado -->
+		<div class="table-responsive tabla-cabecera-fija tabla-pantalla-completa">
+			<table id="clienteLista" th:fragment="clienteListaFragment" class="table table-hover">
+				<thead class="thead-pocketrainer">
+					<tr>
+						<th scope="col">Cliente</th>
+						<th scope="col">Estado</th>
+						<th scope="col">Suscripción</th>
+						<th scope="col">Rutina 1</th>
+						<th scope="col">Rutina 2</th>
+						<th scope="col">Rutina 3</th>
+						<th scope="col">Rutina 4</th>
+						<th scope="col">Videoconferencia</th>
+	
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cliente, itemStat: ${clienteLista}">
+						<th scope="row">
+							<a th:href="${'clienteDetalle/'+cliente.id}" th:text="${cliente.nombreCompleto}"></a><br>
+							<span th:text="${cliente.telefono}"></span><br>
+							<span th:text="${cliente.email}"></span>
+						</th>
+						<td th:text="${cliente.estado.nombre}"></td>
+						<td>
+							<div>
+								<span th:text="${cliente.suscripcion.estado.nombre}"></span>
+							</div>
+							<div>
+								<span style="white-space: nowrap; font-size: 0.9rem;" th:text="|${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(cliente.suscripcion.fechaPeriodoDesde), 'dd/MM/yy')} - ${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(cliente.suscripcion.fechaPeriodoHasta), 'dd/MM/yy')}"></span>
+							</div>			
+						</td>
+
+						
+						<td th:classappend="${cliente.rutina1 != null && cliente.rutina1.estado.codigo == T(es.pocketrainer.util.Constantes.RutinaEstadoEnum).EN_ELABORACION.codigo()} ? table-warning : table-success">
+							<a th:if="${cliente.rutina1}" th:href="${'rutinaElaboracion/'+cliente.rutina1.id}" th:text="${cliente.rutina1.estado.nombre}"></a>
+						</td>
+						<td th:classappend="${cliente.rutina2 != null && cliente.rutina2.estado.codigo == T(es.pocketrainer.util.Constantes.RutinaEstadoEnum).EN_ELABORACION.codigo()} ? table-warning : table-success">
+							<a th:if="${cliente.rutina2}" th:href="${'rutinaElaboracion/'+cliente.rutina2.id}" th:text="${cliente.rutina2.estado.nombre}"></a>
+						</td>
+						<td th:classappend="${cliente.rutina3 != null && cliente.rutina3.estado.codigo == T(es.pocketrainer.util.Constantes.RutinaEstadoEnum).EN_ELABORACION.codigo()} ? table-warning : table-success">
+							<a th:if="${cliente.rutina3}" th:href="${'rutinaElaboracion/'+cliente.rutina3.id}" th:text="${cliente.rutina3.estado.nombre}"></a>
+						</td>
+						<td th:classappend="${cliente.rutina4 != null && cliente.rutina4.estado.codigo == T(es.pocketrainer.util.Constantes.RutinaEstadoEnum).EN_ELABORACION.codigo()} ? table-warning : table-success">
+							<a th:if="${cliente.rutina4}" th:href="${'rutinaElaboracion/'+cliente.rutina4.id}" th:text="${cliente.rutina4.estado.nombre}"></a>
+						</td>
+						
+						<td class="fit" th:classappend="${cliente.videoconferenciaActual != null && cliente.videoconferenciaActual.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).SIN_PROGRAMAR.codigo()} ? table-warning : table-success">			
+							<form th:if="${cliente.videoconferenciaActual != null}" class="row no-gutters" th:id="|programarVideoConferenciaFormulario${itemStat.index}|" th:object="${clienteLista}" th:action="@{/programarVideoConferenciaMiClienteFormulario}" method="post" novalidate autocomplete="off">
+								<input hidden name="clienteId" th:value="${cliente.getId()}"/>
+								<input hidden name="videoconferenciaId" th:value="${cliente.videoconferenciaActual.id}"/>
+								
+								<div class="col-auto" style="white-space: normal">
+									<label th:for="|clienteVideoConferenciaFecha${itemStat.index}|" class="sr-only">Videoconferencia</label>
+									<input th:with="fecha=${cliente.videoconferenciaActual.fechaHoraProgramada != null? #temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(cliente.videoconferenciaActual.fechaHoraProgramada), 'dd/MM/yyyy HH:mm') : ''}" size="16" th:id="|clienteVideoConferenciaFecha${itemStat.index}|" th:cliente="${itemStat.index}" type="text" class="form-control clienteVideoConferenciaFecha datetimepicker-input cursor-pointer" 
+										data-toggle="datetimepicker" th:data-target="|#clienteVideoConferenciaFecha${itemStat.index}|" data-date-format="DD/MM/YYYY HH:mm" name="fechaHoraProgramada" 
+										th:value="${fecha}"
+										th:data-value-original="${fecha}" 
+										placeholder="Programar..."/>
+										<div style="padding-left: 0.75rem;" th:if="${cliente.videoconferenciaActual.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).PROGRAMADA.codigo() || cliente.videoconferenciaActual.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).EN_CURSO.codigo()}">
+											<a th:href="@{/videoconferenciaSalaEntrenador/{videoconferenciaId}(videoconferenciaId=${cliente.videoconferenciaActual.id})}">Entrar en sala</a>
+										</div>
+										
+								</div>
+<!-- 								<div class="col-auto d-flex" style="align-items: center;"> -->
+									
+<!-- 								</div> -->
+								
+								
+								<div class="col-auto ml-auto">
+									<button th:id="|programarVideoConferenciaFormularioSubmit${itemStat.index}|" type="submit" class="btn" style="display: none;"><i class="fas fa-save"></i></button>
+									<button th:id="|programarVideoConferenciaFormularioBorrar${itemStat.index}|" th:cliente="${itemStat.index}" class="btn programarVideoConferenciaFormularioBorrar" 
+										th:if="${cliente.videoconferenciaActual.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).PROGRAMADA.codigo()}"><i class="fas fa-calendar-times"></i></button>
+									<button th:id="|programarVideoConferenciaFormularioRestaurar${itemStat.index}|" th:cliente="${itemStat.index}" class="btn programarVideoConferenciaFormularioRestaurar" style="display: none;  padding-left: 0px;"><i class="fas fa-undo"></i></button>
+									
+								</div>
+							</form>
+
+							
+							
+							
+						</td>
+						
+						
+						
+<!-- 						<td class="fit boton"> -->
+<!-- 							<a th:href="${'clienteDetalle/'+cliente.id}"><i class="fas fa-edit"></i> Detalle</a> -->
+<!-- 						</td> -->
+<!-- 						<td class="fit boton"> -->
+<!-- 							<a th:href="${'clienteDetalle/'+cliente.id}"><i class="fas fa-video"></i> Solicitada</a> -->
+<!-- 						</td> -->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	<script src="/js/clientesPagina.js" th:src="@{/js/clientesPagina.js}"></script>
+	</div>
+	
+  </body>
+</html>

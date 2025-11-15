@@ -1,0 +1,38 @@
+<!doctype html>
+<html layout:decorate="~{plantillaEntrenador}">
+  <head>
+    <title>Inicio</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    
+  	<div layout:fragment="content">
+
+<!-- 		<script src="/js/rutinaElaboracion.js" th:src="@{/js/rutinaElaboracion.js}"></script> -->
+
+		
+		<div sec:authorize="hasAuthority('ROLE_SUPERUSUARIO')">
+			<a class="btn btn-primary" th:href="@{/lanzarRenovacion}">Lanzar renovacion</a>
+		</div>
+
+		<div sec:authorize="hasAuthority('ROLE_SUPERUSUARIO')">
+			<a class="btn btn-primary" th:href="@{/corregirRutinas}">Corregir rutinas</a>
+		</div>
+		
+		
+		<div sec:authorize="hasAuthority('ROLE_SUPERUSUARIO')">
+			<a class="btn btn-primary" th:href="@{/analizarCorreccionesRutinas}">Analizar rutinas</a>
+		</div>
+		
+		<div sec:authorize="hasAuthority('ROLE_SUPERUSUARIO')">
+			<a class="btn btn-primary" th:href="@{/corregirFechasSuscripciones}">Corregir fechas suscripciones</a>
+		</div>
+		
+		<div sec:authorize="hasAuthority('ROLE_SUPERUSUARIO')">
+			<a class="btn btn-primary" th:href="@{/actualizarEjercicioEntrenadorEstadistica}">Actualizar estadisticas ejercicios</a>
+		</div>
+
+    </div>
+
+  </body>
+</html>

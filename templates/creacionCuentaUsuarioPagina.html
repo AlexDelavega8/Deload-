@@ -1,0 +1,294 @@
+<!doctype html>
+<html layout:decorate="~{plantillaInicio}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+  	<head>
+    	<!-- Posicionamiento -->
+		<meta name="robots" th:content="${metaRobots}"/>
+		<title>Crea tu cuenta Pocketrainer - Pocketrainer, tu entrenador de bolsillo</title> <!-- Menos de 70 -->
+   		<meta name="description" content="Crea tu cuenta Pocketrainer y comienza a disfrutar de tus entrenamientos online 100% personalizados bajo supervisión de los mejores entrenadores titulados" /> <!-- Menos de 160 -->
+    	<link rel="canonical" href="https://pocketrainer.es/crea-tu-cuenta-pocketrainer"/>
+    
+	     <!-- Open Graph -->
+	    <meta property="og:locale" content="es_ES" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Crea tu cuenta Pocketrainer - Pocketrainer, tu entrenador de bolsillo" />
+		<meta property="og:description" content="Crea tu cuenta Pocketrainer y comienza a disfrutar de tus entrenamientos online 100% personalizados bajo supervisión de los mejores entrenadores titulados" />
+		<meta property="og:url" content="https://pocketrainer.es/crea-tu-cuenta-pocketrainer" />
+		<meta property="og:site_name" content="Pocketrainer" />
+		<meta property="og:image" content="https://pocketrainer.es/estatico/imagenes/logo.png" />
+  	</head>
+	  <body>
+	  
+	  	<div layout:fragment="content">
+	  	
+	  		<div id="seccion-completar-suscripcion" class="row">
+	  		
+	  			<div class="container ">
+	  				<div class="row" style="margin-bottom: 45px;">
+						<div class="col text-center">
+							<span class="titulo-grande titulo-grande-azul">Información para tu</span><span class="titulo-grande titulo-grande-coral"> entrenador</span>
+						</div>
+					</div>	
+	  			
+	  			
+					<div class="row">
+					
+						<!-- Completar datos -->
+	  					<div class="col">
+	
+	
+					        <form id="creacionCuentaUsuarioFormulario" th:action="@{/creacionCuentaUsuarioPagoPagina}" th:object="${cliente}" method="post" novalidate>
+					        	<div class="row">
+					        	
+					        		<!-- Formulario de datos -->
+					        		<div class="col-12 col-lg-6">
+	<!-- 				        			<div style="margin-bottom: 15px; font-weight: bold;"> -->
+	<!-- 				            			Datos de tu cuenta -->
+	<!-- 				            		</div> -->
+					            		
+					            		<div class="form-row">		
+						        			<div class="form-group form-group-sm col-12 col-sm-4">
+								            	<label for="nombre"> Nombre </label>
+								            	<input id="nombre" type="text" class="form-control form-control-sm" th:field="*{nombre}" maxlength="100" required/> 
+								            </div>
+								            <div class="form-group col-12 col-sm-4">
+								            	<label for="apellido1"> Primer apellido </label>
+								            	<input id="apellido1" type="text" class="form-control form-control-sm" th:field="*{apellido1}" maxlength="150" required/> 
+								            </div>
+								            <div class="form-group col-12 col-sm-4">
+								            	<label for="apellido2"> Segundo apellido </label>
+								            	<input id="apellido2" type="text" class="form-control form-control-sm" th:field="*{apellido2}" maxlength="150"/> 
+								            </div>
+							            </div>
+							            
+							            <div class="form-row">
+	<!-- 						           		<div class="form-group col-12  col-sm-4"> -->
+	<!-- 							            	<label for="nif"> NIF </label> -->
+	<!-- 							            	<input id="nif" type="text" class="form-control form-control-sm" th:field="*{nif}" required/>  -->
+	<!-- 							            </div> -->
+								            
+								            <div class="form-group col-12  col-sm-6">
+								            	<label for="usuarioUsuarioNombre"> Correo </label>
+								            	<input id="usuarioUsuarioNombre" type="email" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('usuario.usuarioNombre') ? 'is-invalid' : ''}" th:field="*{usuario.usuarioNombre}" maxlength="250" required/> 
+								            	<div th:if="${#fields.hasErrors('usuario.usuarioNombre')}" th:errors="*{usuario.usuarioNombre}" class="invalid-feedback">
+											        Error
+											    </div>
+								            	
+								            	<small id="passwordHelpBlock" class="form-text text-muted">El correo será tu nombre de usuario</small>
+								            	
+								            </div>
+								            <div class="form-group col-12  col-sm-6">
+								            	<label for="usuarioUsuarioNombreRepeticion">Repetir el correo</label>
+								            	<input id="usuarioUsuarioNombreRepeticion" type="email" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('usuario.usuarioNombre') ? 'is-invalid' : ''}" th:field="*{usuario.usuarioNombreRepeticion}" maxlength="250" required/> 					            	
+								            	<div id="usuarioNombreInvalid" class="invalid-feedback" style="display: none;">
+											        
+											    </div>
+								            </div>
+								        </div>
+								        
+								        <div class="form-row">
+								            <div class="form-group col-12  col-sm-6">
+								            	<label for="usuarioPassword"> Contraseña </label>
+								            	<input id="usuarioPassword" type="password" class="form-control form-control-sm" th:field="*{usuario.password}" required/>
+								            	<div id="usuarioPasswordInvalid" class="invalid-feedback" style="display: none;">
+											        
+											    </div>
+											     
+								            </div>
+								             <div class="form-group col-12  col-sm-6">
+								            	<label for="usuarioPasswordRepeticion"> Repetir contraseña </label>
+								            	<input id="usuarioPasswordRepeticion" type="password" class="form-control form-control-sm" th:field="*{usuario.passwordRepeticion}" required/> 
+								            </div>
+								            <div class="form-group col-12">
+								            	<small id="passwordHelpBlock" class="form-text text-muted">
+												 	<i class="fas fa-exclamation-circle" style="color: #FA7268"></i> Por seguridad, la contraseña debe tener un tamaño mínimo de 8, al menos una minúscula y mayúscula, al menos un número del 0 al 9 y algún caracter especial !, %, &amp;, @, #, $, ^, *, ?, _, ~, ., -
+												 </small>
+									            <div class="progress mt-2" style="height: 20px;" >
+												  <div id="calidadDePassword" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+												  	<span id="calidadDePasswordTexto"></span>
+												  </div>
+												</div>
+											</div>
+							            </div>
+	
+										<div class="form-group">
+	  										<label>¿Que días vas a entrenar?</label></br>
+											<div class="form-check form-check-inline form-check-required" th:each="diaEntrenamiento : ${diaEntrenamientoSeleccionLista}">
+												<input class="form-check-input" type="checkbox"  th:field="*{diaEntrenamientoLista}" th:value="${diaEntrenamiento.codigo}"> <label class="form-check-label" th:for="${#ids.prev('diaEntrenamientoLista')}" th:text=${diaEntrenamiento.nombre}></label>
+											</div>
+	
+										</div>
+										
+										<div class="form-group">
+											<label for="perfilSeleccion">¿Qué perfiles se ajustan más a tus objetivos?</label>
+											<select id="perfilSeleccion" class="form-control form-control-sm selectpicker" th:field="*{perfilLista}" data-style="btn-select" multiple title="Salud, estética, embarazo, patologías..." required>
+												<option th:each="perfil : ${perfilSeleccionLista}" th:value="${perfil.codigo}" th:text="${perfil.nombre}"></option>
+											</select>
+											<small id="passwordHelpBlock" class="form-text text-muted cursor-pointer" data-toggle="modal" data-target="#informacionPerfilesModal"><i class="far fa-question-circle"></i> Más información</small>
+										</div>
+										
+										
+										<div class="form-group">
+										    <label for="objetivos">Detalla tus objetivos</label>
+										    <textarea id="objetivos" class="form-control form-control-sm" th:field="*{objetivos}" placeholder="Perder peso, mejorar mi postura, mejorar imagen ..." rows="3" maxlength="1900" required></textarea>
+										</div>
+	
+										<div class="form-row">
+											<div class="form-group col-12 col-sm-6">
+												<label for="lugarEntrenamientoSeleccion">¿Dónde vas a entrenar?</label>
+												<select id="lugarEntrenamientoSeleccion" class="form-control form-control-sm selectpicker" th:field="*{lugarEntrenamientoLista}" data-style="btn-select" multiple title="Elige un lugar" required>
+												  <option th:each="lugarEntrenamiento : ${lugarEntrenamientoSeleccionLista}" th:value="${lugarEntrenamiento.codigo}" th:text="${lugarEntrenamiento.nombre}"></option>
+												</select>
+											</div>
+											
+											<div class="form-group col-12 col-sm-6">
+												<label for="materialSeleccion">¿De qué material dispones?</label>
+												<select id="materialSeleccion" class="form-control form-control-sm selectpicker" th:field="*{materialLista}" data-style="btn-select" multiple title="Elige si tienes">
+												  <option th:data-content="|<img src='${urlEstaticosMaterialFotos}${material.codigo}.jpg'/ width='100'> ${material.nombre}|" th:each="material : ${materialSeleccionLista}" th:value="${material.id}" th:text="${material.nombre}"></option>
+												</select>
+												<small id="passwordHelpBlock" class="form-text text-muted">No es necesario que tengas material</small>
+											</div>
+										</div>
+									</div>
+									
+					            	<!-- Resumen  de pago y politica privacidad -->
+					            	<div class="col-12 col-lg-6">
+					            		<div class="form-row">
+					            		
+					            			<!-- Advertencias -->
+					            			<div class="form-group col-12">
+												Además del correo electrónico, te pedimos el teléfono ya que será el medio por el que tu entrenador/a contactará contigo por primera vez en las siguientes 24h laborables una vez formalizada tu inscripción. Por favor, asegúrate de que indicas el teléfono correctamente.
+					            			</div>
+					            			<div class="form-group col-12 col-sm-6">
+								            	<label for="telefono"> Teléfono </label>
+								            	<input id="telefono" type="text" class="form-control form-control-sm" th:field="*{telefono}" maxlength="18" required/> 
+								            </div>
+								            <div class="form-group col-12 col-sm-6">
+								            	<label for="disponibilidadTelefonica"> ¿En que horario te podemos llamar? </label>
+								            	<input id="disponibilidadTelefonica" type="text" class="form-control form-control-sm" th:field="*{disponibilidadTelefonica}" maxlength="100" required/> 
+								            </div>
+					            			<div class="form-group col-12">
+					            				<span style="font-weight: bold;">Nota:</span> En la llamada que recibirás de tu entrenador/a te solicitaremos más información para adaptarnos lo máximo posible a ti y tus objetivos.
+					            			</div>
+					            		
+					            		
+					            			<!-- Resumen de servicio -->
+					            			<div class="form-group col-12">
+							            		<div style="margin-bottom: 15px; font-weight: bold;">
+							            			Servicio
+							            		</div>
+							            		Servicio de entrenamiento personalizado online.
+											</div>		         
+											
+											<!-- Politica de privacidad -->
+											<div class="form-group col-12">
+			  										<label class="sr-only">Política de privacidad</label>
+													<div class="form-check form-check-inline form-check-required"style="margin-right: 0px;">
+														<input id="politicaPrivacidadCheckBox" class="form-check-input" type="checkbox" required> 
+														<label class="form-check-label" for="politicaPrivacidadCheckBox">He leído y acepto</label>
+														<span data-toggle="modal" data-target="#politicaPrivacidadModal" class="cursor-pointer" style="color: #0F4C81; font-weight: bold; white-space: nowrap;">&nbsp;la política de privacidad</span>
+													</div>
+											</div>
+											<div class="form-group col-12">
+			  										<label class="sr-only">Términos y condiciones</label>
+													<div class="form-check form-check-inline form-check-required" style="margin-right: 0px;">
+														<input id="terminosCondicionesCheckBox" class="form-check-input" type="checkbox" required> 
+														<label class="form-check-label" for="terminosCondicionesCheckBox">He leído y acepto</label>
+														<span data-toggle="modal" data-target="#terminosCondicionesModal" class="cursor-pointer" style="color: #0F4C81; font-weight: bold; white-space: nowrap;">&nbsp;los términos y condiciones</span>
+													</div>
+											</div>
+										
+										</div>
+					            	</div>
+	
+					            </div>
+					            
+					            <!-- Boton continuar -->
+					            <div class="row mt-2">
+					            	<div class="col">
+					            		<button type="submit" class="btn btn-outline-azul" style="float: right;">Continuar con el pago <i class="fas fa-chevron-right"></i></button>
+					            	</div>
+					            </div>
+					        </form>
+						</div>
+					</div>
+		        </div>
+		        
+		    </div>
+		    
+	
+			<!-- Terminos y condiciones modal -->
+			<div class="modal fade" id="terminosCondicionesModal" tabindex="-1" role="dialog" aria-labelledby="terminosCondicionesModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="terminosCondicionesModalLabel">Términos y condiciones</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	<div th:replace="terminosCondicionesPagina.html :: terminosCondicionesFragment(mostrarEnlaces=false)"></div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" data-dismiss="modal" class="btn btn-outline-azul">Cerrar</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<!-- Politica privacidad modal -->
+			<div class="modal fade" id="politicaPrivacidadModal" tabindex="-1" role="dialog" aria-labelledby="politicaPrivacidadModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="politicaPrivacidadModalLabel">Política de privacidad</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	<div th:replace="politicaPrivacidadPagina.html :: politicaPrivacidadFragment"></div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" data-dismiss="modal" class="btn btn-outline-azul">Cerrar</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<!-- Información perfiles -->
+			<div class="modal fade" id="informacionPerfilesModal" tabindex="-1" role="dialog" aria-labelledby="informacionPerfilesModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="informacionPerfilesModalLabel">Perfiles</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	<p><strong>Salud metabólico:</strong>  Perdida de peso, reducción de grasa.</p>
+					<p><strong>Salud estructural:</strong>  Fortalecimiento, mejora postura, mejora movilidad, estabilidad y fuerza.</p>
+					<p><strong>Estética masculina:</strong>  Mejora de la imagen personal masculina.</p>
+					<p><strong>Estética femenina:</strong>  Mejora de la imagen personal femenina.</p>
+					<p><strong>Preparación física deportiva:</strong> Entrenamiento de rendimiento para deportistas.</p>
+					<p><strong>Oposiciones:</strong> Preparación de oposiciones, policía, bomberos, guardia civil, ….</p>
+					<p><strong>Antiaging:</strong> Prevención de los síntomas a nivel físico del paso del tiempo.</p>
+					<p><strong>Embarazo:</strong> Entrenamiento durante el embarazo y/o postparto.</p>
+					<p><strong>Patologías metabólicas:</strong> Enfermedades como la obesidad, diabetes, dislipemias, hipertensión,….</p>
+					<p><strong>Patologías estructurales:</strong> Enfermedades o lesiones en nuestros huesos, músculos y articulaciones. Ej:</strong> protusiones o hernias discales, condromalacia de rodilla, tendinitis, bursitis,… .</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" data-dismiss="modal" class="btn btn-outline-azul">Cerrar</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+	<!-- 	    <a th:href="@{creacionCuentaUsuarioPagoOk}">pago ok</a> -->
+	<!-- 	        <a th:href="@{creacionCuentaUsuarioPagoKo/1}">pago ko</a> -->
+		    
+		<script src="/js/passwordValidacion.js" th:src="@{/js/passwordValidacion.js}"></script>
+		<script src="/js/creacionCuentaUsuarioPagina.js" th:src="@{/js/creacionCuentaUsuarioPagina.js}"></script>
+	  	</div>
+	  </body>
+</html>

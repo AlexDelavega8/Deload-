@@ -1,0 +1,66 @@
+<!doctype html>
+<html layout:decorate="~{plantillaGlobal}">
+  <body>
+    
+	<div layout:fragment="piePagina">
+  	
+  		<!-- Seccion pie de pagina -->
+		<div id="seccion-pie" class="row">
+			<div class="container">
+				<div class="row">
+					<div class="col-5 col-sm-6 pt-3 pb-3">
+						<div class="mb-2"><span style="font-weight: bold; color: #FA7268">Enlaces de interés</span></div>
+						<div class="mb-1"><a href="https://ezensr.com" target="_blank">ezensr.com</a></div>
+					</div>
+					<div class="col-7 col-sm-6 pt-3 pb-3">
+						<div class="mb-2"><span style="font-weight: bold; color: #FA7268">Legal</span></div>
+						<div class="mb-1">
+<!-- 							<div class="text-center" style="display: inline-block; width: 25px;"><i class="fas fa-balance-scale"></i></div> -->
+							<div style="display: inline-block;"><a th:href="@{/avisoLegal}"> Aviso legal</a></div>
+						</div>
+						<div class="mb-1">
+<!-- 							<div class="text-center" style="display: inline-block; width: 25px;"><i class="fas fa-file-alt"></i></div> -->
+							<div style="display: inline-block;"><a th:href="@{/terminosCondiciones}"> Términos y condiciones</a></div>
+						</div>
+						<div class="mb-1">
+<!-- 							<div class="text-center" style="display: inline-block; width: 25px;"><i class="fas fa-user-shield"></i></div> -->
+							<div style="display: inline-block;"><a th:href="@{/politicaPrivacidad}"> Política de privacidad</a></div>
+						</div>
+						<div class="mb-1">
+<!-- 							<div class="text-center" style="display: inline-block; width: 25px;"><i class="fas fa-cookie-bite"></i></div> -->
+							<div  style="display: inline-block;"><a th:href="@{/politicaCookies}"> Política de cookies</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Seccion derechos reservadso -->
+		<div id="seccion-derechos" class="row">
+			<div class="container d-none d-md-block">
+				<div class="row">
+					<div class="col-auto">
+						2022 © Pocketrainer. Todos los derechos reservados.
+					</div>
+					<div class="col-auto ml-auto text-right">
+						<a href="#" class="subirArribaBoton" style="color: #FA7268; decoration: none;"><i class="fas fa-chevron-up"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="container d-block d-md-none">
+				<div class="row">
+					<div class="col-12 text-center">
+						<a href="#" class="subirArribaBoton pb-1 pr-2 pl-2" style="color: #FA7268; decoration: none;"><i class="fas fa-chevron-up"></i></a>
+					</div>
+					<div class="col-12 text-center">
+						2022 © Pocketrainer. Todos los derechos reservados.
+					</div>
+				</div>
+			</div>
+		</div>
+  	</div>
+  	
+  	
+  </body>
+  
+</html>

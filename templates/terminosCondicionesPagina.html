@@ -1,0 +1,65 @@
+<!doctype html>
+<html layout:decorate="~{plantillaInicio}">
+  <head>
+    <title>Términos y condiciones</title>
+    <meta name="robots" th:content="${metaRobotsNoindex}"/>
+  </head>
+  <body>
+  
+  	<div layout:fragment="content" class="row">
+  		<div class="container" style="min-height: 100vh">
+	  		<div id="terminosCondicionesFragment" th:fragment="terminosCondicionesFragment(mostrarEnlaces)" class="row mb-2">
+	  		  	<div class="col">
+	  		  		<p>Los siguientes términos y condiciones (los "Términos y Condiciones") rigen el uso que usted le dé a este sitio web (el “Sitio web”) y a cualquiera de los contenidos disponibles por o a través de este sitio web. Educa Salud Global S.L., en adelante Pocketrainer, se reserva el derecho de modificar los términos y condiciones, sin necesidad de preaviso sólo publicando los cambios en el Sitio web. Al usar el sitio web, usted acepta y está de acuerdo con estos términos y condiciones en lo que se refiere a su uso del sitio web. Si usted no está de acuerdo con estos Términos y Condiciones, no puede tener acceso al mismo ni usar el Sitio Web de ninguna otra manera.</p>
+					<h4>Condiciones</h4>
+					<p>El sitio web pocketrainer.es es un conjunto de herramientas que se ponen a disposición de cualquier persona que se inscriba y realice el pago a través de dicha web.</p>
+					<p>Los usuarios con acceso a este sitio web deben poseer unos credenciales para el acceso a cualquiera de las funcionalidades ofrecidas. Dichas credenciales son proporcionadas en el momento de la realización del pago por la contratación de los servicios que ofrece Pocketrainer.es. Las funcionalidades ofrecidas son las siguientes:</p>
+		
+					<ul>
+						<li>Registrarse con sus datos personales</li>
+						<li>Acceso a la información básica del entrenador personal asignado</li>
+						<li>Acceso a revisar y cambiar sus datos personales e información de cliente susceptible de ello para la mejor individualización del servicio</li>
+						<li>Videoconferencias con su entrenador personal (A realizar desde el momento en el que se efectúa el pago hasta 5 días antes del siguiente pago. Una vez superado este límite esa videoconferencia del mes anterior ya no estará disponible. No son acumulables mes a mes)</li>
+						<li>Comunicación mediante formulario de contacto con su entrenador personal</li>
+						<li>Ver los entrenamientos personalizados realizados para el cliente en cuestión</li>
+						<li>Ver la relación de servicios contratados y realizar el pago de dichos servicios a través de una TPV Virtual. (pago recurrente)</li>
+						<li>Cambiar de contraseña</li>
+						<li>Solicitar la baja del servicio</li>
+
+					</ul>
+					
+					<p>Pocketrainer es compatible con los exploradores web Google Chrome, Microsoft Edge, Firefox y Safari; todos ellos en sus versiones más recientes. Es posible que las funcionalidades se vean limitadas en otros exploradores web o en versiones antiguas de los indicados anteriormente como compatibles.</p>
+					
+					<p>Una vez el cliente se inscribe y realiza su pago por primera vez, en menos de 48 horas laborables su entrenador asignado se pondrá en contacto con él al teléfono facilitado por el cliente en el formulario de registro. En esta llamada telefónica programarán la fecha y hora de la videollamada donde el entrenador explicará el entrenamiento personalizado realizado para este cliente, y es a partir de esa videollamada el momento en el que el cliente puede comenzar a hacer ese entrenamiento nuevo.</p>
+			
+					<h4>Precios y forma de pago</h4>
+					<p>Los precios de los servicios a pagar mostrados en este sitio web son con IVA incluido. La forma de pago ofrecida es un TPV Virtual. Se trata de un sistema seguro y fiable a través del cual se realiza el pago recurrente con tarjeta de débito/crédito. </p>
+					<p>La información sobre los precios está indicada en la pantalla principal de la web Pocketrainer.es</p>
+					<h4>Cancelación del servicio</h4>
+					<p>Los usuarios pueden cancelar su servicio a través de este sitio web, dentro de su perfil personal.</p> 
+					<h4>Devolución y reembolso</h4>
+					<p>Los servicios pagados a través de este sitio web no tienen derecho a devolución o reembolso a través de este sitio web. Las condiciones para la devolución y rembolso se estudiarán y tramitarán enviando un correo electrónico a info@pocketrainer.es y solicitando la devolución y reembolso siempre y cuando hayan pasado menos de 24h de la realización del último pago, límite en el cuál el entrenador ya estará desarrollando el servicio y no podrá ser reembolsado.</p>
+					<h4>Responsabilidades</h4>
+					<p>El usuario es responsable del uso adecuado de las funcionalidades ofrecidas por este sitio web. Este sitio web gestiona todas las acciones del usuario en base a las restricciones de del mismo y sus funcionalidades. El usuario es responsable de no divulgar sus credenciales y mantener segura su contraseña de acceso.</p>
+					<h4>Garantías</h4>
+					<p>Pocketrainer garantiza el cumplimiento de las normas vigentes respecto a la seguridad y protección de datos. El usuario puede consultar en cualquier momento, a través de este sitio web, los siguientes textos legales:</p>
+
+					<ul th:if="${mostrarEnlaces}">	
+						<li><a th:href="@{/avisoLegal}"> Aviso legal</a></li>
+						<li>Términos y condiciones (este texto)</li>
+						<li><a th:href="@{/politicaPrivacidad}"> Política de privacidad</a></li>
+						<li><a th:href="@{/politicaCookies}"> Política de cookies</a></li>
+					</ul>
+					<ul th:unless="${mostrarEnlaces}">	
+						<li>Aviso legal</li>
+						<li>Términos y condiciones (este texto)</li>
+						<li>Política de privacidad</li>
+						<li>Política de cookies</li>
+					</ul>
+	
+		  		</div>	
+	  		</div>
+	  	</div>
+  	</div>
+  </body>
+</html>

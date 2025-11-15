@@ -1,0 +1,23 @@
+<!doctype html>
+<html layout:decorate="~{plantillaError}" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Error</title>
+  </head>
+  <body>
+  
+  	<div layout:fragment="content" class="container" style="min-height: 100vh">
+ 		<div class="row mb-4">
+ 		  	<div class="col">
+ 		  		<p><span class="titulo-grande titulo-grande-azul">¡Vaya!</span></p>
+ 		  		<p>Lo sentimos, se produjo un error inesperado. Nuestros técnicos se pondrán ahora mismo a solucionarlo.</p>
+ 		  	    <p><a th:href="${urlVolver}" class="btn btn-outline-azul">Continuar</a>&nbsp;<a th:href="@{/}" class="btn btn-outline-azul">Inicio</a></p>
+ 		  		<br></br>
+ 
+ 				<th:block th:if="${mostrarinformacion}">
+ 		  			<div th:replace="fragmentos/errorInformacionFragment.html :: errorInformacionFragment"></div>
+ 		  		</th:block>
+  			</div>	
+  		</div>
+  	</div>
+  </body>
+</html>

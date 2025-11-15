@@ -1,0 +1,210 @@
+<!doctype html>
+<html layout:decorate="~{plantillaInicio}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<!-- Posicionamiento -->
+		<meta name="robots" th:content="${metaRobots}"/>
+		<title>Entrenamiento online - Pocketrainer, tu entrenador de bolsillo</title> <!-- Menos de 70 -->
+   		<meta name="description" content="Entrenamiento online desde cualquier lugar, tu entrenador de bolsillo. Entrenadores titulados, entrenamiento 100% personalizado, salud, prevención, recuperación" /> <!-- Menos de 160 -->
+    	<link rel="canonical" href="https://pocketrainer.es/"/>
+		<!-- <meta name=”keywords” content="este meta ya no se usa"/> -->
+    
+	     <!-- Open Graph -->
+	    <meta property="og:locale" content="es_ES" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Entrenamiento online - Pocketrainer, tu entrenador de bolsillo" />
+		<meta property="og:description" content="Entrenamiento online desde cualquier lugar, tu entrenador de bolsillo. Entrenadores titulados, entrenamiento 100% personalizado, salud, prevención, recuperación" />
+		<meta property="og:url" content="https://pocketrainer.es/" />
+		<meta property="og:site_name" content="Pocketrainer" />
+		<meta property="og:image" content="https://pocketrainer.es/estatico/imagenes/logo.png" />
+	
+		<!-- Twitter -->
+		<!-- <meta name="twitter:card" content="summary_large_image" /> -->
+		<!-- <meta name="twitter:title" content="Pocketrainer"> -->
+		<!-- <meta name="twitter:label1" content="Tiempo de lectura" /> -->
+		<!-- <meta name="twitter:data1" content="5 minutos" /> -->
+		<!-- <meta name="twitter:image:src" content="https://pocketrainer.es/estatico/imagenes/logo.png"> -->
+		<!-- <meta name="twitter:site" content="@publisher_handle"> -->
+		<!-- <meta name="twitter:description" content="Descripcion de la pagina sin superar los 200 caracteres"> -->
+		<!-- <meta name="twitter:creator" content="@author_handle"> -->
+		
+	</head>
+<body>
+
+	<div layout:fragment="content">
+	
+		<div id="videoContainer1">
+				<div class="d-none d-lg-block embed-responsive embed-responsive-16by9" style="background: white; width: 100%; height: auto;">
+					<video id="" muted loop autoplay playsinline style="opacity: 0.7; background: white;">
+						<source th:src="|${urlEstaticosVideos}intro.mp4|" type='video/mp4'>
+						No soportado
+					</video>
+				</div>
+		</div>	
+		
+		
+		
+		
+		<!--  Seccion cabecera -->
+		<div id="seccion-cabecera" class="row" style="margin-top: -110px;" >
+		
+			<div class="container align-self-center">
+				<div class="row">
+					<div id="videoContainer2">		
+							<div class="d-block d-lg-none col-12 col-sm-12 col-md-12 col-lg-12  embed-responsive embed-responsive-16by9" style="background: white;">
+								<video id="" muted loop autoplay playsinline style="opacity: 0.7; background: white;">
+									<source th:src="|${urlEstaticosVideos}intro_reducido.mp4|" type='video/mp4'>
+									No soportado
+								</video>
+							</div>
+					</div>
+				
+					<div class="d-block d-lg-none col-12 text-center" style="margin-top: 15px;">
+						<span class="titulo-grande titulo-grande-azul">Pocke</span><span class="titulo-grande titulo-grande-coral">T</span><span class="titulo-grande titulo-grande-azul">rainer</span></br>
+						<span class="titulo-mediano titulo-grande-azul">Tu entrenador de</span><span class="titulo-mediano titulo-grande-coral"> bolsillo</span>
+					</div>
+					
+					<div class="col-12 d-block d-lg-none mt-4">
+						<ul id="inicio-lista-caracteristicas" style="color: #0F4C81;">
+							  	<li>
+							  		<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-user-graduate"></i></div>
+							  		<div class="inicio-lista-caracteristicas-texto">Todos los entrenadores somos titulados universitarios en CCAFYD.</div>
+							  	</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-heartbeat"></i></div> 
+									<div class="inicio-lista-caracteristicas-texto">Especializados en ejercicio físico para la salud, prevención y recuperación de lesiones y alto rendimiento deportivo.</div>
+								</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-address-card"></i></div> 
+									<div class="inicio-lista-caracteristicas-texto">Plan de entrenamiento 100% adaptado e individualizado.</div>
+								</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-video"></i></div> 
+									<div class="inicio-lista-caracteristicas-texto">Videollamadas con tu entrenador desde tu plataforma personal.</div>
+								</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-dumbbell"></i></div> 
+									<div class="inicio-lista-caracteristicas-texto">Adaptamos tu entrenamiento al material del que dispongas o lugar donde vayas a realizarlo (gimnasio, casa, aire libre, con o sin material).</div>
+								</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-play"></i></div>
+									<div class="inicio-lista-caracteristicas-texto">Visionado de planes de entrenamiento sencillo en formato video.</div>
+								</li>
+						   </ul>
+					</div>
+	
+					<div class="d-none d-lg-block col-12 col-sm-12 col-md-12 col-lg-8 align-self-center mb-4" style="margin-top: 95px; padding-top: 20px; background: rgb(255, 255, 255, 0.8); color: #0F4C81;">
+		
+							<div class=" col-12" style="margin-bottom: 50px;">
+								<span class="titulo-grande titulo-grande-azul">Pocke</span><span class="titulo-grande titulo-grande-coral">T</span><span class="titulo-grande titulo-grande-azul">rainer</span></br>
+								<span class="titulo-mediano titulo-grande-azul">Tu entrenador de</span><span class="titulo-mediano titulo-grande-coral"> bolsillo</span>
+							</div>
+							
+							<ul id="inicio-lista-caracteristicas">
+							  	<li>
+							  		<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-user-graduate"></i></div>
+							  		<div class="inicio-lista-caracteristicas-texto">Todos los entrenadores somos titulados universitarios en CCAFYD.</div>
+							  	</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-heartbeat"></i></div> 
+									<div class="inicio-lista-caracteristicas-texto">Especializados en ejercicio físico para la salud, prevención y recuperación de lesiones y alto rendimiento deportivo.</div>
+								</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-address-card"></i></div> 
+									<div class="inicio-lista-caracteristicas-texto">Plan de entrenamiento 100% adaptado e individualizado.</div>
+								</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-video"></i></div> 
+									<div class="inicio-lista-caracteristicas-texto">Videollamadas con tu entrenador desde tu plataforma personal.</div>
+								</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-dumbbell"></i></div> 
+									<div class="inicio-lista-caracteristicas-texto">Adaptamos tu entrenamiento al material del que dispongas o lugar donde vayas a realizarlo (gimnasio, casa, aire libre, con o sin material).</div>
+								</li>
+								<li>
+									<div class="inicio-lista-caracteristicas-icono"><i class="fas fa-play"></i></div>
+									<div class="inicio-lista-caracteristicas-texto">Visionado de planes de entrenamiento sencillo en formato video.</div>
+								</li>
+						   </ul>
+					</div>
+				</div>
+				
+				<div class="d-none d-lg-block row" style="margin-top:75px;">
+					<div class="col-12 text-center">
+						<span class="titulo-mediano titulo-grande-azul">Todo lo que necesitas para un entrenamiento seguro y eficiente </span></br> <span class="titulo-mediano titulo-grande-coral"> #EnTuBolsillo</span>
+					</div>	
+				</div>
+				
+				<div class="d-block d-lg-none mt-4 row">
+					<div class="col-12 text-center">
+						<span class="titulo-mediano titulo-grande-azul">Todo lo que necesitas para un entrenamiento seguro y eficiente </span> 
+					</div>	
+					<div class="col-12 text-center mt-2">
+						<span class="titulo-mediano titulo-grande-coral"> #EnTuBolsillo</span>
+					</div>
+				</div>
+				
+				<div class="row" style="margin-top: 40px;">
+					<div class="col text-center">
+						<a th:href="@{/crea-tu-cuenta-pocketrainer}" class="btn btn-coral">Quiero mi entrenador de bolsillo</a>
+					</div>
+				</div>
+			</div>
+	
+		</div>
+		
+		<!-- Seccion suscripcion -->
+		<div id="seccion-suscripcion" class="row">
+			<div class="container align-self-center">
+			
+				<!-- Titulo -->
+				<div class="row" style="margin-bottom: 45px;">
+					<div class="col text-center">
+						<span class="titulo-grande titulo-grande-azul">¿Qué llevarás en el</span><span class="titulo-grande titulo-grande-coral"> bolsillo?</span>
+					</div>
+				</div>	
+				
+				<!-- Informacion suscripcion -->
+				<div class="row" style="margin-bottom: 45px;">
+					
+					<div class="col text-center">
+	            		<div style="display: inline-block;">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>Acceso privado a tu perfil personal en nuestra plataforma online</td>
+									</tr>
+									<tr>
+										<td>Planificación de tu entrenamiento mensual 100% personalizado</td>
+									</tr>
+									<tr>
+										<td>1 videollamada por cada plan con tu entrenador personal</td>
+									</tr>
+									<tr>
+										<td>Contacto y comunicación online que necesites con tu entrenador</td>
+									</tr>
+									<tr>
+										<td>Ejercicios en video, imágenes, explicaciones del entrenamiento y todo lo necesario para que puedas entrenar de forma segura y eficiente </td>
+									</tr>
+								</tbody>
+							</table>
+							<h1 class="card-title pricing-card-title" style="color:#0F4C81;">
+								Por solo 39,99 €<small class="text-muted">/ mes</small><br>
+							</h1>
+
+						</div>
+	            	</div>
+
+				</div>
+				<div class="row">
+					<div class="col text-center">
+						<a th:href="@{/crea-tu-cuenta-pocketrainer}" class="btn btn-outline-coral">Quiero mi entrenador de bolsillo</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>

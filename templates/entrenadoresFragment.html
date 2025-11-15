@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  
+  <body>
+  	<div th:fragment="entrenadoresFragment" id="entrenadores" fragmento-activo="true">
+  	
+  		<!-- Filtros -->
+
+
+		<!-- Listado -->
+		<div class="table-responsive tabla-cabecera-fija tabla-pantalla-completa">
+			<table class="table table-sm table-striped table-hover">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Teléfono</th>
+						<th scope="col">Email</th>
+						<th scope="col">Clientes</th>
+						<th scope="col">Rutinas</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="entrenador: ${entrenadorLista}">
+						<th scope="row" th:text="${entrenador.nombreCompleto}"></th>
+						<td th:text="${entrenador.telefono}"></td>
+						<td th:text="${entrenador.email}"></td>
+						<td th:text="${entrenador.clienteLista != null ? entrenador.clienteLista.size() : 0}"></td>
+						<td th:text="${entrenador.rutinaLista != null ? entrenador.rutinaLista.size() : 0}"></td>
+						<td><i class="fas fa-edit"></i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+	
+	
+  </body>
+</html>

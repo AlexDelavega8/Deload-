@@ -1,0 +1,31 @@
+<!doctype html>
+<html layout:decorate="~{plantillaInicio}">
+  <head>
+    <title>Aviso legal</title>
+    <meta name="robots" th:content="${metaRobotsNoindex}"/>
+  </head>
+  <body>
+  
+  	<div layout:fragment="content" class="row">
+  		<div class="container" style="min-height: 100vh">
+	 		<div id="avisoLegalFragment" th:fragment="avisoLegalFragment" class="row mb-4">
+	 		  	<div class="col">
+	 				<h4>Identificación</h4>
+					<p><b>Educa Salud Global S.L.</b></p>
+					<p>CIF: B70528914</p>
+					<p>Domicilio fiscal: Avenida del mar, 141, CP: 15570, Narón (A Coruña)</p>
+					<p>Correo electrónico: info@ezensr.com | Tlf:+34 698 120 196</p>
+					<p>Registro mercantil: tomo 3624, folio 70, hoja c55976, inscripción 1ª</p>
+					
+					<h4>Confidencialidad y protección de datos</h4>
+					<p>Todos los datos de carácter personal recabados durante la utilización del Sitio Web serán tratados de conformidad con lo dispuesto en la <a th:href="@{/politicaPrivacidad}"> Política de privacidad</a>.</p>
+					
+					<h4>Información general</h4>
+					<p><b>Legislación aplicable y jurisdicción</b></p>
+					<p>Las presentes condiciones, así como, la relación entre el usuario y Educa Salud Global S.L. se rigen por la ley española.</p>
+	  			</div>	
+	  		</div>
+  		</div>
+  	</div>
+  </body>
+</html>

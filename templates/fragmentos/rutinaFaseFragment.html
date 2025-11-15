@@ -1,0 +1,163 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  
+  <body>
+
+		<!-- Fase -->
+		<div th:fragment="rutinaFase(rutina, rutinaFase)" th:id="${'rutinaFase_' + rutinaFase.id}" class="rutina-fase row" th:if="${rutinaFase != null}">
+			<div class="col-12">
+			
+				<!-- Fase cabecera -->
+				<div class="rutina-fase-cabecera row pt-2 pb-2 shadow-sm">
+					<div class="col" th:text="|Fase ${rutinaFase.nombre}|">Fase</div>
+					<a href="#" style="color: white; margin-right: 10px;" onClick="cambioAutomaticoEjerciciosRutinaFase(this)" th:data-accion="@{/cambioAutomaticoEjerciciosRutinaFase}" th:data-rutina-id="${rutina.id}" th:data-rutina-fase-id="${rutinaFase.id}">
+						<i class="fas fa-magic"></i>
+					</a>
+					<div class="col-auto cursor-pointer" th:onClick="|anhadirGrupo(${rutina.id}, ${rutinaFase.id})|"><i class="fas fa-plus"></i> grupo</div>
+					<div class="col-auto cursor-pointer" th:onClick="|ocultarGrupos(this,'rutinaFase_${rutinaFase.id}_grupos')|"><i class="fas fa-chevron-up"></i></div>		
+						
+					<div class="col-auto"><i class="fas fa-times"></i></div>
+				</div>
+					
+				<!-- Fase grupos -->
+				<div class="row  pb-2">
+					<!-- Lista de grupos -->
+					<div th:id="${'rutinaFase_' + rutinaFase.id + '_grupos'}" class="col-12" style="padding: 0px;">
+						<th:block th:each="rutinaFaseGrupo: ${rutinaFase.rutinaFaseGrupoLista}" th:if="${rutinaFase.rutinaFaseGrupoLista}">
+							<div th:replace="fragmentos/rutinaFaseFragment.html :: rutinaFaseGrupo(rutina=${rutina}, rutinaFase=${rutinaFase}, rutinaFaseGrupo=${rutinaFaseGrupo})"/>
+						</th:block>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		<!-- Grupo -->
+		<div th:fragment="rutinaFaseGrupo(rutina, rutinaFase, rutinaFaseGrupo)" th:id="${'rutinaFaseGrupo_' + rutinaFaseGrupo.id}" th:rutinaFaseGrupoId="${rutinaFaseGrupo.id}" class="rutina-fase-grupo mt-3 row shadow-sm" ondragenter="arrastrandoSobreGrupo(event)">
+			<div class="col-12">		
+				<!-- Grupo cabecera -->
+				<div class="rutina-grupo-cabecera row pt-2 pb-2">
+					<div class="col d-flex align-items-center rutina-fase-grupo-cabecera-posicion" th:text="|Grupo ${rutinaFaseGrupo.posicion}|">Grupo</div>
+					<button class="btn btn-sm btn-azul" onClick="cambioAutomaticoEjerciciosRutinaFaseGrupo(this)" th:data-accion="@{/cambioAutomaticoEjerciciosRutinaFaseGrupo}" th:data-rutina-id="${rutina.id}" th:data-rutina-fase-id="${rutinaFase.id}" th:data-rutina-fase-grupo-id="${rutinaFaseGrupo.id}">
+						<i class="fas fa-magic"></i>
+					</button>	
+					<form th:id="|actualizarRutinaFaseGrupoFormulario${rutinaFaseGrupo.id}|" class="actualizarRutinaFaseGrupoFormulario col-auto" th:action="@{/actualizarRutinaFaseGrupoFormulario}" method="post">
+						<div class="row">
+							<input type="hidden" name="id" th:value="*{rutinaFaseGrupo.id}" />
+							<div class="col-auto pr-2">
+								<label for="exampleFormControlSelect2" class="sr-only">Repeticiones</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-prepend">
+							          <div class="input-group-text"><i class="fas fa-redo"></i></div>
+							        </div>
+									<select class="form-control form-control-sm fase-repeticiones-selectpicker selectpicker" data-style="btn-select" name="repeticiones">
+										<option th:each="i : ${#numbers.sequence(1, 20)}" th:value="${i}" th:text="${i}" th:selected="*{i==rutinaFaseGrupo.repeticiones}"></option>
+									</select>
+								</div>
+							</div>
+
+						</div>
+						
+					</form>
+					<div class="col-auto d-flex align-items-center cursor-pointer" th:onClick="|ocultarGrupoEjercicios(this,'rutinaFaseGrupo_${rutinaFaseGrupo.id}_ejercicios')|"><i class="fas fa-chevron-up"></i></div>
+					
+					<div class="col-auto d-flex align-items-center cursor-pointer" th:onClick="|borrarGrupo(${rutina.id}, ${rutinaFase.id}, ${rutinaFaseGrupo.id})|"><i class="fas fa-times"></i></div>
+				</div>
+	
+				<!-- Grupo ejercicios -->
+				<div th:id="|rutinaFaseGrupo_${rutinaFaseGrupo.id}_ejercicios|" class="row no-gutters pt-2 pb-2" style="margin-right: -15px">
+					<th:block th:each="rutinaFaseGrupoEjercicio: ${rutinaFaseGrupo.rutinaFaseGrupoEjercicioLista}" th:if="${rutinaFaseGrupo.rutinaFaseGrupoEjercicioLista}">
+						<div th:replace="fragmentos/rutinaFaseFragment.html :: rutinaFaseGrupoEjercicio(rutina=${rutina}, rutinaFase=${rutinaFase}, rutinaFaseGrupo=${rutinaFaseGrupo}, rutinaFaseGrupoEjercicio=${rutinaFaseGrupoEjercicio})">
+					</th:block>
+				
+					<div th:rutinaId="${rutina.id}" th:rutinaFaseGrupoId="${rutinaFaseGrupo.id}" 
+						th:posicion="${rutinaFaseGrupo.rutinaFaseGrupoEjercicioLista != null ? rutinaFaseGrupo.rutinaFaseGrupoEjercicioLista.size() : 0}" 
+						th:posicionOriginal="${rutinaFaseGrupo.rutinaFaseGrupoEjercicioLista != null ? rutinaFaseGrupo.rutinaFaseGrupoEjercicioLista.size() : 0}" 
+						class="rutina-fase-grupo-ejercicio-nuevo col" style="padding-right: 15px; min-height: 225px; display: none;"
+						ondrop="drop(event)" ondragenter="arrastrandoSobreFaseGrupoEjercicioNuevo(event)" ondragover="permitirDrop(event)"
+						draggable="true" ondragstart="arrastrarRutinaFaseGrupoEjercicioInicio(event)" ondragend="arrastrarRutinaFaseGrupoEjercicioFin(event)">
+						
+						<!-- Grupo ejercicio -->
+						<div class="row rutina-fase-grupo-ejercicio">
+				
+						</div>
+					</div>
+					
+					
+				</div>
+				
+			</div>
+		</div>
+	
+		<!-- Grupo ejercicio -->
+		<div th:fragment="rutinaFaseGrupoEjercicio(rutina, rutinaFase, rutinaFaseGrupo, rutinaFaseGrupoEjercicio)" th:id="${'rutinaFaseGrupoEjercicio_' + rutinaFaseGrupoEjercicio.id}" class="col-6 col-xl-3" style="padding-right: 15px;"
+			th:rutinaFaseGrupoId="${rutinaFaseGrupo.id}" 
+			th:posicion="${rutinaFaseGrupoEjercicio.posicion}" 
+	 		ondrop="drop(event)"
+	 		ondragenter="arrastrandoSobreFaseGrupoEjercicio(event)"
+	 		draggable="true" 
+	 		ondragstart="arrastrarRutinaFaseGrupoEjercicioInicio(event)" 
+	 		ondragend="arrastrarRutinaFaseGrupoEjercicioFin(event)">
+		
+		
+			<div class="row rutina-fase-grupo-ejercicio" th:rutinafaserepeticionejercicioclave="|${rutinaFaseGrupo.id}-${rutinaFaseGrupoEjercicio.posicion}|" 
+				th:classappend="${(rutinaFaseGrupoEjercicio.ejercicioSinOtroCompatible ? 'rutina-fase-repeticion-ejercicio-sin-ejercicio-compatible ejercicioMarcadoParaCambiar' : '') + (rutinaFaseGrupoEjercicio.marcadoParaReemplazar ? ' ejercicioMarcadoParaCambiar' : '')}">
+				
+				<!-- Grupo ejercicio cabecera -->
+				<div class="rutina-fase-grupo-ejercicio-cabecera d-flex pt-2 pb-2">
+					<div class="col text-left rutina-fase-grupo-ejercicio-cabecera-posicion" th:text="${rutinaFaseGrupoEjercicio.posicion}"></div>
+					<div class="col-auto cursor-pointer" th:onClick="|borrarEjercicio(${rutinaFaseGrupoEjercicio.id})|"><i class="fas fa-times"></i></div>
+				</div>
+				
+				<!-- Ejercicio -->
+				<div th:replace="fragmentos/ejercicioFragment :: ejercicio(ejercicio=${rutinaFaseGrupoEjercicio.ejercicio},tam='grande')"/>
+					
+				<!-- Grupo ejercicio pie -->
+				<div class="rutina-fase-grupo-ejercicio-pie col-12">
+					<div style="padding: 0.25rem 0.5rem;" th:text="${rutinaFaseGrupoEjercicio.parametros}"></div>
+					<form th:id="|actualizarRutinaFaseGrupoEjercicioFormulario${rutinaFaseGrupoEjercicio.id}|" class="actualizarRutinaFaseGrupoEjercicioFormulario mt-2" th:action="@{/actualizarRutinaFaseGrupoEjercicioFormulario}" method="post">
+	  				
+	  					<div class="row no-gutters">
+	  						<input type="hidden" name="id" th:value="*{rutinaFaseGrupoEjercicio.id}" />
+		  					<div class="col">
+								<label for="exampleFormControlSelect2" class="sr-only">Repeticiones</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-prepend">
+							          <div class="input-group-text"><i class="fas fa-redo" th:classappend="${rutinaFaseGrupoEjercicio.repeticiones == 0 && rutinaFaseGrupoEjercicio.tiempo == 0} ? 'rutina-fase-repeticion-ejercicio-sin-repeticiones-tiempo' : ''"></i></div>
+							        </div>
+									<select th:id="|ejercicio-repeticiones-selectpicker${rutinaFaseGrupoEjercicio.id}|" class="form-control form-control-sm ejercicio-repeticiones-selectpicker selectpicker" data-style="btn-select" name="repeticiones" th:data-rutina-fase-grupo-ejercicio-id="${rutinaFaseGrupoEjercicio.id}">
+										<option value="0">No</option>
+										<option th:each="i : ${#numbers.sequence(1, 20)}" th:value="${i}" th:text="${i}" th:selected="*{i==rutinaFaseGrupoEjercicio.repeticiones}"></option>
+									</select>
+								</div>
+							</div>
+		  				
+		  					<div class="col">
+								<label for="exampleFormControlSelect2" class="sr-only">Tiempo</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-prepend">
+							          <div class="input-group-text"><i class="fas fa-stopwatch"  th:classappend="${rutinaFaseGrupoEjercicio.repeticiones == 0 && rutinaFaseGrupoEjercicio.tiempo == 0} ? 'rutina-fase-repeticion-ejercicio-sin-repeticiones-tiempo' : ''"></i></div>
+							        </div>
+									<select th:id="|ejercicio-tiempo-selectpicker${rutinaFaseGrupoEjercicio.id}|" class="form-control form-control-sm ejercicio-tiempo-selectpicker selectpicker" data-style="btn-select" name="tiempo" th:data-rutina-fase-grupo-ejercicio-id="${rutinaFaseGrupoEjercicio.id}">
+									  <option value="0">No</option>
+									  <option th:each="i : ${#numbers.sequence(15, 120, 15)}" th:value="${i}" th:text="${i}" th:selected="*{i==rutinaFaseGrupoEjercicio.tiempo}"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+						
+						<div class="mt-1">
+						    <label for="exampleFormControlTextarea1" class="sr-only">Notas</label>
+						    <textarea class="form-control form-control-sm ejercicio-notas-textarea" name="comentarios" th:text="${rutinaFaseGrupoEjercicio.comentarios}" rows="2" placeholder="Notas"></textarea>
+						</div>
+	  				</form>
+				</div>
+					
+			</div>
+		</div>
+ 							
+	
+  </body>
+</html>

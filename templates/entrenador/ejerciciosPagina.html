@@ -1,0 +1,322 @@
+<!doctype html>
+<html layout:decorate="~{plantillaEntrenador}">
+  <head>
+    <title>Clientes</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+	<div layout:fragment="submenu-titulo">
+		<span>Clientes</span>
+    </div>
+  		
+  	<div layout:fragment="content" style="height: 100vh;">
+  	
+		<!-- Filtros -->
+		<form id="buscarEjercicioFormulario" th:action="@{/buscarEjercicioFormulario}" th:object="${buscarEjercicioFormulario}" onsubmit="buscarEjercicioFormulario(this, event)" method="post" novalidate>
+  			<div class="form-row">
+				<div class="form-group col">
+	            	<label for="nombre"> Nombre </label>
+	            	<div class="input-group">					            	
+		            	<input id="nombre" type="text" class="form-control" th:field="*{nombre}" maxlength="100" placeholder="Nombre"/>
+		            	<div class="input-group-append">
+					    	<button class="btn-borrar-input btn btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+					  	</div>
+					</div>
+	            </div>
+	            <div class="form-group col">
+	            	<label for="nombre"> Descripcion </label>
+	            	<div class="input-group">					            	
+		            	<input id="nombre" type="text" class="form-control" th:field="*{descripcion}" maxlength="100" placeholder="Descripcion"/>
+		            	<div class="input-group-append">
+					    	<button class="btn-borrar-input btn btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+					  	</div>
+					</div>
+	            </div>
+	            <div class="form-group col">
+	            	<label for="buscarEjercicioFormulario-patronLista"> Patrones</label>
+					<select id="buscarEjercicioFormulario-patronLista" class="form-control selectpicker buscarEjercicioFormulario-selectpicker" th:field="*{patronIdLista}" data-style="btn-select" title="Patrones" multiple required>
+						<option th:each="patron : ${patronSeleccionLista}" th:value="${patron.id}" th:text="${patron.nombre}"></option>
+					</select>
+	            </div>
+	            <div class="form-group col">
+	            	<label for="buscarEjercicioFormulario-zonaLista"> Zonas</label>
+					<select id="buscarEjercicioFormulario-zonaLista" class="form-control selectpicker buscarEjercicioFormulario-selectpicker" th:field="*{zonaIdLista}" data-style="btn-select" title="Zonas" multiple required>
+						<option th:each="zona : ${zonaSeleccionLista}" th:value="${zona.id}" th:text="${zona.nombre}"></option>
+					</select>
+	            </div>
+	            <div class="form-group col">
+	            	<label for="buscarEjercicioFormulario-musculoSecundarioLista"> Músculos</label>
+					<select id="buscarEjercicioFormulario-musculoSecundarioLista" class="form-control selectpicker buscarEjercicioFormulario-selectpicker" th:field="*{musculoIdLista}" data-style="btn-select" title="Músculos" multiple required>
+						<option th:each="musculo : ${musculoSeleccionLista}" th:value="${musculo.id}" th:text="${musculo.nombre}"></option>
+					</select>
+	            </div>	          
+	            <div class="form-group col">
+	            	<label for="buscarEjercicioFormulario-parteCuerpoSecundarioLista"> Partes del cuerpo</label>
+					<select id="buscarEjercicioFormulario-parteCuerpoSecundarioLista" class="form-control selectpicker buscarEjercicioFormulario-selectpicker" th:field="*{parteCuerpoIdLista}" data-style="btn-select" title="Partes cuerpo" multiple required>
+						<option th:each="parteCuerpo : ${parteCuerpoSeleccionLista}" th:value="${parteCuerpo.id}" th:text="${parteCuerpo.nombre}"></option>
+					</select>
+	            </div>           
+	            <div class="form-group col">
+	            	<label for="buscarEjercicioFormulario-materialLista"> Material</label>
+					<select id="buscarEjercicioFormulario-materialLista" class="form-control selectpicker buscarEjercicioFormulario-selectpicker" th:field="*{materialIdLista}" data-style="btn-select" title="Material" multiple>
+						<option th:each="material : ${materialSeleccionLista}" th:value="${material.id}" th:text="${material.nombre}"></option>
+					</select>
+	            </div>
+
+				<div class="form-group col-auto mt-auto">
+					<button id="buscarEjercicioFormularioSubmit" type="submit" class="btn btn-outline-azul"><i class="fas fa-search"></i> Buscar</button>
+				</div>
+				
+				<div class="form-group col-auto ml-2 mt-auto">
+					<a id="comenzarCreacionEjercicio" onclick="comenzarCreacionEjercicioAccion(this)" href="#" class="btn btn-outline-azul" th:data-accion="@{/comenzarCreacionEjercicioAccion}"><i class="fas fa-plus"></i> Nuevo</a>
+				</div>
+  			</div>
+  		</form>
+
+		<!-- Listado -->
+		<div id="ejercicioLista" th:fragment="ejercicioListaFragment" class="form-row mt-2">
+			<div th:each="ejercicio, itemStat: ${ejercicioLista}" class="col-12 col-xl-6">
+				
+				<div class="row no-gutters shadow-sm mb-2" style="border: 1px solid #ced4da; min-height: 320px;">
+				
+<!-- 					<div class="col-12 p-3"> -->
+<!-- 								<a style="font-weight: bold; font-size: 1.1rem;" id="comenzarEdicionEjercicio" onclick="comenzarEdicionEjercicioAccion(this)" href="#"  th:data-accion="@{/comenzarEdicionEjercicioAccion}" th:data-ejercicio-id="${ejercicio.id}" th:text="${ejercicio.nombre}"></a> -->
+<!-- 								<span style="font-size: 0.9rem;" th:text="| (${ejercicio.nombreCorto})|"></span> -->
+<!-- 							</div> -->
+				
+					<div class="col-12 col-sm-4 col-lg-5 pr-3" style="align-self: center;">
+						<div class="embed-responsive embed-responsive-4by3">
+							<img class="foto embed-responsive-item" style="object-fit: cover" th:src="|${urlEstaticosEjerciciosFotos}${ejercicio.id}.png?${ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen">
+							<video style="display: none;" class="video embed-responsive-item" muted loop preload="none" playsinline>
+								<source th:src="|${urlEstaticosEjerciciosVideos480}${ejercicio.id}_x264_480.mp4?${ejercicio.refrescoMultimedia}|" type="video/mp4">
+								No soportado
+							</video>
+						</div>
+					</div>
+					
+					<div class="col-12 col-sm-8 col-lg-7 pt-3 pb-3 pr-2">
+						<div class="row">
+							<div class="col-12">
+								<a sec:authorize="hasAuthority('PERMISO_ADMINISTRADOR')" style="font-weight: bold; font-size: 1.1rem;" id="comenzarEdicionEjercicio" onclick="comenzarEdicionEjercicioAccion(this)" class="cursor-pointer" th:data-accion="@{/comenzarEdicionEjercicioAccion}" th:data-ejercicio-id="${ejercicio.id}" th:text="${ejercicio.nombre}"></a>
+								<a sec:authorize="!hasAuthority('PERMISO_ADMINISTRADOR')" style="font-weight: bold; font-size: 1.1rem;" th:data-accion="@{/comenzarEdicionEjercicioAccion}" th:data-ejercicio-id="${ejercicio.id}" th:text="${ejercicio.nombre}"></a>						
+								<span style="font-size: 0.9rem;" th:text="| (${ejercicio.nombreCorto})|"></span>
+							</div>
+							<div class="col-12 mb-3">
+								<span th:text="${ejercicio.descripcion}"></span>
+							</div>
+							<div class="col-12">
+								<span style="font-weight: bold;">Patrones:</span> <span th:each="patron, iterStat : ${ejercicio.patronLista}" th:text="!${iterStat.last} ? ${patron.nombre} + ', ': ${patron.nombre}"></span>
+							</div>
+							<div class="col-12">
+								<span style="font-weight: bold;">Zonas:</span> <span th:each="zona, iterStat : ${ejercicio.zonaLista}" th:text="!${iterStat.last} ? ${zona.nombre} + ', ': ${zona.nombre}"></span>
+							</div>
+							<div class="col-12">
+								<span style="font-weight: bold;">Músculos:</span> <span th:each="ejercicioMusculo, iterStat : ${ejercicio.ejercicioMusculoLista}" th:text="!${iterStat.last} ? ${ejercicioMusculo.musculo.nombre} + ', ': ${ejercicioMusculo.musculo.nombre}"></span>
+							</div>
+							<div class="col-12">
+								<span style="font-weight: bold;">Partes del cuerpo:</span> <span th:each="ejercicioParteCuerpo, iterStat : ${ejercicio.ejercicioParteCuerpoLista}" th:text="!${iterStat.last} ? ${ejercicioParteCuerpo.parteCuerpo.nombre} + ', ': ${ejercicioParteCuerpo.parteCuerpo.nombre}"></span>
+							</div>
+							<div class="col-12">
+								<span style="font-weight: bold;">Material:</span> <span th:each="material, iterStat : ${ejercicio.materialLista}" th:text="!${iterStat.last} ? ${material.nombre} + ', ': ${material.nombre}"></span>
+							</div>
+							<div class="col-12">
+								<span style="font-weight: bold;">¿Es unilateral?</span>
+								<a sec:authorize="hasAuthority('PERMISO_ADMINISTRADOR')" class="cursor-pointer" th:data-accion="@{/cambiarEjercicioUnilateralAccion}" onclick="cambiarEjercicioUnilateralAccion(this)" th:data-ejercicio-id="${ejercicio.id}" th:text="${ejercicio.esUnilateral ? 'Sí' : 'No'}"></a>
+								<span sec:authorize="!hasAuthority('PERMISO_ADMINISTRADOR')" th:text="${ejercicio.esUnilateral ? 'Sí' : 'No'}"></span>
+							</div>
+							<div class="col-12">
+								<span style="font-weight: bold;">¿Tiene audio?</span> <span th:text="${ejercicio.tieneAudio ? 'Sí' : 'No'}"></span>
+							</div>
+							
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- Modal ejercicio -->
+		<div class="modal fade" id="ejercicioModal" th:fragment="ejercicioModalFragment" tabindex="-1" role="dialog" aria-labelledby="ejercicioModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="ejercicioModalLabelLabel">Edición de ejercicio</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" th:if="${ejercicio}">
+		  		<form id="ejercicioFormulario" enctype="multipart/form-data" th:action="@{/ejercicioFormulario}" th:object="${ejercicio}" onsubmit="ejercicioFormulario(this, event)" method="post" novalidate>
+					<div class="form-row">
+						<input type="hidden" id="ejercicioFormulario-id" name="id" th:value="*{id}" />
+						
+						<div class="col-12">
+							<div class="form-row">
+								<div class="col-3">
+									<div class="form-row">
+										<div class="col-12">
+											<div class="embed-responsive embed-responsive-4by3">
+												<img id="ejercicioFoto" class="embed-responsive-item" th:src="|${urlEstaticosEjerciciosFotos}${ejercicio.id}.png?${ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen" onerror="$(this).hide();">
+											</div>
+										</div>
+										<div class="form-group col-12">
+											<div class="custom-file">
+											    <input id="ejercicioFotoSeleccion" type="file" class="custom-file-input custom-file-label-sm" th:field="*{foto}">
+											    <label class="custom-file-label custom-file-label-sm" for="fichero">Foto</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-row">
+										<div class="col-12">
+											<div class="embed-responsive embed-responsive-4by3">
+												<video id="ejercicioVideo1920" class="embed-responsive-item" autoplay muted loop preload="none" playsinline>
+													<source th:src="|${urlEstaticosEjerciciosVideos}${ejercicio.id}_x264.mp4?${ejercicio.refrescoMultimedia}|" type="video/mp4">
+													No soportado
+												</video>
+											</div>
+										</div>
+										<div class="form-group col-12">
+											<div class="custom-file">
+											    <input id="ejercicioVideo1920Seleccion" type="file" class="custom-file-input custom-file-label-sm" th:field="*{video}">
+											    <label class="custom-file-label custom-file-label-sm" for="fichero">1920x1080</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-row">
+										<div class="col-12">
+											<div class="embed-responsive embed-responsive-4by3">
+												<video id="ejercicioVideo480" class="embed-responsive-item" autoplay muted loop preload="none" playsinline>
+													<source th:src="|${urlEstaticosEjerciciosVideos480}${ejercicio.id}_x264_480.mp4?${ejercicio.refrescoMultimedia}|" type="video/mp4">
+													No soportado
+												</video>
+											</div>
+										</div>
+										<div class="form-group col-12">
+											<div class="custom-file">
+											    <input id="ejercicioVideo480Seleccion" type="file" class="custom-file-input custom-file-label-sm" th:field="*{video480}">
+											    <label class="custom-file-label custom-file-label-sm" for="fichero">480x270</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-row" style="height: 100%;">
+										<div class="col-12" style="align-self: flex-end;">
+											<div class="mt-auto ml-auto" style="text-align-last: center;">
+												<span onclick="$('#ejercicioAudio')[0].play();" style="color: #0F4C81; font-size: 2rem;">
+													<i th:if="${ejercicio.tieneAudio}" class="ejercicioAudioBoton fas fa-volume-up cursor-pointer"></i>
+													<i th:unless="${ejercicio.tieneAudio}" class="ejercicioAudioBoton fas fa-volume-mute fa-disabled"></i>
+												</span>
+											</div>
+											<audio id="ejercicioAudio" th:src="|${urlEstaticosEjerciciosAudios}${ejercicio.id}.mp3?${ejercicio.refrescoMultimedia}|" playsinline preload="auto"></audio>
+										</div>
+										<!-- Fichero -->
+										<div class="form-group col-12 mt-auto">
+											<div class="custom-file">
+											    <input id="ejercicioAudioSeleccion" type="file" class="custom-file-input custom-file-label-sm" th:field="*{audio}">
+											    <label class="custom-file-label custom-file-label-sm" for="fichero">Audio</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+						
+						
+						<div class="form-group col-sm-6">
+			            	<label for="ejercicioFormulario-nombre"> Nombre </label>
+			            	<input id="ejercicioFormulario-nombre" type="text" class="form-control form-control-sm" th:field="*{nombre}" maxlength="150" required/> 
+			            </div>
+			            <div class="form-group col-sm-6">
+			            	<label for="ejercicioFormulario-nombreCorto"> Nombre corto</label>
+			            	<input id="ejercicioFormulario-nombreCorto" type="text" class="form-control form-control-sm" th:field="*{nombreCorto}" maxlength="150" required/> 
+			            </div>
+			             <div class="form-group col-12">
+			            	<label for="ejercicioFormulario-descripcion"> Descripción</label>
+			            	<textarea id="ejercicioFormulario-descripcion" class="form-control form-control-sm" th:field="*{descripcion}" maxlength="150" required></textarea>
+			            </div>
+			            
+			            <div class="form-group col-md-6">
+			            	<label for="ejercicioFormulario-patronLista"> Patrones</label>
+							<select id="ejercicioFormulario-patronLista" class="form-control form-control-sm selectpicker ejercicioFormulario-selectpicker" th:field="*{patronLista}" data-style="btn-select" title="Patrones" multiple required>
+								<option th:each="patron : ${patronSeleccionLista}" th:value="${patron.id}" th:text="${patron.nombre}"></option>
+							</select>
+			            </div>
+			            <div class="form-group col-md-6">
+			            	<label for="ejercicioFormulario-zonaLista"> Zonas</label>
+							<select id="ejercicioFormulario-zonaLista" class="form-control form-control-sm selectpicker ejercicioFormulario-selectpicker" th:field="*{zonaLista}" data-style="btn-select" title="Zonas" multiple required>
+								<option th:each="zona : ${zonaSeleccionLista}" th:value="${zona.id}" th:text="${zona.nombre}"></option>
+							</select>
+			            </div>
+			            <div class="form-group col-sm-6">
+			            	<label for="ejercicioFormulario-musculoPrincipalLista"> Músculos principales</label>
+							<select id="ejercicioFormulario-musculoPrincipalLista" class="form-control form-control-sm selectpicker ejercicioFormulario-selectpicker" th:field="*{musculoPrincipalLista}" data-style="btn-select" title="Músculos principales" multiple required>
+								<option th:each="musculo : ${musculoSeleccionLista}" th:value="${musculo.id}" th:text="${musculo.nombre}"></option>
+							</select>
+			            </div> 
+			            <div class="form-group col-sm-6">
+			            	<label for="ejercicioFormulario-musculoSecundarioLista"> Músculos secundarios</label>
+							<select id="ejercicioFormulario-musculoSecundarioLista" class="form-control form-control-sm selectpicker ejercicioFormulario-selectpicker" th:field="*{musculoSecundarioLista}" data-style="btn-select" title="Músculos secundarios" multiple>
+								<option th:each="musculo : ${musculoSeleccionLista}" th:value="${musculo.id}" th:text="${musculo.nombre}"></option>
+							</select>
+			            </div>
+			               
+			            <div class="form-group col-sm-6">
+			            	<label for="ejercicioFormulario-parteCuerpoPrincipalLista"> Partes del cuerpo principales</label>
+							<select id="ejercicioFormulario-parteCuerpoPrincipalLista" class="form-control form-control-sm selectpicker ejercicioFormulario-selectpicker" th:field="*{parteCuerpoPrincipalLista}" data-style="btn-select" title="Partes cuerpo principal" multiple required>
+								<option th:each="parteCuerpo : ${parteCuerpoSeleccionLista}" th:value="${parteCuerpo.id}" th:text="${parteCuerpo.nombre}"></option>
+							</select>
+			            </div>
+			            
+			             <div class="form-group col-sm-6">
+			            	<label for="ejercicioFormulario-parteCuerpoSecundarioLista"> Partes del cuerpo secundarios</label>
+							<select id="ejercicioFormulario-parteCuerpoSecundarioLista" class="form-control form-control-sm selectpicker ejercicioFormulario-selectpicker" th:field="*{parteCuerpoSecundarioLista}" data-style="btn-select" title="Partes cuerpo secundario" multiple>
+								<option th:each="parteCuerpo : ${parteCuerpoSeleccionLista}" th:value="${parteCuerpo.id}" th:text="${parteCuerpo.nombre}"></option>
+							</select>
+			            </div>
+			            
+			            <div class="form-group col-6">
+			            	<label for="ejercicioFormulario-materialLista"> Material</label>
+							<select id="ejercicioFormulario-materialLista" class="form-control form-control-sm ejercicioFormulario-selectpicker" th:field="*{materialLista}" data-style="btn-select" title="Material" multiple>
+								<option th:each="material : ${materialSeleccionLista}" th:value="${material.id}" th:text="${material.nombre}"></option>
+							</select>
+			            </div>
+			            
+			            <div class="form-group col-6 mt-auto">
+				            <label class="sr-only"></label>
+							<div class="form-check form-check-inline">
+								<input id="ejercicioFormulario-esUnilateral" class="form-check-input" type="checkbox" th:field="*{esUnilateral}"> 
+								<label for="ejercicioFormulario-esUnilateral" class="form-check-label">Es unilateral</label>
+							</div>
+						</div>
+			            
+			         
+			            
+						<!-- Boton -->
+						<div class="form-group col-12">
+							<button id="ejercicioFormularioSubmit" type="submit" class="btn btn-sm btn-primary" style="float: right; display: none;"><i class="fas fa-save"></i> Crear ejercicio</button>
+						</div>
+					</div>
+					
+				</form>	
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" data-dismiss="modal" class="btn btn-sm btn-outline-danger">Cancelar</button>
+		        <button type="button" class="btn btn-sm btn-success" onclick="$('#ejercicioFormularioSubmit').click()">Guardar</button>
+		      </div>
+		    </div>
+		  </div>
+		  
+		</div>
+		
+	<script src="/js/ejerciciosPagina.js" th:src="@{/js/ejerciciosPagina.js}"></script>
+	</div>
+	
+  </body>
+</html>

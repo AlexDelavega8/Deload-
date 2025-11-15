@@ -1,0 +1,80 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{plantillaCliente}">
+
+	<head>
+		<title>Configuración</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+	
+		<div layout:fragment="submenu-titulo">
+			<span>Configuración</span>
+	    </div>
+	    
+	    <div layout:fragment="submenu-seccion-derecha">
+			<a href="#" onclick="$('#clienteConfiguracionFormularioSubmit').click()" class="btn btn-sm btn-outline-azul"><i class="fas fa-save"></i> Guardar cambios</a>
+	    </div>
+	
+		<div layout:fragment="content" class="row">
+			<div class="container d-flex flex-column">
+			
+				<ul class="nav nav-tabs pb-3 no-gutters" id="myTab" role="tablist" style="width: auto;">
+					<li class="nav-item col"><a class="nav-link active" data-toggle="tab" href="#entrenamiento">Entrenamiento</a></li>
+				</ul>
+			
+				<div class="row">
+			 			<div class="col tab-pane fade show active">
+							<form id="clienteConfiguracionFormulario" th:action="@{/clienteConfiguracionFormulario}" th:object="${clienteConfiguracion}" onsubmit="clienteConfiguracionFormulario(this, event)" method="post" novalidate>
+								<div class="row tab-content" id="datosTab">
+
+				        			<div class="col tab-pane fade show active" id="entrenamiento" role="tabpanel" aria-labelledby="personales-tab">
+								
+										<div class="row">	
+											<div class="col-12 col-md-6">
+												<input type="hidden" th:field="*{id}"/>
+												
+							        			<div class="form-group form-row">
+									            	<label for="tiempoDescansoEntreEjercicios" class="col-9"> Descanso entre ejercicios (seg.) </label>
+									            	<div class="col-auto ml-auto">
+									            		<input id="tiempoDescansoEntreEjercicios" type="number" step="1" min="0" class="form-control form-control-sm" style="width: 75px;" th:field="*{tiempoDescansoEntreEjercicios}"/>
+									            	</div>
+									            </div>
+									            <div class="form-group form-row">
+									            	<label for="tiempoDescansoEntreUnilaterales" class="col-9"> Descanso entre ejercicios unilaterales (seg.) </label>
+									            	<div class="col-auto ml-auto">
+									            		<input id="tiempoDescansoEntreUnilaterales" type="number" step="1" min="0" class="form-control form-control-sm" style="width: 75px;" th:field="*{tiempoDescansoEntreUnilaterales}"/>
+									            	</div>
+									            </div>
+									        </div>
+									        <div class="col-12 col-md-6">
+									            <div class="form-group form-row">
+									            	<label for="tiempoEjercicioPorRepeticiones" class="col-9"> Duración de ejercicios con repeticiones (seg.) </label>
+									            	<div class="col-auto ml-auto">
+									            		<input id="tiempoEjercicioPorRepeticiones" type="number" step="1" min="0" class="form-control form-control-sm" style="width: 75px;" th:field="*{tiempoEjercicioPorRepeticiones}"/>
+									            	</div>
+									            </div>
+									            <div class="form-group form-row">
+													<label for="ejecucionAutomatica" class="col-10">Ejecución automática de rutina</label>
+													<div class="col-auto ml-auto" style="align-self: center;">
+														<div class="form-check form-check-inline" style="margin-right: -2px !important;">
+															<input id="ejecucionAutomatica" class="form-check-input" type="checkbox" th:field="*{ejecucionAutomatica}">
+														</div>
+													</div>
+													
+												</div>
+									            <button id="clienteConfiguracionFormularioSubmit" type="submit" class="btn btn-azul" style="display: none;"><i class="fas fa-save"></i> Guardar cambios</button>
+									    	</div>
+								    	</div>
+						    		</div>
+						    	</div>
+						    	
+							</form>
+						</div>
+					</div>
+				<script src="/js/miConfiguracionPagina.js" th:src="@{/js/miConfiguracionPagina.js}"></script>
+			</div>
+		</div>
+	
+	</body>
+
+</html>

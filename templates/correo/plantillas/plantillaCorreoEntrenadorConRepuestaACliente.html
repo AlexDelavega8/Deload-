@@ -1,0 +1,28 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreo}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Correo</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="saludo">
+   			<p>Hola <span th:text="${entrenadorNombre}"> entrenador</span>!</p>
+   		</div>
+   		
+   		<div layout:fragment="mensaje"/>
+   		
+   		<div layout:fragment="contacto">
+   			<div th:if="${cliente}">
+   				<p>Puedes responder directamente a este email para escribir al correo del cliente.</p>
+	   			<p th:if="${cliente.email}">Pulsa en <a th:href="|mailto:${cliente.email}|" th:text="${cliente.email}"></a> para comenzar a redactar un nuevo correo al cliente.</p>
+	   			<p th:if="${cliente.telefono}">Pulsa en <a th:href="|tel:${cliente.telefono}|" th:text="${cliente.telefono}"></a> para llamar al cliente.</p>
+	   		</div>
+   		</div>
+   
+   		<div layout:fragment="despedida">
+   			<p>Un saludo.</p>
+   		</div>
+    </body>
+  </html>

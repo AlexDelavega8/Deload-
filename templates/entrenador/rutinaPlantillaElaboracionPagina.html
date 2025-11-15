@@ -1,0 +1,141 @@
+<!doctype html>
+<html layout:decorate="~{plantillaEntrenador}">
+  <head>
+    <title>Elaborador plantillas</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div layout:fragment="submenu-titulo">
+		<span>Plantilla</span>
+    </div>
+  	<div layout:fragment="content" style="height: 100vh">
+
+		
+  		<div class="row" style="height: 100%;">
+  	
+  			<div class="col-2" style="height: calc(100% - 80px); position: fixed; left: 0px; top: 80px; bottom: 0px; z-index: 1035">
+				<!-- Datos plantilla -->
+				<div class="row"  style="margin: 0;">
+				
+					<div class="col-12 pt-2 pb-2 mb-3 cursor-pointer shadow-sm" style="background:#0F4C81; color: #fff;" data-toggle="collapse" data-target="#rutinaDatosGeneralesFragment" aria-expanded="true" aria-controls="rutinaDatosGeneralesFragment">
+						Rutina
+					</div>
+					
+					<div th:fragment="rutinaDatosGeneralesFragment" id="rutinaDatosGeneralesFragment" class="col-12 pl-0 pr-0 collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+						<form id="actualizarRutinaDatosGeneralesFormulario" th:action="@{/actualizarRutinaDatosGeneralesFormulario}" onsubmit="actualizarRutinaDatosGenerales(this, event)" th:object="${rutina}" method="post" novalidate>
+							<input type="hidden" th:field="*{id}" />
+							<div class="form-row">
+			 					<div class="form-group col-12">
+					            	<label th:for="${#ids.next('nombre')}"> Nombre de la plantilla </label>
+					            	<input type="text" class="form-control form-control-sm" th:field="*{nombre}" placeholder="Nombre de la rutina" maxlength="30"/> 
+					            </div>
+					            <div class="form-group col-12">
+								    <label th:for="${#ids.next('comentariosEntrenador')}">Comentarios</label>
+								    <textarea class="form-control form-control-sm" th:field="*{comentariosEntrenador}" placeholder="Comentarios para el cliente" rows="3" required></textarea>
+								</div>
+								
+								<div class="form-group col-12">
+									<button id="actualizarRutinaFormularioSubmit" type="submit" class="btn btn-sm btn-azul" style="float: right;"><i class="fas fa-check"></i> Guardar cambios</button>
+								</div>  
+							</div>   
+		  				</form>
+			 	    </div>
+	  			</div>
+	  			
+	  		</div>	
+	  			
+            <!-- Plantilla -->
+  			<div id="elaboracionRutinaSeccionCentral" th:fragment="elaboracionRutinaSeccionCentralFragment" class="col-7 offset-2" style="margin-top: -30px;">
+					<!-- Fase inicial -->
+	  				<div th:replace="fragmentos/rutinaFaseFragment.html :: rutinaFase(rutina=${rutina}, rutinaFase=${rutina.faseInicial})"/>
+	  				
+					<!-- Fase principal -->
+	  				<div th:replace="fragmentos/rutinaFaseFragment.html :: rutinaFase(rutina=${rutina}, rutinaFase=${rutina.fasePrincipal})"/>
+	  				
+					<!-- Fase final -->
+	  				<div th:replace="fragmentos/rutinaFaseFragment.html :: rutinaFase(rutina=${rutina}, rutinaFase=${rutina.faseFinal})"/>
+  			</div>
+  			
+  			<!-- Seccion filtros -->
+  			<div id="seccionFiltros" th:fragment="seccionFiltrosFragment" class="col-3 d-flex flex-column" style="height: calc(100% - 90px); position: fixed; right: 0px; top: 80px; bottom: 0px;">
+
+  				<div class="row">
+  					<div class="col-12">
+  						<div style="background:#0F4C81; border-bottom: 1px solid white;" >
+		  					<button onclick="$('#busquedaRapida').val('');" th:id="${'patron_' + patron.id}" th:text="${patron.codigo}" th:class="${'btn btn-sm btn-azul btn-filtro multiseleccionable ' + (ejercicioBusquedaFiltro.patronIdLista != null && ejercicioBusquedaFiltro.patronIdLista.contains(patron.id) ? 'seleccionado' : '')}" th:each="patron: ${patronLista}"
+		  						asincrono="post" th:ruta="@{/patronSeleccionado}" zona-refresco="ejercicioListaFragment" th:datos="${patron.id}"></button>
+		  				</div>
+		  				<div style="background:#0F4C81; border-bottom: 1px solid white;" >
+		  					<button onclick="$('#busquedaRapida').val('');" th:id="${'zona_' + zona.id}" th:text="${zona.codigo}" th:class="${'btn btn-sm btn-azul btn-filtro multiseleccionable ' + (ejercicioBusquedaFiltro.zonaIdLista != null && ejercicioBusquedaFiltro.zonaIdLista.contains(zona.id) ? 'seleccionado' : '')}" th:each="zona: ${zonaLista}"
+		  						asincrono="post" th:ruta="@{/zonaSeleccionado}" zona-refresco="ejercicioListaFragment" th:datos="${zona.id}"></button>
+		  				</div>
+		  				<div style="background:#0F4C81; border-bottom: 1px solid white;" >	
+		  					<button onclick="$('#busquedaRapida').val('');" th:id="${'parteCuerpo_' + parteCuerpo.id}" th:text="${parteCuerpo.codigo}" th:class="${'btn btn-sm btn-azul btn-filtro multiseleccionable ' + (ejercicioBusquedaFiltro.parteCuerpoIdLista != null && ejercicioBusquedaFiltro.parteCuerpoIdLista.contains(parteCuerpo.id) ? 'seleccionado' : '')}" th:each="parteCuerpo: ${parteCuerpoLista}"
+			  					asincrono="post" th:ruta="@{/parteCuerpoSeleccionado}" zona-refresco="ejercicioListaFragment" th:datos="${parteCuerpo.id}"></button>
+			  			</div>
+			  			<div style="background:#0F4C81; border-bottom: 1px solid white;" >	
+			  				<button onclick="$('#busquedaRapida').val('');" th:id="${'musculo_' + musculo.id}" th:text="${musculo.codigo}" th:class="${'btn btn-sm btn-azul btn-filtro multiseleccionable ' + (ejercicioBusquedaFiltro.musculoIdLista != null && ejercicioBusquedaFiltro.musculoIdLista.contains(musculo.id) ? 'seleccionado' : '')}" th:each="musculo: ${musculoLista}"
+			  					asincrono="post" th:ruta="@{/musculoSeleccionado}" zona-refresco="ejercicioListaFragment" th:datos="${musculo.id}"></button>
+		  				</div>
+		  			</div>
+  				</div>
+  			
+  				<div class="form-row mt-1">
+  					<div class="col-5">
+  						<div class="form-row">
+<!-- 		  					<div class="col-auto" style="align-self: center"> -->
+<!-- 		  						<a href="#" onClick="reiniciarFiltrosElaboracionRutinaPlantillaAccion(this)" th:data-accion="@{/reiniciarFiltrosElaboracionRutinaPlantillaAccion}"><i class="fas fa-sync-alt" style="color:#FA7268;"></i></a> -->
+<!-- 		  					</div> -->
+		  					<div class="col">
+		  						<label for="busquedaRapida" class="sr-only"> Nombre de la rutina </label>
+							    <input id="busquedaRapida" type="text" class="form-control form-control-sm" placeholder="Nombre..."/> 
+		  					</div>
+		  				</div>
+  					</div>
+  					
+  					<div class="col-5">
+  						<div class="form-row">
+	  						<div class="form-group col">
+								<label for="material" class="sr-only"> Material</label>
+								<div class="input-group">
+									<select class="form-control form-control-sm selectpicker" id="material" name="material" data-style="btn-select" title="Material" multiple zona-refresco="ejercicioListaFragment" th:ruta="@{/materialSeleccionado}">
+										<option th:each="material : ${materialSeleccionLista}" th:value="${material.id}" th:text="${material.nombre}" th:selected="${ejercicioBusquedaFiltro.materialIdLista != null? ejercicioBusquedaFiltro.materialIdLista.contains(material.id) : false}"></option>
+									</select>
+									<div class="input-group-append">
+								    	<button onClick="materialTodoDeseleccionadoAccion(this)" th:data-accion="@{/materialTodoDeseleccionadoAccion}" class="btn btn-sm btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+								  	</div>
+								</div>
+							</div>					
+						</div>
+					</div>
+					
+					<div class="col-auto ml-auto">
+						<button onClick="cambioAutomaticoEjerciciosRutinaEntera(this)" class="btn btn-sm btn-azul" th:data-accion="@{/cambioAutomaticoEjerciciosRutinaEntera}" th:data-rutina-id="${rutina.id}">
+							<i class="fas fa-magic"></i>
+						</button>
+					</div>
+  				</div>
+
+  				<div th:fragment="ejercicioListaFragment" id="ejercicioListaFragment" class="row" style="max-height: 100%; overflow-y: auto;">
+					<div class="col-12 text-right">
+						<span id="ejercicioListaCantidad" th:text="|${ejercicioLista.size()} ejercicios|" style="font-size: 0.8rem"></span>
+					</div>
+  					<div class="col-12">
+  						<div class="row no-gutters" style="margin-right: -7px;">
+		  				<div th:id="${'ejercicio_' + ejercicio.id}" class="con-claves col-4" style="padding-right: 7px;" th:each="ejercicio: ${ejercicioLista}" draggable="true" ondragstart="arrastrarEjercicioInicio(event)" ondragend="arrastrarEjercicioFin(event)" th:data-claves="${ejercicio.clavesBusqueda}">
+		  					<div class="row ejercicio-seleccionable">
+		  						<div th:replace="fragmentos/ejercicioFragment :: ejercicio(ejercicio=${ejercicio},tam='pequenho')"/>
+		  					</div>
+		  				</div>
+		  				</div>
+	  				</div>
+  				</div>
+  			</div>
+  			
+  		</div>
+ 
+		<script src="/js/rutinaElaboracionPagina.js" th:src="@{/js/rutinaElaboracionPagina.js}"></script>
+    </div>
+
+  </body>
+</html>

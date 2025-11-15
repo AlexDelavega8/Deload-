@@ -1,0 +1,241 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+
+	<head>
+		<title>Mis datos</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+	
+		<div layout:fragment="submenu-titulo">
+			<span>Mis datos</span>
+	    </div>
+	    <div layout:fragment="submenu-seccion-derecha">
+			<a href="#" onclick="$('#actualizarClienteDatosFormularioSubmit').click()" class="btn btn-sm btn-outline-azul"><i class="fas fa-save"></i> Guardar cambios</a>
+	    </div>
+	
+		<div layout:fragment="content" class="row">
+		
+			<div class="container d-flex flex-column">
+
+				<ul class="nav nav-tabs row pb-3 no-gutters" id="myTab" role="tablist" style="width: auto;">
+					<li class="nav-item col text-center"><a class="nav-link active" data-toggle="tab" href="#personales">Personales</a></li>
+					<li class="nav-item col text-center"><a class="nav-link" data-toggle="tab" href="#entrenamiento">Entrenamiento</a></li>
+					<li class="nav-item col text-center"><a class="nav-link" data-toggle="tab" href="#mas">Más</a></li>
+				</ul>
+	
+				<div class="row">
+		 			<div class="col tab-pane fade show active">
+				        <form id="actualizarClienteDatosFormulario" th:action="@{/actualizarClienteDatos}" th:object="${cliente}" method="post" novalidate>
+				        	<div class="row tab-content" id="datosTab">
+				        	
+				        		<!-- Formulario de datos -->
+				        		<div class="col tab-pane fade show active" id="personales" role="tabpanel" aria-labelledby="personales-tab">
+				            		
+				            		<input type="hidden" th:field="*{id}" />
+				            		
+				            		<div class="form-row">		
+					        			<div class="form-group form-group-sm col-12 col-sm-4">
+							            	<label for="nombre"> Nombre </label>
+							            	<input id="nombre" type="text" class="form-control form-control-sm" th:field="*{nombre}" maxlength="100" required/> 
+							            </div>
+							            <div class="form-group col-12 col-sm-4">
+							            	<label for="apellido1"> Primer apellido </label>
+							            	<input id="apellido1" type="text" class="form-control form-control-sm" th:field="*{apellido1}" maxlength="150" required/> 
+							            </div>
+							            <div class="form-group col-12 col-sm-4">
+							            	<label for="apellido2"> Segundo apellido </label>
+							            	<input id="apellido2" type="text" class="form-control form-control-sm" th:field="*{apellido2}" maxlength="150"/> 
+							            </div>
+	
+						           		<div class="form-group col-12  col-sm-4">
+							            	<label for="nif"> NIF </label>
+							            	<input id="nif" type="text" class="form-control form-control-sm" th:field="*{nif}" maxlength="20"/> 
+							            </div>
+							            <div class="form-group col-12  col-sm-4">
+							            	<label for="telefono"> Teléfono </label>
+							            	<input id="telefono" type="text" class="form-control form-control-sm" th:field="*{telefono}" maxlength="18" required/> 
+							            </div>
+							            <div class="form-group col-12  col-sm-4">
+							            	<label for="usuarioUsuarioNombre"> Correo </label>
+							            	<input id="usuarioUsuarioNombre" type="email" class="form-control form-control-sm" th:field="*{usuario.usuarioNombre}" maxlength="250" required/> 
+							            </div>
+							            
+							            <div class="form-group col-12">
+							            	<label for="disponibilidadTelefonica"> ¿En que horario te podemos llamar? </label>
+							            	<input id="disponibilidadTelefonica" type="text" class="form-control form-control-sm" th:field="*{disponibilidadTelefonica}" maxlength="100"/> 
+							            </div>
+	
+										<div class="form-group col-12 col-sm-6">
+											<label for="sexoSeleccion">Sexo</label>
+											<select id="sexoSeleccion" class="form-control form-control-sm selectpicker show-tick" th:field="*{sexo}" data-style="btn-select" title="Sexo">
+											  <option th:each="sexo : ${sexoSeleccionLista}" th:value="${sexo.codigo}" th:text="${sexo.nombre}"></option>
+											</select>
+										</div>
+										
+										<div class="form-group col-12 col-sm-6">
+											<label for="fechaNacimiento">Fecha de nacimiento</label>
+											<input id="fechaNacimiento" type="text" class="form-control form-control-sm" data-provide="datepicker" data-date-start-view="years" data-date-orientation="bottom" data-date-format="dd/mm/yyyy" data-date-language="es" data-date-today-highlight="true" th:field="*{fechaNacimiento}" data-date-autoclose="true" autocomplete="off"/> 
+										</div>
+										
+										<div class="form-group col-12 col-sm-6">
+											<label for="altura">Altura (cm)</label>
+							            	<input id="altura" type="number" min="1" max="280" class="form-control form-control-sm" th:field="*{altura}"/> 
+										</div>
+										
+										<div class="form-group col-12 col-sm-6">
+											<label for="peso">Peso (kg)</label>
+							            	<input id="peso" type="number" min="1" max="250" class="form-control form-control-sm" th:field="*{peso}"/> 
+										</div>
+										
+										<div class="form-group col-12">
+											<label for="domicilio">Domicilio</label>
+							            	<input id="domicilio" type="text" class="form-control form-control-sm" th:field="*{domicilio}" maxlength="500"/> 
+										</div>
+										
+										<div class="form-group col-4">
+											<label for="codigoPostal">Código postal</label>
+							            	<input id="codigoPostal" type="text" class="form-control form-control-sm" th:field="*{codigoPostal}"/> 
+										</div>
+										
+										<div class="form-group col-4">
+											<label for="Localidad">Localidad</label>
+							            	<input id="Localidad" type="text" class="form-control form-control-sm" th:field="*{Localidad}" maxlength="100"/> 
+										</div>
+										
+										<div class="form-group col-4">
+											<label for="pais">País</label>
+							            	<input id="pais" type="text" class="form-control form-control-sm" th:field="*{pais}" maxlength="100"/> 
+										</div>
+									</div>
+								</div>
+								
+								<div class="col tab-pane fade" id="entrenamiento" role="tabpanel" aria-labelledby="entrenamiento-tab">
+									<div class="form-row">
+										<div class="form-group col-12">
+	  										<label>¿Que días vas a entrenar?</label></br>
+											<div class="form-check form-check-inline form-check-required" th:each="diaEntrenamiento : ${diaEntrenamientoSeleccionLista}">
+												<input class="form-check-input" type="checkbox" th:field="*{diaEntrenamientoLista}" th:value="${diaEntrenamiento.codigo}"> <label class="form-check-label" th:for="${#ids.prev('diaEntrenamientoLista')}" th:text=${diaEntrenamiento.nombre}></label>
+											</div>
+										</div>
+										
+										<div class="form-group  col-12">
+											<label for="perfilLista">¿Cuáles son tus motivaciones?</label>
+											<select id="perfilLista" class="form-control form-control-sm selectpicker" th:field="*{perfilLista}" data-style="btn-select" multiple title="Salud, estética, embarazo, patologías..." required>
+												<option th:each="perfil : ${perfilSeleccionLista}" th:value="${perfil.codigo}" th:text="${perfil.nombre}"></option>
+											</select>
+										</div>
+										
+										<div class="form-group  col-12">
+										    <label for="objetivos">Detalla tus objetivos</label>
+										    <textarea id="objetivos" class="form-control form-control-sm" th:field="*{objetivos}" placeholder="Perder peso, mejorar mi postura, mejorar imagen ..." rows="3" maxlength="1900" required></textarea>
+										</div>
+	
+										<div class="form-group col-12">
+										    <label for="lesiones">Lesiones actuales o pasadas</label>
+										    <textarea id="lesiones" class="form-control form-control-sm" th:field="*{lesiones}" rows="3" maxlength="900"></textarea>
+										</div>
+	
+										<div class="form-group col-12 col-sm-6">
+											<label for="lugarEntrenamientoLista">¿Dónde vas a entrenar?</label>
+											<select id="lugarEntrenamientoLista" class="form-control form-control-sm selectpicker" th:field="*{lugarEntrenamientoLista}" data-style="btn-select" multiple title="Elige un lugar" required>
+											  <option th:each="lugarEntrenamiento : ${lugarEntrenamientoSeleccionLista}" th:value="${lugarEntrenamiento.codigo}" th:text="${lugarEntrenamiento.nombre}"></option>
+											</select>
+										</div>
+										
+										<div class="form-group col-12 col-sm-6">
+											<label for="materialLista">¿De qué material dispones?</label>
+											<select id="materialLista" class="form-control form-control-sm selectpicker" th:field="*{materialLista}" data-style="btn-select" multiple title="Elige si tienes">
+											  <option th:data-content="|<img src='${urlEstaticosMaterialFotos}${material.codigo}.jpg'/ width='100'> ${material.nombre}|" th:each="material : ${materialSeleccionLista}" th:value="${material.id}" th:text="${material.nombre}"></option>
+											</select>
+											<small id="passwordHelpBlock" class="form-text text-muted">No es necesario que tengas material</small>
+										</div>
+	
+									</div>
+								</div>
+								
+								<div class="col tab-pane fade" id="mas" role="tabpanel" aria-labelledby="mas-tab">
+
+				            		<div class="form-row">
+										<div class="form-group col-12">
+											<div class="row">
+												<div class="col-12">
+													<label>¿Realizas alguna actividad física en la actualidad?</label>
+												</div>
+												<div class="col-12">
+												<div class="form-check form-check-inline">
+													  <input class="form-check-input" type="radio" th:field="*{entrenaActualmente}" value="true">
+													  <label class="form-check-label" th:for="${#ids.prev('entrenaActualmente')}">Sí</label>
+													</div>
+													<div class="form-check form-check-inline">
+													  <input class="form-check-input" type="radio" th:field="*{entrenaActualmente}" value="false">
+													  <label class="form-check-label" th:for="${#ids.prev('entrenaActualmente')}">No</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-group col-12">
+										    <label for="actividadFisicaActual">Detalla un poco la actividad que realizas</label>
+										    <textarea id="actividadFisicaActual" class="form-control form-control-sm" th:field="*{actividadFisicaActual}" rows="3" maxlength="900"></textarea>
+										</div>
+										
+										<div class="form-group col-12">
+										    <label for="clavesEntrenamiento">¿Alguna información más para adaptarnos mejor a ti?</label>
+										    <textarea id="clavesEntrenamiento" class="form-control form-control-sm" th:field="*{clavesEntrenamiento}" rows="3" maxlength="900" placeholder="Ejercicios que no te gustan, que puedan molestar, cuánto tiempo vas a destinar..."></textarea>
+										</div>
+										
+										<div class="form-group col-12">
+											<div style="margin-bottom: 15px; font-weight: bold;">
+						            			Cuestionario PAR-Q
+						            		</div>
+										
+										    <div class="row pb-3" th:each="clienteParq, itemStat : *{clienteParqLista}">
+										    <!-- Fijarse: el th:name hay que hacerlo a manubrio y el th igual. Si uso th:field, hace un poco lo que le peta -->
+		<!-- 										    	<input type="hidden" th:name="${'clienteParqLista[' + itemStat.index + ']'}" th:value="*{clienteParqLista[__${itemStat.index}__].id}"/> -->
+		
+										    	<input type="hidden" th:name="${'clienteParqLista[' + itemStat.index + '].parq'}" th:value="*{clienteParqLista[__${itemStat.index}__].parq.codigo}"/>
+													<div class="col-12">
+														<label th:text="${clienteParq.parq.descripcion}"></label>
+													</div>
+													
+													<div class="col-12">
+														<div class="form-check form-check-inline">
+														  <input class="form-check-input" type="radio" th:field="*{clienteParqLista[__${itemStat.index}__].respuesta}" value="true">
+														  <label class="form-check-label" th:for="${#ids.prev('clienteParqLista'+itemStat.index+'.respuesta')}">Sí</label>
+														</div>
+														<div class="form-check form-check-inline">
+														  <input class="form-check-input" type="radio" th:field="*{clienteParqLista[__${itemStat.index}__].respuesta}" value="false">
+														  <label class="form-check-label" th:for="${#ids.prev('clienteParqLista'+itemStat.index+'.respuesta')}">No</label>
+														</div>
+													</div>
+											</div>
+										</div>
+										<div class="form-group col-12">
+											<span> <i class="fas fa-exclamation-circle"></i> Si has contestado de forma afirmativa a alguna de las preguntas anteriores rogamos que se lo indiques a tu entrenador y él te dirá como proceder.</span>
+										</div>
+										<div class="form-group col-12">
+											<div style="margin-bottom: 15px; font-weight: bold;">
+						            			¿Cómo nos conociste?
+						            		</div>
+											<div class="form-check" th:each="medioConocimiento : ${medioConocimientoSeleccionLista}">
+											  <input class="form-check-input" type="radio" th:field="*{medioConocimientoLista}" th:value="${medioConocimiento.codigo}">
+											  <label class="form-check-label" th:for="${#ids.prev('medioConocimientoLista')}" th:text="${medioConocimiento.nombre}"></label>
+											</div>
+										</div>
+									</div>
+								</div>
+	
+				            </div>
+				            <button id="actualizarClienteDatosFormularioSubmit" type="submit" class="btn btn-azul" style="display: none;"><i class="fas fa-save"></i> Guardar cambios</button>
+				        </form>
+					</div>
+				</div>
+            
+            </div>
+		<script src="/js/misDatosPagina.js" th:src="@{/js/misDatosPagina.js}"></script>
+		</div>
+	
+	</body>
+
+</html>

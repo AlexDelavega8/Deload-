@@ -1,0 +1,88 @@
+<!doctype html>
+<html layout:decorate="~{plantillaGlobal}">
+  <body>
+  
+  <a layout:fragment="logo">
+<!-- 				<img th:src="|${urlEstaticosImagenes}logo_reducido.png|" width="50" class="d-none d-sm-inline-block align-top" alt="Pocketrainer">  -->
+<!-- 				<img th:src="|${urlEstaticosImagenes}logo_reducido.png|" width="30" class="d-sm-none d-inline-block align-top" alt="Pocketrainer"> -->
+			
+			<img th:src="@{/images/logo/logo_reducido.png}" width="40" class="d-none d-lg-inline-block align-top" alt="Pocketrainer">
+			<img th:src="@{/images/logo/logo_reducido.png}" width="35" class="d-lg-none d-inline-block align-top" alt="Pocketrainer">
+		</a>
+ 
+  	<ul layout:fragment="menuOpciones">
+  			<li class="nav-item"><a class="nav-link" th:href="@{/recepcion}">Inicio</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/miEntrenador}">Mi entrenador</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/misDatos}">Mis datos</a></li> 
+			<li class="nav-item" ><a class="nav-link" th:href="@{/misEntrenamientos}">Entrenamientos</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/miConfiguracion}"><i class="fas fa-cog"></i></a></li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i></a>
+		        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+	        		<a class="dropdown-item" th:href="@{/miCuenta}"><i class="fas fa-user mr-2"></i> Mi cuenta</a>
+	        		<a class="dropdown-item" th:href="@{/miSuscripcion}"><i class="fas fa-file-contract mr-2"></i> Suscripción</a>
+		        	
+			        <div class="dropdown-divider"></div>
+			        <a class="dropdown-item" th:href="@{/avisoLegalCliente}"><i class="fas fa-balance-scale mr-2"></i> Aviso legal</a>
+			        <a class="dropdown-item" th:href="@{/terminosCondicionesCliente}"><i class="fas fa-file-alt mr-2"></i> Términos y condiciones</a>
+			        <a class="dropdown-item" th:href="@{/politicaPrivacidadCliente}"><i class="fas fa-user-shield mr-2"></i> Política de privacidad</a>
+			        <a class="dropdown-item" th:href="@{/politicaCookiesCliente}"><i class="fas fa-cookie-bite mr-2"></i> Política de cookies</a>
+			        
+			        <div class="dropdown-divider"></div>
+			        <a class="dropdown-item" onClick="event.preventDefault(); $('#cerrarSesionFormulario').submit();" href="#"><i class="fas fa-sign-out-alt mr-2"></i> Salir</a>
+			        <form id="cerrarSesionFormulario" th:action="@{/logout}" method="post">
+			        	<button  hidden type="submit" value="Sign Out"></button>
+			        </form>
+		        </div>
+	        </li>
+  	</ul>
+  	
+  	<ul layout:fragment="menuDesplegableOpciones">
+		<li class="nav-item">
+	      <a class="nav-link" th:href="@{/recepcion}"><i class="fas fa-home mr-2"></i> Inicio <span class="sr-only">(current)</span></a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" th:href="@{/miEntrenador}"><i class="fas fa-user-graduate mr-2"></i> Mi entrenador </a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" th:href="@{/misDatos}"><i class="fas fa-address-card mr-2"></i> Mis datos </a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" th:href="@{/miConfiguracion}"><i class="fas fa-cog mr-2"></i> Configuración </a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" th:href="@{/misEntrenamientos}"><i class="fas fa-table mr-2"></i> Entrenamientos </a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" th:href="@{/miCuenta}"><i class="fas fa-user mr-2"></i> Mi cuenta </a>
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" th:href="@{/miSuscripcion}"><i class="fas fa-file-contract mr-2"></i> Suscripción </a>
+	    </li>
+	    
+	    <div class="dropdown-divider"></div>
+	    
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/avisoLegalCliente}"><i class="fas fa-balance-scale mr-2"></i> Aviso legal</a>        
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" th:href="@{/terminosCondicionesCliente}"><i class="fas fa-file-alt mr-2"></i> Términos y condiciones</a>     
+	    </li>
+	    <li class="nav-item">
+	       <a class="nav-link" th:href="@{/politicaPrivacidadCliente}"><i class="fas fa-user-shield mr-2"></i> Política de privacidad</a>    
+	    </li>
+	    <li class="nav-item">
+	      <a class="nav-link" th:href="@{/politicaCookiesCliente}"><i class="fas fa-cookie-bite mr-2"></i> Política de cookies</a>
+	    </li>
+	    
+	    
+	    <div class="dropdown-divider"></div>
+	    <li class="nav-item">
+	      <a class="nav-link" onClick="event.preventDefault(); $('#cerrarSesionFormulario').submit();" href="#"><i class="fas fa-sign-out-alt"></i> Salir</a>
+	    </li>
+  	</ul>
+  	
+  	
+  </body>
+  
+</html>

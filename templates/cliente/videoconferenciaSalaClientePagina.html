@@ -1,0 +1,177 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+  <head>
+    <title>Videoconferencia</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    
+    <a layout:fragment="submenu-titulo">
+		<span>Videoconferencia</span>
+    </a>
+
+  	<div layout:fragment="submenu-seccion-izquierda">
+		<span th:text="${videoconferencia.estado.nombre}"></span>
+    </div>
+    
+    <div layout:fragment="submenu-seccion-derecha">
+		<button id="iniciarVideoConferencia" th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).EN_CURSO.codigo()}" class="btn btn-sm btn-outline-azul iniciarVideoConferencia" th:sala-videoconferencia="${videoconferencia.salaId}"  th:participante-videoconferencia="${videoconferencia.cliente.nombre}"><i class="fas fa-video"></i> Iniciar videoconferencia</button>
+    </div>
+    
+  	<div layout:fragment="content" class="row">
+  		<div class="container">
+  			<div class="row">
+  				<div id="mensajeIntroduccionZona" class="col-12">
+  					<th:block th:if="${videoconferencia != null}">
+			 				<th:block th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).EN_CURSO.codigo()}">
+			 						<p>Todo está preparado para iniciar la videoconferencia con tu entrenador. Por favor, pulsa el botón "Iniciar videoconferencia".</p>
+			 				</th:block>
+			 				
+			 				<th:block th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).PROGRAMADA.codigo()}">
+			 						<p>La próxima videoconferencia está programada para el <span th:text="| ${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(videoconferencia.fechaHoraProgramada), 'dd/MM/yyyy HH:mm')}.|"></span></p>
+			 				</th:block>
+			 				
+			 				<th:block th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).SIN_PROGRAMAR.codigo()}">
+			 						<p>Tu entrenador se pondrá en contacto contigo para programar la próxima videconferencia.</p>
+			 				</th:block>
+			 				
+			 				<th:block th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).REALIZADA.codigo()}">
+			 						<p>La videconferencia que dispones para este período ya fue realizada.</p>
+			 				</th:block>
+			
+							<p th:unless="${videoconferencia != null}">En este momento no tienes ninguna videoconferencia pendiente</p>
+			 				
+						</th:block>
+  				</div>
+
+  				<div class="col-12 mb-2" th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).EN_CURSO.codigo()}">
+  					Si tienes dificultades para iniciar la videoconferencia desde tu móvil o tablet, puedes hacer click <a th:href="|https://meet.jit.si/${videoconferencia.salaId}|" target="_blank">aquí</a> para iniciarla en la aplicación de Jitsi Meet. Si no la tienes, puedes instalarla:
+  				</div>
+  				<div class="col-12 mb-2" th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).EN_CURSO.codigo()}">
+  					<a href="https://play.google.com/store/apps/details?id=org.jitsi.meet" target="_blank"><img height="30px" th:src="@{/images/android_descarga.png}"></a>
+  					<a href="https://apps.apple.com/us/app/jitsi-meet/id1165103905" target="_blank"><img height="30px" th:src="@{/images/apple_descarga.svg}"></a>
+  				</div>
+		  		<div class="col-12 col-lg-7 col-xl-8 mb-4 text-center">
+		  			<button th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).EN_CURSO.codigo()}" class="btn btn-outline-azul iniciarVideoConferencia" style="margin-top: 100px;" th:sala-videoconferencia="${videoconferencia.salaId}"  th:participante-videoconferencia="${videoconferencia.cliente.nombre}"><i class="fas fa-video"></i> Iniciar videoconferencia</button>
+		  			
+					<div id="zonaVideoConferencia" class="embed-responsive embed-responsive-4by3">
+					</div>
+				</div>
+				
+				<th:block th:if="${videoconferencia.estado.codigo == T(es.pocketrainer.util.Constantes.VideoconferenciaEstadoEnum).EN_CURSO.codigo()}">
+					<div id="videoconferenciaRutinaZona" class="col-12 col-lg-5 col-xl-4">
+						<div id="videoconferenciaRutinaFragment" th:fragment="videoconferenciaRutinaFragment" th:rutina-id="${rutina != null ? rutina.id : 0}" th:videoconferencia-id="${videoconferencia.id}" class="d-flex flex-column">
+							<div th:if="${rutina}">
+								<div class="row no-gutters pb-3">
+									<div class="col-12" style="padding: 0rem; border-bottom: 2px solid #FA7268">
+										<div class="row" style="color: #0F4C81; font-weight: bold;">
+											<div class="col-auto">
+												<i class="fas fa-stopwatch"></i> <span th:text="|${rutina.tiempo}'|"></span>
+											</div>
+											
+											<div class="col-auto">
+												<i class="fas fa-list-ol"></i> <span th:text="${rutinaFaseGrupoRepeticionEjercicioLista.size()}"></span> ej.
+											</div>
+											
+											<div class="col-auto">
+												<i class="fas fa-tasks"></i>
+												<span th:if="${!materialNecesario.isEmpty()}" th:each="material,iterStat : ${materialNecesario}" th:text="${iterStat.count == materialNecesario.size() ? material.nombre : material.nombre +', '}">
+												
+												</span>
+												<span th:unless="${!materialNecesario.isEmpty()}">Sin material específico</span>
+											</div>	
+										</div>
+									</div>
+								</div>
+								
+								<div th:if="${!#strings.isEmpty(rutina.nombre)}" class="row no-gutters pb-3">
+									<div class="col-12">
+										<span th:text="${rutina.nombre}"></span>
+									</div>
+								</div>
+							
+								<div class="row no-gutters pb-3" th:if="${!#strings.isEmpty(rutina.comentariosEntrenador)}">
+									<div class="col-12">
+										<span style="color: #0F4C81; font-weight: bold;"><i class="far fa-comment-alt"></i> Comentarios de tu entrenador</span>
+									</div>
+									<div class="col-12">
+										<span th:text="${rutina.ComentariosEntrenador}"></span>
+									</div>
+								</div>
+								
+							
+								<div class="form-row">
+								
+										<div class="col-12" th:with="faseTipo=${rutinaFaseGrupoRepeticionEjercicio.rutinaFaseGrupoRepeticion.rutinaFaseGrupo.rutinaFase.tipo}" th:each="rutinaFaseGrupoRepeticionEjercicio, iterStat : ${rutinaFaseGrupoRepeticionEjercicioSinRepeticionesLista}">
+											<div class="ejercicio-previsualizacion row no-gutters">
+												<div th:if="${faseTipo == 1}" class="ejercicio-previsualizacion-foto col-4" style="border-left: 5px solid #cccc00">
+													<div class="embed-responsive embed-responsive-4by3">
+														<img class="foto embed-responsive-item" style="object-fit: cover" th:src="|${urlEstaticosEjerciciosFotos}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}.png?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen">
+														<video style="display: none;" class="video embed-responsive-item" muted loop preload="none" playsinline>
+															<source th:src="|${urlEstaticosEjerciciosVideos480}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}_x264_480.mp4?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" type="video/mp4">
+															No soportado
+														</video>
+													</div>
+												</div>
+												<div th:if="${faseTipo == 2}" class="ejercicio-previsualizacion-foto col-4" style="border-left: 5px solid #FA7268">
+													<div class="embed-responsive embed-responsive-4by3">
+														<img class="foto embed-responsive-item" style="object-fit: cover" th:src="|${urlEstaticosEjerciciosFotos}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}.png?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen">
+														<video style="display: none;" class="video embed-responsive-item" muted loop preload="none" playsinline>
+															<source th:src="|${urlEstaticosEjerciciosVideos480}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}_x264_480.mp4?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" type="video/mp4">
+															No soportado
+														</video>
+													</div>
+												</div>
+												<div th:if="${faseTipo == 3}" class="ejercicio-previsualizacion-foto col-4" style="border-left: 5px solid #0F4C81">
+													<div class="embed-responsive embed-responsive-4by3">
+														<img class="foto embed-responsive-item" style="object-fit: cover" th:src="|${urlEstaticosEjerciciosFotos}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}.png?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen">
+														<video style="display: none;" class="video embed-responsive-item" muted loop preload="none" playsinline>
+															<source th:src="|${urlEstaticosEjerciciosVideos480}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}_x264_480.mp4?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" type="video/mp4">
+															No soportado
+														</video>
+													</div>
+												</div>
+												<div class="ejercicio-previsualizacion-texto col-8">
+													<div class="d-flex flex-column" style="height: 100%;">
+													
+														<div class="d-flex">
+															<span th:text="${rutinaFaseGrupoRepeticionEjercicio.ejercicio.nombre}"></span>
+															<span th:if="${faseTipo == 1}" class="ml-auto" style="color: #cccc00; font-weight: bold;" th:text="${iterStat.count}">1</span>
+															<span th:if="${faseTipo == 2}" class="ml-auto" style="color: #FA7268; font-weight: bold;" th:text="${iterStat.count}">1</span>
+															<span th:if="${faseTipo == 3}" class="ml-auto" style="color: #0F4C81; font-weight: bold;" th:text="${iterStat.count}">1</span>
+														</div>
+														
+														<div th:if="${rutinaFaseGrupoRepeticionEjercicio.tiempo}" class="mt-auto text-right">
+															<i class="fas fa-stopwatch"></i> <span th:text="${rutinaFaseGrupoRepeticionEjercicio.tiempo}"></span>''
+														</div>
+														
+														<div th:unless="${rutinaFaseGrupoRepeticionEjercicio.tiempo}"  class="mt-auto text-right">
+															<i class="fas fa-redo"></i> <span th:text="${rutinaFaseGrupoRepeticionEjercicio.repeticiones}"></span> R
+														</div>
+													
+													</div>
+												</div>
+												
+											</div>
+										</div>	
+									
+					
+									
+	<!-- 							</div> -->
+						
+							</div>
+						</div>
+					</div>
+				</div>
+			</th:block>
+		</div>
+	</div>	
+	<script src='https://meet.jit.si/external_api.js'></script>
+	<script src="/js/videoconferencia.js" th:src="@{/js/videoconferencia.js}"></script>
+	<script src="/js/videoconferenciaPagina.js" th:src="@{/js/videoconferenciaPagina.js}"></script>
+
+    </div>
+
+	
+  </body>
+</html>

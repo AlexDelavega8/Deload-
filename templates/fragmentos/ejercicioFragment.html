@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  
+  <body>
+	<div th:fragment="ejercicio(ejercicio, tam)" class="ejercicio embed-responsive embed-responsive-4by3" draggable="false" th:classappend="${ejercicio.clienteNoTieneTodoMaterial} ? 'ejercicio-con-advertencia' : ''">
+	
+		<div th:if="${tam.equals('grande')}" draggable="false" th:class="|nombre nombre-grande row ${ejercicio.htmlClass}|" style="align-content: center;">
+			<span th:text="${ejercicio.nombre}">Nombre</span>
+		</div>
+		
+		
+		<div th:if="${tam.equals('pequenho')}" draggable="false" th:class="|nombre nombre-pequenho row ${ejercicio.htmlClass}|" style="align-content: center;">
+			<span th:text="${ejercicio.nombreCorto}">Nombre</span>
+		</div>
+		
+		<img draggable="false" class="foto embed-responsive-item" th:src="|${urlEstaticosEjerciciosFotos}${ejercicio.id}.png?${ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen">
+		<video style="display: none;" class="video embed-responsive-item" id="entrenamiento-ejecucion-video" muted loop preload="none" playsinline>
+			<source th:src="|${urlEstaticosEjerciciosVideos480}${ejercicio.id}_x264_480.mp4?${ejercicio.refrescoMultimedia}|" type="video/mp4">
+			No soportado
+		</video>
+		
+		
+	</div>
+  </body>
+</html>

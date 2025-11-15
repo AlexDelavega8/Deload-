@@ -1,0 +1,74 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+
+	<head>
+		<title>Entrenamientos</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<div layout:fragment="submenu-titulo">
+			<span>Mis entrenamientos</span>
+	    </div>
+	    
+		<div layout:fragment="content" class="row">
+	
+			<div class="container d-flex flex-column">
+			
+				<div class="row no-gutters pb-3">
+					<div class="col-12 col-sm-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268">
+						<span style="font-weight: bold; color: #0F4C81;">Todos mis entrenamientos</span>
+					</div>
+				</div>
+				
+				<div class="form-row" th:each="rutinaLista : ${fechaRutinaMapa}">
+					<div class="col-12 mb-2 text-center">
+						<span style="font-weight: bold;" th:text="${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(rutinaLista.key), 'dd/MM/yyyy')}"></span>
+					</div>
+					<div class="col-12 col-sm-6 col-lg-3 col-xl-3 pb-3" th:each="rutina,numeroRutina : ${rutinaLista.value}">
+						<a th:href="@{/previsualizarEntrenamiento/} + ${rutina.id}" style="text-decoration: none;">
+						
+							<div class="row no-gutters shadow-sm" style="position: relative;">
+								<div class="col-6" th:each="rutaFoto : ${rutinaFotosMapa.get(rutina.id)}">
+									 <div class="embed-responsive embed-responsive-4by3" draggable="false">
+										<img draggable="false" class="embed-responsive-item" style="object-fit: cover; " th:src="|${urlEstaticosEjerciciosFotos}${rutaFoto}.png|" alt="Ejercicio imagen">
+						  			</div>
+								</div>
+								<div class="text-center rutina-presentacion-titulo">
+									<span th:if="${rutina.nombre != null && !rutina.nombre.isBlank()}" th:text="${rutina.nombre}"></span>
+									<span th:unless="${rutina.nombre != null && !rutina.nombre.isBlank()}" th:text="${'Entrenamiento ' + numeroRutina.count}"></span>
+								</div>
+						   </div>
+
+							<div class="row no-gutters shadow-sm" style="font-size: 0.9rem; color: #495057;">
+								<div class="col-12">
+							 		<div class="row pl-2 pr-2 pt-1 pb-1">
+					 					<div class="col-12">
+											<i class="far fa-calendar-alt"></i>
+											<span th:each="rutinaFecha : ${rutina.rutinaFechaLista}" th:text="|${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(rutinaFecha), 'dd/MM')} |"></span>
+										</div>
+										
+									</div>
+							 		<div class="row pl-2 pr-2 pt-1 pb-1">
+					 					<div class="col-6">
+											<i class="fas fa-stopwatch"></i> <span th:text="|${rutina.tiempo}'|"></span>
+										</div>
+										<div class="col-6">
+											<i class="fas fa-list-ol"></i> <span th:text="|${rutina.numeroEjercicios} ejercicios|"></span>
+										</div>
+								 	</div>
+	
+						 		</div>
+							</div>
+						</a>
+						
+						
+					</div>
+				</div>
+            
+            </div>
+		<script src="/js/misDatosPagina.js" th:src="@{/js/misDatosPagina.js}"></script>
+		</div>
+	
+	</body>
+
+</html>

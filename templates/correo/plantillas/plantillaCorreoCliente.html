@@ -1,0 +1,20 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreo}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Correo</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="saludo">
+   			<p>Hola <span th:text="${clienteNombre}"> cliente</span>!</p>
+   		</div>
+   		
+   		<div layout:fragment="mensaje"/>
+   		
+   		<div layout:fragment="despedida">
+   			<p>Gracias por confiar en PockeTrainer y recuerda que estamos aquí para ayudarte, que tengas un día excelente.</p>
+   		</div>
+    </body>
+  </html>

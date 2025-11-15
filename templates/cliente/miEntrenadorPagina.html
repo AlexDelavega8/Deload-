@@ -1,0 +1,64 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+
+	<head>
+		<title>Mi entrenador</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+	
+		<div layout:fragment="submenu-titulo">
+			<span>Mi entrenador</span>
+	    </div>
+	    
+	    <div layout:fragment="submenu-seccion-izquierda">
+			<span th:if="${cliente.entrenador}" th:text="${cliente.entrenador.nombreCompleto}"></span>
+			<span th:unless="${cliente.entrenador}">Asignación pendiente</span>
+	    </div>
+	    
+		<div layout:fragment="submenu-seccion-derecha">
+<!-- 			<a href="" class="btn btn-sm btn-outline-azul"><i class="far fa-envelope"></i> Contactar</a> -->
+	   </div>
+	
+		<div layout:fragment="content" class="row">
+
+			<div class="container d-flex flex-column" th:if="${cliente.suscripcion.estado.codigo != T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).IMPAGADA_INICIAL.codigo() && cliente.suscripcion.estado.codigo != T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).CADUCADA.codigo()}">
+			
+				<div class="row no-gutters pb-3">
+					<div class="col-12 col-sm-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268">
+						<span style="font-weight: bold; color: #0F4C81;">Tu entrenador</span>
+					</div>
+				</div>
+				<div>
+					<p th:unless="${cliente.entrenador}">Estamos asignándote un entrenador personal, perdona la espera. En el momento que esté asignado te llamará por teléfono personalmente para confirmar la información que nos has facilitado.</p>
+					<p>Todos nuestros entrenadores son titulados universitarios en CCAFYD, especializados en ejercicio físico para la salud, prevención y recuperación de lesiones y alto rendimiento deportivo.</p>
+				</div>
+				
+				<th:block th:if="${cliente.entrenador}">
+					<p>Puedes contactar con <span th:text="${cliente.entrenador.nombre}"></span> a traves de su correo <a th:href="|mailto:${cliente.entrenador.email}|" th:text="${cliente.entrenador.email}"></a> 
+					o escribirle un mensaje a través del formulario de contacto que se muestra a continuación.</p>
+	
+					<div class="row">
+						<div class="col-12">
+							<form id="contactoEntrenadorFormulario" th:action="@{/contactoEntrenadorFormulario}" method="post" novalidate>
+								<div class="form-group">
+								    <label for="mensaje" th:text="|Mensaje para ${cliente.entrenador.nombre}|"></label>
+								    <textarea id="mensaje" class="form-control form-control-sm" name="mensaje" placeholder="Mensaje..." rows="6" required></textarea>
+								</div>
+								<div class="form-group">
+								    <button type="submit" class="btn btn-sm btn-outline-azul" style="float: right;"><i class="fas fa-paper-plane"></i> Enviar</button>
+								</div>
+								
+							</form>
+						
+						</div>
+					</div>
+				</th:block>
+				
+			</div>
+		<script src="/js/misDatosPagina.js" th:src="@{/js/misDatosPagina.js}"></script>
+		</div>
+	
+	</body>
+
+</html>

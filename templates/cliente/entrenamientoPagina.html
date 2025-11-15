@@ -1,0 +1,233 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{plantillaCliente}">
+  <head>
+    <title>Entrenamiento</title>
+    <meta charset="utf-8">
+    
+    <link href="../static/css/entrenamiento.css" th:href="@{/css/entrenamiento.css}" rel="stylesheet" />
+  </head>
+  <body>
+    
+    <div layout:fragment="submenu-titulo">
+		<span>Entrenamiento</span>
+    </div>
+    
+    
+    <div layout:fragment="submenu-seccion-izquierda">
+    	<button id="boton-anterior" onclick="anterior(this)" th:data-accion="@{/cambiarEjercicio}" class="btn btn-sm btn-outline-azul"><i class="fas fa-chevron-left"></i> Anterior</button>
+    </div>
+    
+    <div layout:fragment="submenu-seccion-derecha">
+   	    <button id="boton-pausar" onclick="pausar();" class="btn btn-sm btn-outline-azul"><i class="fas fa-pause"></i></button>
+   	    <button id="boton-continuar" onclick="continuar();" class="btn btn-sm btn-outline-azul" style="display: none;"><i class="fas fa-play"></i></button>
+     	<button id="boton-configurar" data-toggle="modal" data-target="#configurarRutinaModal" onclick="pausar();" class="btn btn-sm btn-outline-azul"><i class="fas fa-cog"></i></button>
+     	<button id="boton-siguiente" onclick="siguiente(this)" th:data-accion="@{/cambiarEjercicio}" class="btn btn-sm btn-outline-azul">Siguiente <i class="fas fa-chevron-right"></i></button>
+		<a id="boton-finalizar" th:href="@{/finalizarEntrenamiento/{rutinaId}(rutinaId=${rutinaEjecucion.rutinaId})}" class="btn btn-sm btn-outline-coral"><i class="fas fa-check"></i> Finalizar</a>
+    </div>
+    
+    
+    
+    <!-- Altura exacta de la pantalla -->
+  	<div layout:fragment="content" class="row" style="height: 100vh;">
+
+
+		<div style="height: 100%;" class="container d-flex flex-column" id="entrenamientoPaginaFragment" th:fragment="entrenamientoPaginaFragment">
+
+
+			<div class="row mb-2">
+				<div class="col-12">
+					<div class="progress" style="height: 25px; width: 100%;">
+						  <div id="barra-progreso" class="progress-bar" role="progressbar" 
+						  	th:style="|width: ${rutinaEjecucion.porcentajeEjecucion}%; overflow: visible; font-size: 14px; font-weight: bold; background: ${rutinaEjecucion.faseColor}|" 
+						  	aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+						  	
+						  <span id="barra-progreso-info"></span>
+						  
+						  </div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row mb-2">
+				<div id="fase-actual-informacion-seccion" class="col-auto" style="font-weight: bold;">
+					Fase <span id="fase-actual-informacion-valor"></span>
+				</div>
+				<div id="fase-grupo-actual-informacion-seccion" class="col-auto ml-auto" style="font-weight: bold;">
+					<span id="fase-grupo-actual-informacion-valor"></span>
+				</div>
+			</div>
+			
+			<div id="entrenamiento-ejecucion-video-seccion" class="embed-responsive embed-responsive-16by9 mb-2">
+			
+				<!-- Capa zona central: crono descanso, cuenta atras -->
+				<div id="entrenamiento-ejecucion-video-capa-encima">
+				
+					<div id="zona-info-descanso-info" class="d-flex">
+  						<span id="ejercicio-presentacion" style="white-space: pre;"> </span>
+  					</div>
+				
+	  				<div  id="entrenamiento-ejecucion-zona-mensaje" class="d-flex flex-column">
+	  				
+	  					<!-- Cambio -->
+	  					<div id="crono-descanso-cambio" class="mb-2" style="display: none;">
+	  						¡CAMBIO!
+	  					</div>
+	  				
+	  					<!-- Crono descanso -->
+	  					<div id="crono-descanso" class="mb-3">
+		  					<span id="crono-descanso-valor" style="white-space: pre;"> </span>
+		  				</div>
+		  				
+		  				<!-- Opciones durante descanso o primer ejercicio -->
+		  				<div id="crono-descanso-opciones">
+		  					<button id="boton-mas-10-segundos" class="cursor-pointer btn  btn-outline-blanco" style="display: none; margin-right: 10px; font-weight: bold;" onclick="sumarDescanso();">+10s</button>
+		  					<button id="boton-menos-10-segundos" class="cursor-pointer btn  btn-outline-blanco" style="display: none; margin-right: 10px; font-weight: bold;" onclick="restarDescanso();">-10s</button>
+		  					<button id="boton-saltar-descanso" class="cursor-pointer btn  btn-outline-blanco" style="display: none;  font-weight: bold;"><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></button>
+		  					<span id="boton-comenzar"><i class="fas fa-play"></i></span>
+		  				</div>
+		  				
+	  					<!-- Cuenta atrás -->
+	  					<div>
+	  						<span id="entrenamiento-ejecucion-cuenta-atras-mensaje" style="display: none;">3</span>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			
+	  			<!-- Capa zona superior derecha: crono ejercicio, repeticiones -->
+	  			<div id="zona-repeticiones-crono-ejercicio" class="zona-repeticiones-crono-ejercicio">
+	  				<div id="entrenamiento-ejecucion-zona-crono" class="d-flex">
+	  					<div id="entrenamiento-ejecucion-zona-repeticiones" class="mr-3">
+		  					<span><i class="fas fa-redo"></i></span> <span id="repeticiones-ejercicio-valor" style="white-space: pre;"> </span>R
+		  				</div>  				
+	  					<span><i class="fas fa-stopwatch"></i></span> <span id="crono-ejercicio-valor" style="white-space: pre;"> </span>
+	  				</div>
+	  			</div>
+	  			
+				<video id="entrenamiento-ejecucion-video" muted loop autoplay playsinline></video>
+				
+			</div>
+				
+			<div class="row mb-2">
+				<div class="col">
+					<span id="ejercicio-nombre" style="color: #0F4C81; font-weight: bold;" th:text="${rutinaEjecucion.ejercicioNombre}"></span>
+				</div>
+			</div>
+			
+			<div class="row mb-2">
+				<div class="col-12 col-md-6 mt-2">
+					<div class="row">
+						<div class="col-12">
+							<div class="row">
+								<div class="col-auto">
+									<span style="color: #0F4C81; font-weight: bold;"><i class="fas fa-info-circle"></i> Sobre el ejercicio</span>
+								</div>
+								<div id="ejercicio-audio-seccion" class="col-auto">
+									<audio id="ejercicioAudio" playsinline preload="auto"></audio>
+									<span id="ejercicioAudioPlay" style="color: #0F4C81;" class="cursor-pointer"><i class="fas fa-volume-mute"></i></span>
+									<span id="ejercicioAudioStop" style="color: #0F4C81; display: none;" class="cursor-pointer"><i class="fas fa-volume-up"></i></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<span id="ejercicio-descripcion" th:text="${rutinaEjecucion.ejercicioDescripcion}"></span>
+						</div>
+						
+						
+						
+					</div>
+				</div>
+				
+				<div id="ejercicio-comentarios-seccion" class="col-12 col-md-6 mt-2">
+					<div class="row">
+						<div class="col-12">
+							<span style="color: #0F4C81; font-weight: bold;"><i class="far fa-comment-alt"></i> Consejos de tu entrenador</span>
+						</div>
+						<div class="col-12">
+							<span id="ejercicio-comentarios-valor" th:text="${rutinaEjecucion.comentarios}"></span>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+			
+			
+			
+			
+			
+
+		</div>
+		
+		
+		
+		
+		
+		<!-- Modal confirmación envío informes -->
+		<div class="modal fade" id="configurarRutinaModal" th:fragment="configurarRutinaModalFragment" tabindex="-1" role="dialog" aria-labelledby="configurarRutinaModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="configurarRutinaModalLabel">Configuración</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+					
+						<!-- Configuración rutina -->
+						<form id="configurarRutinaFormulario" th:action="@{/configurarRutinaFormulario}" th:object="${configurarRutinaFormulario}" onsubmit="configurarRutinaFormulario(this, event)" method="post" novalidate>
+							<div class="row">	
+								<div class="col-12">
+									<input type="hidden" th:field="*{rutinaId}"/>
+									
+				        			<div class="form-group form-row">
+						            	<label for="tiempoDescansoEntreEjercicios" class="col-9"> Descanso entre ejercicios (seg.) </label>
+						            	<div class="col-auto ml-auto">
+						            		<input id="tiempoDescansoEntreEjercicios" type="number" step="1" min="0" class="form-control form-control-sm" style="width: 75px;" th:field="*{tiempoDescansoEntreEjercicios}" th:placeholder="${rutinaEjecucion.tiempoDescansoEntreEjerciciosPorDefecto}"/>
+						            	</div>
+						            </div>
+						            <div class="form-group form-row">
+						            	<label for="tiempoDescansoEntreUnilaterales" class="col-9"> Descanso entre ejercicios unilaterales (seg.) </label>
+						            	<div class="col-auto ml-auto">
+						            		<input id="tiempoDescansoEntreUnilaterales" type="number" step="1" min="0" class="form-control form-control-sm" style="width: 75px;" th:field="*{tiempoDescansoEntreUnilaterales}" th:placeholder="${rutinaEjecucion.tiempoDescansoEntreUnilateralesPorDefecto}"/>
+						            	</div>
+						            </div>
+						        </div>
+						        <div class="col-12">
+						            <div class="form-group form-row">
+						            	<label for="tiempoEjercicioPorRepeticiones" class="col-9"> Duración de ejercicios con repeticiones (seg.) </label>
+						            	<div class="col-auto ml-auto">
+						            		<input id="tiempoEjercicioPorRepeticiones" type="number" step="1" min="0" class="form-control form-control-sm" style="width: 75px;" th:field="*{tiempoEjercicioPorRepeticiones}" th:placeholder="${rutinaEjecucion.tiempoEjercicioPorRepeticionesPorDefecto}"/>
+						            	</div>
+						            </div>
+						            <div class="form-group form-row">
+										<label for="ejecucionAutomatica" class="col-10">Ejecución automática de rutina</label>
+										<div class="col-auto ml-auto" style="align-self: center;">
+											<div class="form-check form-check-inline" style="margin-right: -2px !important;">
+												<input id="ejecucionAutomatica" class="form-check-input" type="checkbox" th:field="*{ejecucionAutomatica}">
+											</div>
+										</div>
+										
+									</div>
+						    	</div>
+						    	<div class="col-auto ml-auto">
+						    		<button id="clienteConfiguracionFormularioSubmit" type="submit" class="btn btn-sm btn-outline-azul"><i class="fas fa-save"></i> Guardar cambios</button>
+						    	</div>
+					    	</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<script src="/js/easytimer.min.js" th:src="@{/js/easytimer.min.js}"></script>
+		<script src="/js/entrenamientoPagina.js" th:src="@{/js/entrenamientoPagina.js}"></script>
+		<script th:inline="javascript">
+			inicio(/*[[${rutinaEjecucion}]]*/)
+		</script>
+
+    </div>
+
+	
+  </body>
+</html>

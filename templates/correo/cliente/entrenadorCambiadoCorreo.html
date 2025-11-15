@@ -1,0 +1,14 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoCliente}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Entrenador cambiado</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p>Te presentamos a tu nuevo entrenador, <span th:text="${entrenadorNombre}"></span>.</p>
+   		</div>
+    </body>
+  </html>

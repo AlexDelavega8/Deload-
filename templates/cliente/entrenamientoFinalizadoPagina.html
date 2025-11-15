@@ -1,0 +1,43 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+  <head>
+    <title>Valoración</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    
+    <div layout:fragment="submenu-titulo">
+		<span>Finalización</span>
+    </div>
+    
+    <div layout:fragment="submenu-seccion-izquierda">
+		<span>¡Enhorabuena!</span>
+    </div>
+    
+     <div layout:fragment="submenu-seccion-derecha">
+		<a href="#" onClick="event.preventDefault(); $('#valorarRutinaFormulario').trigger('submit')" class="btn btn-sm btn-outline-azul"><i class="fas fa-check"></i> Aceptar</a>
+    </div>
+    
+  	<div layout:fragment="content" class="row">
+
+
+		<div class="container d-flex flex-column">
+			<p>Buen trabajo <span th:text="${cliente.nombre}"> </span>, ¿Qué te ha parecido el entrenamiento?, escríbenos aquí tus sensaciones y opiniones para que tu entrenador
+			las pueda leer. No es obligatorio, pero te lo agradecemos :). Muchas gracias.</p>
+			
+			<form id="valorarRutinaFormulario" th:action="@{/valorarRutinaFormulario}" method="post" novalidate>
+				<input type="hidden" name="rutinaId" th:value="${rutinaId}" />
+				<div class="form-group">
+				    <label for="valoracion" class="sr-only">Valoración</label>
+				    <textarea id="valoracion" class="form-control form-control-sm" name="valoracion" rows="8" maxlength="900" required></textarea>
+				</div>
+			</form>
+
+		</div>
+	
+
+    </div>
+
+	
+  </body>
+</html>

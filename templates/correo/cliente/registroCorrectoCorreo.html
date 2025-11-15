@@ -1,0 +1,20 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoCliente}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Correo de error</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p>¡Enhorabuena!, Tu cuenta ya está creada y puedes entrar mediante el botón de acceso a miembros. Te invitamos a que entres ya y descubras tu área personal. Recuerda que tu nombre de usuario es 
+   			<span th:text="${usuario}"></span> y la contraseña la que indicaste en el registro</p>
+   			
+   			<p>En breves te asignaremos tu entrenador y en las próximas 24 horas laborables se pondrá en contacto contigo al teléfono que nos has indicado.</p>
+   			
+   			<p>Para agilizar el proceso te rogamos que accedas a tu área personal al apartado "Mis datos" y cubras todos los campos vacíos en los apartados de "personales", "entrenamiento" y "más" para conocerte mejor y garantizar la adaptación e individualización de tu entrenamiento al 100%.</p>
+
+   		</div>
+    </body>
+  </html>

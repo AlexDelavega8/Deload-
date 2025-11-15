@@ -1,0 +1,27 @@
+<!doctype html>
+<html layout:decorate="~{plantillaInicio}">
+  <head>
+    <title>Crea tu cuenta Pocketrainer - Pocketrainer, tu entrenador de bolsillo</title>
+    <meta name='robots' content='noindex, follow'/>
+  </head>
+  <body>
+  
+  	<div layout:fragment="content" class="container" style="min-height: 100vh">
+  	
+  		<div class="row mb-4">
+  			<div class="col-12">
+	  			<p><span class="titulo-grande titulo-grande-azul">¡Vaya!</span></p>
+				<p>Parece que hubo un error durante el proceso de pago. No te preocupes, tu cuenta fue creada correctamente y solo faltaría completar este último paso para poder tener tu entrenador.</p>
+				<p>Puedes volver a intentar realizar el pago haciendo click en el botón realizar pago. Si por algún motivo no puedes reintentarlo ahora, 
+					puedes acceder a tu area personal haciendo click en el botón de acceso a miembros. 
+					Desde tu cuenta podrás seguir las instrucciones para completar el pago.  </p>
+			</div>
+			<div class="col-12">
+				<p><a th:href="@{/creacionCuentaUsuarioPagoReintentoPagina}" class="btn btn-outline-azul">Realizar pago</a>&nbsp;&nbsp;<a th:href="@{/acceso-miembros}" class="btn btn-outline-coral">Acceso miembros</a></p>
+			</div>
+  		</div>
+  		
+  	<script src="/js/creacionCuentaUsuarioPagoPagina.js" th:src="@{/js/creacionCuentaUsuarioPagoPagina.js}"></script>
+  	</div>
+  </body>
+</html>

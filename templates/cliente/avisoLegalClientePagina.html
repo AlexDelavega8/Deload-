@@ -1,0 +1,14 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+  <head>
+    <title>Aviso legal</title>
+  </head>
+  <body>
+  
+  	<div layout:fragment="content" class="row">
+  		<div class="container" style="min-height: 100vh">
+ 			<div th:replace="avisoLegalPagina :: avisoLegalFragment"></div>
+ 		</div>
+  	</div>
+  </body>
+</html>

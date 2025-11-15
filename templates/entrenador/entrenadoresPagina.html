@@ -1,0 +1,141 @@
+<!doctype html>
+<html layout:decorate="~{plantillaEntrenador}">
+  <head>
+    <title>Mis clientes</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+	<div layout:fragment="submenu-titulo">
+		<span>Entrenadores</span>
+    </div>
+  		
+  	<div layout:fragment="content">
+		<!-- Filtros -->
+		<div class="row">
+			<!-- Filtros -->
+			<div class="col-auto">
+				<form id="buscarEntrenadorFormulario" th:action="@{/buscarEntrenadorFormulario}" th:object="${buscarEntrenadorFormulario}" onsubmit="buscarEntrenadorFormulario(this, event)" method="post" novalidate>
+		  			<div class="form-row">
+						<div class="form-group col-auto">
+							<label for="nombre"> Nombre </label>
+							<div class="input-group">					            	
+				            	<input id="nombre" type="text" class="form-control" th:field="*{nombre}" maxlength="100" placeholder="Nombre"/>
+				            	<div class="input-group-append">
+							    	<button class="btn-borrar-input btn btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+							  	</div>
+							</div>
+			            </div>
+						<div class="form-group col-auto">
+							<label for="estado">Estado</label>
+							<select class="form-control selectpicker" th:field="*{estadoCodigoLista}" data-style="btn-select" title="Estado" multiple>
+								<option th:each="estado : ${estadoSeleccionLista}" th:value="${estado.codigo}" th:text="${estado.nombre}"></option>
+							</select>
+						</div>
+						<div class="form-group col-auto mt-auto">
+							<button id="buscarEntrenadorFormularioSubmit" type="submit" class="btn btn-outline-azul"><i class="fas fa-search"></i> Buscar</button>
+						</div>
+		  			</div>
+		  		</form>
+		  	</div>
+		  	<div class="col-auto ml-auto" style="align-self: flex-end;">
+		  		<div class="form-group">
+		  			<a href="#" data-toggle="modal" data-target="#crearEntrenadorModal" class="btn btn-outline-azul"><i class="fas fa-plus"></i> Nuevo entrenador</a>
+		  		</div>
+		  	</div>
+		</div>
+
+		<!-- Listado -->
+		<div id="entrenadorLista" th:fragment="entrenadorListaFragment" class="table-responsive tabla-cabecera-fija tabla-pantalla-completa">
+			<table class="table table-hover">
+				<thead class="thead-pocketrainer">
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Teléfono</th>
+						<th scope="col">Email</th>
+						<th scope="col">Estado</th>
+						<th scope="col">Clientes</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="entrenador: ${entrenadorLista}">
+						<th scope="row" th:text="${entrenador.nombreCompleto}"></th>
+						<td th:text="${entrenador.telefono}"></td>
+						<td th:text="${entrenador.email}"></td>
+						<td th:text="${entrenador.estado.nombre}"></td>
+						<td th:text="${entrenador.clienteLista.size()}"></td>
+						<td th:if="${entrenador.estado.codigo.equals(T(es.pocketrainer.util.Constantes.EntrenadorEstadoEnum).ACTIVO.codigo()) && entrenador.clienteLista.size() == 0}">
+							<a href="#" onClick="darBajaEntrenadorAccion(this)" th:data-accion="@{/darBajaEntrenadorAccion}" th:data-entrenador-id="${entrenador.id}">
+								<i class="fas fa-user-times"></i>
+							</a>	
+						</td>
+						<td th:if="${entrenador.estado.codigo.equals(T(es.pocketrainer.util.Constantes.EntrenadorEstadoEnum).ACTIVO.codigo()) && entrenador.clienteLista.size() != 0}">
+							<a href="#" class="disabled" title="No se puede dar de baja, tiene clientes">
+								<i class="fas fa-user-times fa-disabled"></i>
+							</a>		
+						</td>
+						<td th:if="${entrenador.estado.codigo.equals(T(es.pocketrainer.util.Constantes.EntrenadorEstadoEnum).BAJA.codigo())}">
+							<a href="#" onClick="activarEntrenadorAccion(this)" th:data-accion="@{/activarEntrenadorAccion}" th:data-entrenador-id="${entrenador.id}">
+								<i class="fas fa-user-plus"></i>
+							</a>	
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- Modal crear plantilla -->
+		<div class="modal fade" id="crearEntrenadorModal" th:fragment="crearEntrenadorModalFragment" tabindex="-1" role="dialog" aria-labelledby="crearEntrenadorModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="crearEntrenadorModalLabel">
+							Crear entrenador
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<!-- Nuevo -->
+				  		 <form id="creacionEntrenadorFormulario" th:action="@{/creacionEntrenadorFormulario}" th:object="${entrenador}" method="post" novalidate>
+							<div class="form-row">		
+				       			<div class="form-group col-4">
+					            	<label for="nombre"> Nombre </label>
+					            	<input id="nombre" type="text" class="form-control" th:field="*{nombre}" maxlength="100" required/> 
+					            </div>
+					            <div class="form-group col-4">
+					            	<label for="apellido1"> Primer apellido </label>
+					            	<input id="apellido1" type="text" class="form-control" th:field="*{apellido1}" maxlength="150" required/> 
+					            </div>
+					            <div class="form-group col-4">
+					            	<label for="apellido2"> Segundo apellido </label>
+					            	<input id="apellido2" type="text" class="form-control" th:field="*{apellido2}" maxlength="150"/> 
+					            </div>
+					            <div class="form-group col-6">
+									<label for="usuarioUsuarioNombre"> Correo </label>
+									<input id="usuarioUsuarioNombre" type="email" class="form-control" th:classappend="${#fields.hasErrors('usuario.usuarioNombre') ? 'is-invalid' : ''}" th:field="*{usuario.usuarioNombre}" maxlength="250" required/> 
+					  		 	</div>
+					  		 	<div class="form-group col-6">
+					            	<label for="telefono"> Teléfono </label>
+					            	<input id="telefono" type="text" class="form-control" th:field="*{telefono}" maxlength="18" required/> 
+					            </div>
+				  		 	</div>
+				  		 	
+				  		 	<button id="creacionEntrenadorFormularioSubmit" type="submit" class="btn btn-outline-azul" style="display: none;">Crear entrenador <i class="fas fa-chevron-right"></i></button>
+				  		 	
+				  		 </form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-sm btn-outline-danger">Cancelar</button>
+						<a id="creacionEntrenadorFormularioSubmitFrake" href="#" onclick="$('#creacionEntrenadorFormularioSubmit').click()" type="button" class="btn btn-sm btn-success">Guardar</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="/js/entrenadoresPagina.js" th:src="@{/js/entrenadoresPagina.js}"></script>
+	</div>
+	
+  </body>
+</html>

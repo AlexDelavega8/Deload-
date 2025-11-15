@@ -1,0 +1,15 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoEntrenador}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Correo de error en renovación</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p>Error renovando la suscripción de <span th:text="${clienteNombre}"></span>. Revisa si fue un error técnico o simplemente problemas controlados del TPV.</p>
+   			<p>Error: <span th:text="${error}"></span></p>
+   		</div>
+    </body>
+  </html>

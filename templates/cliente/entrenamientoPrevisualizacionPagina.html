@@ -1,0 +1,146 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+  <head>
+    <title>Entrenamiento</title>
+    <meta charset="utf-8">
+    
+    <link rel="prefetch" type="video/mp4" as="video" th:if="${rutinaFaseGrupoRepeticionEjercicioSinRepeticionesLista != null && !rutinaFaseGrupoRepeticionEjercicioSinRepeticionesLista.isEmpty()}" th:href="|${urlEstaticosEjerciciosVideos}${rutinaFaseGrupoRepeticionEjercicioSinRepeticionesLista.get(0).ejercicio.id}_x264.mp4|">
+    
+    <link href="../static/css/entrenamiento.css" th:href="@{/css/entrenamiento.css}" rel="stylesheet" />
+  </head>
+  <body>
+    
+    <div layout:fragment="submenu-titulo">
+		<span>Entrenamiento</span>
+    </div>
+    
+    <div layout:fragment="submenu-seccion-izquierda">
+		<span>Resumen entrenamiento</span>
+    </div>
+    
+     <div layout:fragment="submenu-seccion-derecha">
+		<a th:if="${rutina.estado.codigo == T(es.pocketrainer.util.Constantes.RutinaEstadoEnum).ACTIVA.codigo()}" th:href="@{/iniciarEntrenamiento/{rutinaId}(rutinaId=${rutina.id})}" class="btn btn-sm btn-coral"><i class="fas fa-rocket"></i> ¡A entrenar!</a>
+    </div>
+    
+    <!-- Altura exacta de la pantalla -->
+  	<div layout:fragment="content" class="row">
+
+
+		<div th:fragment="entrenamientoPrevisualizacionFragment" class="container d-flex flex-column">
+		
+		
+			<div class="row no-gutters pb-3">
+				<div class="col-12 col-lg-8 col-xl-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268">
+					<div class="row" style="color: #0F4C81; font-weight: bold;">
+						<div class="col-auto">
+							<i class="fas fa-stopwatch"></i> <span th:text="|${rutina.tiempo}'|"></span>
+						</div>
+						
+						<div class="col-auto">
+							<i class="fas fa-list-ol"></i> <span th:text="${rutinaFaseGrupoRepeticionEjercicioLista.size()}"></span> ej.
+						</div>
+						
+						<div class="col-auto">
+							<i class="fas fa-tasks"></i>
+							<span th:if="${!materialNecesario.isEmpty()}" th:each="material,iterStat : ${materialNecesario}" th:text="${iterStat.count == materialNecesario.size() ? material.nombre : material.nombre +', '}">
+							
+							</span>
+							<span th:unless="${!materialNecesario.isEmpty()}">Sin material específico</span>
+						</div>	
+					</div>
+				</div>
+			</div>
+			
+			<div class="row no-gutters pb-3">
+				<div class="col-12">
+					<span>Cuando estés preparado pulsa el botón que pone "A entrenar", situado en la parte superior derecha</span>
+				</div>
+			</div>
+			
+			<div th:if="${!#strings.isEmpty(rutina.nombre)}" class="row no-gutters pb-3">
+				<div class="col-12">
+					<span style="color: #0F4C81; font-weight: bold;" th:text="${rutina.nombre}"></span>
+				</div>
+			</div>
+		
+			<div class="row no-gutters pb-3" th:if="${!#strings.isEmpty(rutina.comentariosEntrenador)}">
+				<div class="col-12">
+					<span style="color: #0F4C81; font-weight: bold;"><i class="far fa-comment-alt"></i> Comentarios de tu entrenador</span>
+				</div>
+				<div class="col-12">
+					<span th:text="${rutina.ComentariosEntrenador}"></span>
+				</div>
+			</div>
+			
+		
+			<div class="form-row">
+			
+					<div class="col-12 col-md-6" th:with="faseTipo=${rutinaFaseGrupoRepeticionEjercicio.rutinaFaseGrupoRepeticion.rutinaFaseGrupo.rutinaFase.tipo}" th:each="rutinaFaseGrupoRepeticionEjercicio, iterStat : ${rutinaFaseGrupoRepeticionEjercicioSinRepeticionesLista}">
+						<div class="ejercicio-previsualizacion row no-gutters">
+							<div th:if="${faseTipo == 1}" class="ejercicio-previsualizacion-foto col-4" style="border-left: 5px solid #cccc00">
+								<div class="embed-responsive embed-responsive-4by3">
+									<img class="foto embed-responsive-item" style="object-fit: cover" th:src="|${urlEstaticosEjerciciosFotos}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}.png?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen">
+									<video style="display: none;" class="video embed-responsive-item" muted loop preload="none" playsinline>
+										<source th:src="|${urlEstaticosEjerciciosVideos480}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}_x264_480.mp4?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" type="video/mp4">
+										No soportado
+									</video>
+								</div>
+							</div>
+							<div th:if="${faseTipo == 2}" class="ejercicio-previsualizacion-foto col-4" style="border-left: 5px solid #FA7268">
+								<div class="embed-responsive embed-responsive-4by3">
+									<img class="foto embed-responsive-item" style="object-fit: cover" th:src="|${urlEstaticosEjerciciosFotos}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}.png?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen">
+									<video style="display: none;" class="video embed-responsive-item" muted loop preload="none" playsinline>
+										<source th:src="|${urlEstaticosEjerciciosVideos480}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}_x264_480.mp4?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" type="video/mp4">
+										No soportado
+									</video>
+								</div>
+							</div>
+							<div th:if="${faseTipo == 3}" class="ejercicio-previsualizacion-foto col-4" style="border-left: 5px solid #0F4C81">
+								<div class="embed-responsive embed-responsive-4by3">
+									<img class="foto embed-responsive-item" style="object-fit: cover" th:src="|${urlEstaticosEjerciciosFotos}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}.png?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" alt="Ejercicio imagen">
+									<video style="display: none;" class="video embed-responsive-item" muted loop preload="none" playsinline>
+										<source th:src="|${urlEstaticosEjerciciosVideos480}${rutinaFaseGrupoRepeticionEjercicio.ejercicio.id}_x264_480.mp4?${rutinaFaseGrupoRepeticionEjercicio.ejercicio.refrescoMultimedia}|" type="video/mp4">
+										No soportado
+									</video>
+								</div>
+							</div>
+							
+							<div class="ejercicio-previsualizacion-texto col-8">
+								<div class="d-flex flex-column" style="height: 100%;">
+								
+									<div class="d-flex">
+										<span th:text="${rutinaFaseGrupoRepeticionEjercicio.ejercicio.nombre}"></span>
+										<a th:href="@{/iniciarEntrenamientoEnEjercicioConcreto/} + ${rutina.id} + '/' + ${rutinaFaseGrupoRepeticionEjercicio.id}" class="btn btn-sm btn-outline-amarillo ml-auto" th:if="${faseTipo == 1}" style="min-width: 35px; font-weight: bold;" th:text="${iterStat.count}">1</a>
+										<a th:href="@{/iniciarEntrenamientoEnEjercicioConcreto/} + ${rutina.id} + '/' + ${rutinaFaseGrupoRepeticionEjercicio.id}" class="btn btn-sm btn-outline-coral ml-auto" th:if="${faseTipo == 2}" style="min-width: 35px; font-weight: bold;" th:text="${iterStat.count}">1</a>
+										<a th:href="@{/iniciarEntrenamientoEnEjercicioConcreto/} + ${rutina.id} + '/' + ${rutinaFaseGrupoRepeticionEjercicio.id}" class="btn btn-sm btn-outline-azul ml-auto" th:if="${faseTipo == 3}" style="min-width: 35px; font-weight: bold;" th:text="${iterStat.count}">1</a>
+									</div>
+									
+									<div th:if="${rutinaFaseGrupoRepeticionEjercicio.tiempo}" class="mt-auto text-right">
+										<i class="fas fa-stopwatch"></i> <span th:text="${rutinaFaseGrupoRepeticionEjercicio.tiempo}"></span>''
+									</div>
+									
+									<div th:unless="${rutinaFaseGrupoRepeticionEjercicio.tiempo}"  class="mt-auto text-right">
+										<i class="fas fa-redo"></i> <span th:text="${rutinaFaseGrupoRepeticionEjercicio.repeticiones}"></span> R
+									</div>
+								
+								</div>
+							</div>
+							
+						</div>
+					</div>	
+				
+
+				
+			</div>
+		
+			
+
+		<script src="/js/entrenamientoPrevisualizacionPagina.js" th:src="@{/js/entrenamientoPrevisualizacionPagina.js}"></script>
+		</div>
+	
+
+    </div>
+
+	
+  </body>
+</html>

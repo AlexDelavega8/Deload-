@@ -1,0 +1,85 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+  <head>
+    <title>Inicio</title>
+  </head>
+  <body>
+  
+  	<div layout:fragment="content" class="container" style="min-height: 100vh">
+  	
+  		<div class="row mb-4">
+
+  		
+  			
+			<!-- Resumen  de pago y politica privacidad -->
+           	<div class="col-12">
+           		<div class="row">
+           		
+           			<div class="col-12">
+						El pago del servicio se realizará a través de una pasarela de pago totalmente segura. Nosotros en ningún momento gestionamos o guardamos tus datos bancarios. 
+    					Por favor, revisa que la información que se muestra a continuación es la correcta y pulsa el botón "Pagar" para continuar con el proceso.
+					</div>
+         
+           		
+           		
+           		
+           			<!-- Resumen de pago -->
+           			<div class="col-12" style="margin-top: 15px;">
+	            		<div style="margin-bottom: 15px; font-weight: bold;">
+	            			Resumen del pago
+	            		</div>
+	            		<div class="table-responsive">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td th:text="${servicio}"></td>
+										<td class="text-right" style="white-space: nowrap;" th:text="${subtotal}"></td>
+									</tr>
+									<tr>
+										<td>Subtotal</td>
+										<td class="text-right" style="white-space: nowrap;" th:text="${subtotal}"></td>
+									</tr>
+									<tr>
+										<td>IVA 21%</td>
+										<td class="text-right" style="white-space: nowrap;" th:text="${iva}"></td>
+									</tr>
+									<tr>
+										<th>TOTAL</th>
+										<th class="text-right" style="white-space: nowrap;" th:text="${total}"></th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					
+					
+					<div class="col-12">
+						<img th:src="@{/images/logo/redsys_logo.jpg}" width="60" alt="redsys"> 
+						<img th:src="@{/images/logo/ssl_logo.png}" width="60" alt="ssl"> 
+					</div>
+					
+					<!-- Politica de privacidad -->
+
+					
+					<!-- Formulario con campos ocultos -->
+					<div id="pagoFormularioFragment" th:fragment="pagoFormularioFragment">
+						<form id="pagoFormulario" th:if="${solicitudPagoInicial}" th:action="${solicitudPagoInicial.urlPago}" method="post" novalidate>
+							<input type="hidden" name="Ds_SignatureVersion" th:value="${solicitudPagoInicial.dsSignatureVersion}"></input>
+							<input type="hidden" name="Ds_MerchantParameters" th:value="${solicitudPagoInicial.dsMerchantParameters}"></input>
+							<input type="hidden" name="Ds_Signature" th:value="${solicitudPagoInicial.dsSignature}"></input>
+						</form>
+					</div>
+					<div class="col-12">
+						<a id="pagoSuscripcionClienteGeneracionPago" style="float: right;" class="btn btn-outline-azul" th:href="@{/pagoSuscripcionClienteGeneracionPago}">Pagar <i class="fas fa-chevron-right"></i></a>
+					</div>
+				</div>
+           	</div>
+  			
+  			
+  		</div>
+  		
+  	<script src="/js/pagoSuscripcionClientePagina.js" th:src="@{/js/pagoSuscripcionClientePagina.js}"></script>
+  	</div>
+  </body>
+</html>

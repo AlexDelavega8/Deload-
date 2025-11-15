@@ -1,0 +1,24 @@
+<!doctype html>
+<html layout:decorate="~{plantillaInicio}">
+  <head>
+    <title>Crea tu cuenta Pocketrainer - Pocketrainer, tu entrenador de bolsillo</title>
+    <meta name="robots" th:content="${metaRobotsNoindex}"/>
+  </head>
+  <body>
+  
+  	<div layout:fragment="content" class="container" style="min-height: 100vh">
+  	
+  		<div class="row mb-4">
+  			<div class="col-12">
+	  			<p><span class="titulo-grande titulo-grande-azul">¡Enhorabuena!</span></p>
+				<p>Tu cuenta ya está creada y puedes entrar mediante el botón de acceso a miembros. Te invitamos a que entres ya y descubras tu área personal. ¡En breves te asignaremos tu entrenador!</p>
+			</div>
+			<div class="col-12">
+				<p><a th:href="@{/acceso-miembros}" class="btn btn-outline-coral">Acceso miembros</a></p>
+			</div>
+  		</div>
+  		
+  	<script src="/js/creacionCuentaUsuarioPagoPagina.js" th:src="@{/js/creacionCuentaUsuarioPagoPagina.js}"></script>
+  	</div>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoEntrenador}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Correo de error</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p>Recuerda que tienes una videoconferencia con el cliente <span th:text="${clienteNombre}"></span> a las <span th:text="${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(fecha), 'HH:mm')}"></span>. 
+   			Atiende a tu correo por si el cliente tuviera alguna dificultad y este te enviara un mensaje. A su vez, si ves que se retrasa, es conveniente que le llames.</p>
+   		</div>
+    </body>
+  </html>

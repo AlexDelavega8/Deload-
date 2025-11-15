@@ -1,0 +1,96 @@
+<!doctype html>
+<html layout:decorate="~{plantillaGlobal}">
+  <body>
+    
+			<a layout:fragment="logo">
+<!-- 				<img th:src="|${urlEstaticosImagenes}logo_reducido.png|" width="50" class="d-none d-sm-inline-block align-top" alt="Pocketrainer">  -->
+<!-- 				<img th:src="|${urlEstaticosImagenes}logo_reducido.png|" width="30" class="d-sm-none d-inline-block align-top" alt="Pocketrainer"> -->
+			
+			<img th:src="@{/images/logo/logo_3.png}" width="180" class="d-none d-lg-inline-block align-top" alt="Pocketrainer">
+			<img th:src="@{/images/logo/logo_reducido.png}" width="35" class="d-lg-none d-inline-block align-top" alt="Pocketrainer">
+		</a>
+  	
+  	<ul layout:fragment="menuOpciones">
+		<li class="nav-item active"><a th:href="@{/crea-tu-cuenta-pocketrainer}" class="nav-button btn btn-sm btn-azul">Quiero mi entrenador de bolsillo</a></li>
+	 	<li class="nav-item active"><a th:href="@{/acceso-miembros}" class="nav-button btn btn-sm btn-coral">Acceso miembros</a></li>
+  	</ul>
+
+
+	<ul layout:fragment="menuDesplegableOpciones">
+		<li class="nav-item"><a class="nav-link" th:href="@{/}"><i class="fas fa-home mr-2"></i> Inicio <span class="sr-only">(current)</span></a></li>
+		<li class="nav-item"><a class="nav-link" th:href="@{crea-tu-cuenta-pocketrainer}"><i class="fab fa-get-pocket mr-2"></i> Quiero mi entrenador de bolsillo <span class="sr-only">Unirme</span></a></li>
+		<li class="nav-item"><a class="nav-link" th:href="@{/recepcion}"><i class="fas fa-user mr-2"></i>Acceso miembros <span class="sr-only">Entrar</span></a></li>
+	</ul>
+
+	<div layout:fragment="piePagina">
+  	
+  		<!-- Seccion pie de pagina -->
+		<div id="seccion-pie" class="row">
+			<div class="container">
+				<div class="row">
+					<div class="col-5 col-sm-9 pt-3 pb-3">
+						<div class="row">
+							<div class="col-12 col-sm-6">
+								<div class="mb-2"><span style="font-weight: bold; color: #FA7268">Contacto</span></div>
+								<div class="mb-3"><a href="mailto: info@pocketrainer.es" target="_blank">info@pocketrainer.es</a></div>
+							</div>
+							
+							<div class="col-12 col-sm-6">	
+								<div class="mb-2"><span style="font-weight: bold; color: #FA7268">Enlaces de interés</span></div>
+								<div class="mb-1"><a href="https://ezensr.com" target="_blank">ezensr.com</a></div>
+							</div>
+						
+						</div>
+					</div>
+					<div class="col-7 col-sm-3 pt-3 pb-3">
+						<div class="mb-2"><span style="font-weight: bold; color: #FA7268">Legal</span></div>
+						<div class="mb-1">
+<!-- 							<div class="text-center" style="display: inline-block; width: 25px;"><i class="fas fa-balance-scale"></i></div> -->
+							<div style="display: inline-block;"><a th:href="@{/avisoLegal}"> Aviso legal</a></div>
+						</div>
+						<div class="mb-1">
+<!-- 							<div class="text-center" style="display: inline-block; width: 25px;"><i class="fas fa-file-alt"></i></div> -->
+							<div style="display: inline-block;"><a th:href="@{/terminosCondiciones}"> Términos y condiciones</a></div>
+						</div>
+						<div class="mb-1">
+<!-- 							<div class="text-center" style="display: inline-block; width: 25px;"><i class="fas fa-user-shield"></i></div> -->
+							<div style="display: inline-block;"><a th:href="@{/politicaPrivacidad}"> Política de privacidad</a></div>
+						</div>
+						<div class="mb-1">
+<!-- 							<div class="text-center" style="display: inline-block; width: 25px;"><i class="fas fa-cookie-bite"></i></div> -->
+							<div  style="display: inline-block;"><a th:href="@{/politicaCookies}"> Política de cookies</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Seccion derechos reservadso -->
+		<div id="seccion-derechos" class="row">
+			<div class="container d-none d-md-block">
+				<div class="row">
+					<div class="col-auto">
+						2022 © Pocketrainer. Todos los derechos reservados.
+					</div>
+					<div class="col-auto ml-auto text-right">
+						<a href="#" class="subirArribaBoton" style="color: #FA7268; decoration: none;"><i class="fas fa-chevron-up"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="container d-block d-md-none">
+				<div class="row">
+					<div class="col-12 text-center">
+						<a href="#" class="subirArribaBoton pb-1 pr-2 pl-2" style="color: #FA7268; decoration: none;"><i class="fas fa-chevron-up"></i></a>
+					</div>
+					<div class="col-12 text-center">
+						2022 © Pocketrainer. Todos los derechos reservados.
+					</div>
+				</div>
+			</div>
+		</div>
+  	</div>
+  	
+  	
+  </body>
+  
+</html>

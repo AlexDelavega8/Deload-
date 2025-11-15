@@ -1,0 +1,16 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoCliente}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Videoconferencia en breves</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p>Quería recordarte que tenemos una videoconferencia programada para las  <span th:text="${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(fecha), 'HH:mm')}"></span>. 
+   			Parar comenzar la videoconferencia solo tienes que entrar en tu área personal y pulsar el botón "Videoconferencia". De esta manera entras en la sala y podrás unirte en cuanto yo me conecte. Cualquier
+   			duda o problema puedes contactar conmigo a través del formulario de contacto de la sección "Mi entrenador" en tu área personal, ¡Hasta ahora!.</p>
+   		</div>
+    </body>
+  </html>

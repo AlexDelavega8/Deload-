@@ -1,0 +1,104 @@
+<!doctype html>
+<html layout:decorate="~{plantillaInicio}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+   		 <!-- Posicionamiento -->
+		<meta name="robots" th:content="${metaRobots}"/>
+		<title>Acceso miembros - Pocketrainer, tu entrenador de bolsillo</title> <!-- Menos de 70 -->
+   		<meta name="description" content="Acceso miembros. Entra con tu cuenta Pocketrainer y comienza con tu entrenamiento online 100% personalizado programado para hoy, ¡A entrenar!"/> <!-- Menos de 160 -->
+    	<link rel="canonical" href="https://pocketrainer.es/acceso-miembros"/>
+    
+	     <!-- Open Graph -->
+	    <meta property="og:locale" content="es_ES" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Acceso miembros - Pocketrainer, tu entrenador de bolsillo" />
+		<meta property="og:description" content="Acceso miembros. Entra con tu cuenta Pocketrainer y comienza con tu entrenamiento online 100% personalizado programado para hoy, ¡A entrenar!" />
+		<meta property="og:url" content="https://pocketrainer.es/acceso-miembros" />
+		<meta property="og:site_name" content="Pocketrainer" />
+		<meta property="og:image" content="https://pocketrainer.es/estatico/imagenes/logo.png" />
+  	</head>
+	  <body>
+	  
+	  	<div layout:fragment="content">
+	  	
+	  		<!--  Seccion cabecera -->
+			<div id="seccion-cabecera" class="row">
+			
+				<div class="container">
+					<div class="row">
+	  	
+	  					<div class="col align-self-center">
+	  					
+	  					
+	 						<div id="inicio-titulo" class="text-center" style="margin-bottom: 15px;">
+								<span class="titulo-grande titulo-grande-azul">Prepárate para</span><span class="titulo-grande titulo-grande-coral"> entrenar</span>
+							</div>
+							
+							
+					  		
+					        
+					        <div id="inicio-formulario-login" class="align-self-center">
+					        	<div th:if="${param.error}" class="text-center alert alert-danger">
+						            Usuario o contraseña incorrectos
+						        </div>
+						        <form th:action="@{/acceso-miembros}" method="post">
+						            <div class="form-group">
+						            	<label for="usuario"> Usuario </label>
+						            	<input id="usuario" type="text" class="form-control" name="username"/> 
+						            </div>
+						            <div class="form-group">
+						            	<label> Contraseña </label>
+						            	<input id="password" type="password" class="form-control" name="password"/> 
+						            </div>
+						            <div class="mb-2">
+						            	<button type="submit" class="btn btn-outline-azul" style="width: 100%;">Entrar <i class="fas fa-chevron-right"></i></button>
+						            </div>
+						            <div class="mb-5" style="font-size: 0.9rem; font-weight: bold; color: #0F4C81;">
+						            	<span data-toggle="modal" data-target="#recuperarPasswordModal" class="cursor-pointer">Olvidé mi contraseña</span>
+						            </div>
+						            <div class="text-center">
+						            	<div class="mb-2"><span style="font-size: 0.9rem;">¿Todavía no tienes tu entrenador de bolsillo?</span></div>
+						            	<a th:href="@{/crea-tu-cuenta-pocketrainer}" class="btn btn-outline-coral" style="width: 100%;">Quiero mi entrenador de bolsillo</a>
+						            </div>
+						           
+						        </form>
+					        </div>
+				        </div>
+				        
+			        </div>
+				</div>
+		        
+	        </div>
+	        
+	        
+	        <!-- Recuperar password -->
+			<div class="modal fade" id="recuperarPasswordModal" tabindex="-1" role="dialog" aria-labelledby="recuperarPasswordModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="recuperarPasswordModalLabel">Contraseña</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	<p>Por favor, introduce tu email con el que entras en Pocketrainer y pulsa el botón Aceptar. En breves recibirás en tu correo la nueva contraseña generada.</p>
+			      	<form id="recuperarPasswordFormulario" th:action="@{/recuperarPasswordFormulario}" method="post">
+			      		 <div class="form-group">
+			            	<label> Correo </label>
+			            	<input id="correo" type="email" class="form-control" name="correo" required/> 
+			             </div>
+			      	</form>
+			  
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" onClick="$('#recuperarPasswordFormulario').trigger('submit')" data-dismiss="modal" class="btn btn-outline-azul">Aceptar</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+	        
+	        
+	  	</div>
+	    
+	  </body>
+</html>

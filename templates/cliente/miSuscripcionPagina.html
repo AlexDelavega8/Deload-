@@ -1,0 +1,137 @@
+<!doctype html>
+<html layout:decorate="~{plantillaCliente}">
+  <head>
+    <title>Inicio</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+  
+  	<a layout:fragment="submenu-titulo">
+		<span>Suscripción</span>
+    </a>
+ 
+
+  	<div layout:fragment="submenu-seccion-izquierda">
+		<span th:text="${cliente.suscripcion.estado.nombre}"></span>
+    </div>
+ 
+  	<div layout:fragment="submenu-seccion-derecha">
+  		
+  		
+		<!-- Cancelar suscripcion -->
+		<button class="btn btn-sm btn-outline-azul cursor-pointer" data-toggle="modal" data-target="#cancelacionSuscripcionModal" 
+			th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).ACTIVA.codigo() || cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).ACTIVA_NUEVA.codigo()}">
+			<i class="far fa-window-close"></i> Cancelar suscripción
+		</button>
+		
+		<a th:href="@{/suspenderCancelacionSuscripcion}" class="btn btn-sm btn-outline-azul"
+			th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).CANCELADA.codigo()}">
+			<i class="fas fa-rocket"></i> Activar suscripcion
+		</a>
+		
+		<a th:href="@{/reactivarSuscripcion}" class="btn btn-sm btn-outline-azul"
+			th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).CADUCADA.codigo()}">
+			<i class="fas fa-rocket"></i> Reactivar suscripcion
+		</a>
+		
+		
+		<a th:href="@{/pagoSuscripcionClientePagina}" class="btn btn-sm btn-outline-azul" 
+			th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).IMPAGADA.codigo() || cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).IMPAGADA_INICIAL.codigo()}">
+			<i class="fas fa-shopping-cart"></i> Pagar suscripcion
+		</a>
+
+    </div>
+  
+	<div layout:fragment="content" class="row">
+	
+		<div class="container d-flex flex-column">
+		
+			<div class="row no-gutters pb-3">
+				<div class="col-12 col-sm-6" style="padding: .5rem 0rem; border-bottom: 2px solid #FA7268">
+					<span style="font-weight: bold; color: #0F4C81;">Servicio de entrenamiento online</span>
+				</div>
+			</div>
+			
+			<div class="alert alert-warning" role="alert" th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).CADUCADA.codigo()}">
+				<strong>¡Hola!</strong>, para reactivar tu suscripción pulsa el botón situado arriba a la derecha con el texto "Reactivar suscripción". En ese instante se te redirigirá a la TPV virtual para que realices el pago y una vez
+				finalizado el proceso, volverás a tener tu suscripción 100% activa. ¡te estamos esperando!.
+			</div>
+			
+			<div class="alert alert-danger" role="alert" th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).CANCELADA.codigo()}">
+				<strong>Atención</strong>, has cancelado tu suscripción y dicha cancelación se hará efectiva al finalizar el período en curso. 
+			  	Hasta entonces todavía puedes reactivarla pulsando el botón situado arriba a la derecha con el texto "Activar suscripción". 
+			  	Cuando la cancelación se haga efectiva ya no podrás acceder a tus entrenamientos, pero no se borrarán definitivamente de forma que si algún día vuelves, que es nuestro deseo, podrás acceder a ellos.
+			</div>
+			
+			<div class="alert alert-danger" role="alert" th:if="${cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).IMPAGADA.codigo() || cliente.suscripcion.estado.codigo  == T(es.pocketrainer.util.Constantes.SuscripcionEstadoEnum).IMPAGADA_INICIAL.codigo()}">
+				<strong>Atención</strong>, hubo algún error a la hora de realizar el cobro de la suscripción. Es necesario que realice el pago pulsando el botón situado arriba a la derecha con el texto "Pagar suscripción".
+			</div>
+			
+			
+			<div class="row mb-3">
+				<div class="col">
+				Tu suscripción te permite tener un plan de entrenamiento 100% adaptado e individualizado. Cada mes tu entrenador te elabora tu plan personalizado y contacta contigo a través de una videoconferencia donde te explicará 
+				los detalles y resolverá cualquier duda.
+				</div>
+			</div>
+	
+			<div class="row mb-4">
+				<div class="col-12">
+					<span style="font-weight: bold;">Detalles de tu suscripción</span>
+				</div>
+				<div class="col-12">
+					La última renovación de tu suscripción fue el <span th:text="${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(cliente.suscripcion.fechaPeriodoDesde), 'dd/MM/yyyy')}"></span> 
+					y pagas <span th:text="|${cliente.suscripcion.servicio.precio} €/mes|"></span>. Estos son los últimos cobros realizados:
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Periodo</th>
+									<th class="text-center" scope="col">Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="suscripcionCobro : ${cliente.suscripcion.suscripcionCobroLista}">
+									<th:block th:if="${suscripcionCobro.estado.codigo.equals(T(es.pocketrainer.util.Constantes.SuscripcionCobroEstadoEnum).COBRADO.codigo())}">
+										<td th:text="|${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(suscripcionCobro.fechaPeriodoDesde), 'dd/MM/yyyy')}-${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(suscripcionCobro.fechaPeriodoHasta), 'dd/MM/yyyy')}|"></td>
+										<td class="text-center" style="white-space: nowrap;" th:text="|${suscripcionCobro.cantidad} €|"></td>
+									</th:block>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	
+	
+		<!-- Modal confirmar cancelacion -->
+		<div class="modal fade" id="cancelacionSuscripcionModal" tabindex="-1" role="dialog" aria-labelledby="cancelacionSuscripcionModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="terminosCondicionesModalLabel">Cancelación</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	¿Estás seguro de que quieres cancelar tu suscripción?. Una vez finalizado el período actual de suscripción la cancelación se hará afectiva y no podrás acceder a tus entrenamientos.
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" data-dismiss="modal" class="btn btn-outline-coral">No</button>
+		        <a th:href="@{/cancelarSuscripcion}" class="btn btn-outline-azul">Sí</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	
+	<script src="/js/miSuscripcionPagina.js" th:src="@{/js/miSuscripcionPagina.js}"></script>
+	</div>
+  </body>
+</html>

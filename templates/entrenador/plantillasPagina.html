@@ -1,0 +1,200 @@
+<!doctype html>
+<html layout:decorate="~{plantillaEntrenador}">
+
+	<head>
+		<title>Cambio contraseña</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<div layout:fragment="submenu-titulo">
+			<span>Plantillas</span>
+	    </div>
+	
+		<div layout:fragment="content">
+		
+			<div class="row">
+		
+				<!-- Filtros -->
+				<div class="col-auto">
+					<form id="buscarPlantillaFormulario" th:action="@{/buscarPlantillaFormulario}" th:object="${buscarPlantillaFormulario}" onsubmit="buscarPlantillaFormulario(this, event)" method="post" novalidate>
+			  			<div class="form-row">
+							<div class="form-group col-auto">
+								<label for="nombre"> Nombre </label>
+								<div class="input-group">					            	
+					            	<input id="nombre" type="text" class="form-control" th:field="*{nombre}" maxlength="100" placeholder="Nombre"/>
+					            	<div class="input-group-append">
+								    	<button class="btn-borrar-input btn btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+								  	</div>
+								</div>
+				            </div>
+							<div class="form-group col-auto">
+				            	<label for="comentariosEntrenador"> Comentarios </label>
+				            	<div class="input-group">
+				            		<input id="comentariosEntrenador" type="text" class="form-control" th:field="*{comentariosEntrenador}" maxlength="100" placeholder="Comentarios"/>
+				            		<div class="input-group-append">
+								    	<button class="btn-borrar-input btn btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+								  	</div>
+								</div>
+				            </div>
+				            <div class="form-group col-auto">
+								<label for="entrenadorId">Entrenador</label>
+								<select class="form-control selectpicker" th:field="*{entrenadorId}" data-style="btn-select" title="Entrenador">
+									<option selected value="">Cualquiera</option>
+									<option th:each="entrenador : ${entrenadorSeleccionLista}" th:value="${entrenador.id}" th:text="${entrenador.nombreCompleto}"></option>
+								</select>
+							</div>
+							<div class="form-group col-auto mt-auto">
+								<button id="buscarPlantillaFormularioSubmit" type="submit" class="btn btn-outline-azul"><i class="fas fa-search"></i> Buscar</button>
+							</div>
+			  			</div>
+			  		</form>
+			  	</div>
+			  	<div class="col-auto ml-auto" style="align-self: flex-end;">
+			  		<div class="form-group">
+			  			<a href="#" data-toggle="modal" data-target="#crearPlantillaModal" class="btn btn-outline-azul"><i class="fas fa-plus"></i> Nueva plantilla</a>
+			  		</div>
+			  	</div>
+			
+			</div>
+			
+			<!-- Listado -->
+			<div id="plantillaLista" th:fragment="plantillaListaFragment" class="table-responsive tabla-cabecera-fija tabla-pantalla-completa">
+			<table class="table table-hover">
+				<thead class="thead-pocketrainer">
+						<tr>
+<!-- 							<th scope="col">ID</th> -->
+							<th scope="col">Nombre</th>
+							<th scope="col">Comentarios</th>
+							<th scope="col">Entrenador</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="plantilla: ${plantillaLista}">
+<!-- 							<th th:text="${plantilla.id}"></th> -->
+							<th style="white-space: nowrap;" th:text="${plantilla.nombre}"></th>
+							<td th:text="${plantilla.comentariosEntrenador}"></td>
+							<td th:if="${plantilla.entrenador}" th:text="${plantilla.entrenador.nombreCompleto}"></td>
+							<td th:unless="${plantilla.entrenador}"></td>
+							<td class="text-right" style="white-space: nowrap;">
+								<a th:href="${'rutinaPlantillaElaboracionPagina/'+plantilla.id}"><i class="fas fa-edit mr-2"></i></a>
+								
+								<a href="#" onClick="comenzarCopiarPlantillaAccion(this)" th:data-accion="@{/comenzarCopiarPlantillaAccion}" th:data-rutina-id="${plantilla.id}">
+									<i class="fas fa-copy mr-2"></i>
+								</a>
+								
+								<a href="#" onClick="abrirBorrarPlantillaModal(this)" th:data-accion="@{/borrarPlantillaAccion}" th:data-rutina-id="${plantilla.id}">
+									<i class="fas fa-trash-alt mr-2"></i>
+								</a>					
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			
+			<!-- Modal crear plantilla -->
+			<div class="modal fade" id="crearPlantillaModal" th:fragment="crearPlantillaModalFragment" tabindex="-1" role="dialog" aria-labelledby="crearPlantillaModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="crearPlantillaModalLabel">
+								Nueva plantilla
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form id="crearPlantillaFormulario" th:action="@{/crearPlantillaFormulario}" th:object="${rutinaNueva}" onsubmit="crearPlantillaFormulario(this, event)"  method="post" novalidate>
+								<div class="form-row">
+				 					<div class="form-group col-12">
+						            	<label for="crearPlantillaFormulario-nombre"> Nombre de la plantilla </label>
+						            	<input id="crearPlantillaFormulario-nombre" type="text" class="form-control form-control-sm" th:field="*{nombre}" placeholder="Nombre de la rutina" maxlength="30" required/> 
+						            </div>
+						            <div class="form-group col-12">
+									    <label for="crearPlantillaFormulario-comentariosEntrenador">Comentarios</label>
+									    <textarea id="crearPlantillaFormulario-comentariosEntrenador" class="form-control form-control-sm" th:field="*{comentariosEntrenador}" placeholder="Comentarios" rows="3" required></textarea>
+									</div>
+									
+									<div class="form-group col-12">
+										<button id="crearPlantillaFormularioSubmit" type="submit" class="btn btn-sm btn-azul" style="display: none;"><i class="fas fa-check"></i> Guardar cambios</button>
+									</div>  
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" data-dismiss="modal" class="btn btn-sm btn-outline-danger">Cancelar</button>
+							<a id="crearPlantillaFormularioSubmitFake" href="#" onclick="$('#crearPlantillaFormularioSubmit').click()" type="button" class="btn btn-sm btn-success">Guardar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal copiar plantilla -->
+			<div class="modal fade" id="copiarPlantillaModal" th:fragment="copiarPlantillaModalFragment" tabindex="-1" role="dialog" aria-labelledby="copiarPlantillaModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="copiarPlantillaModalLabel">
+								Copiar plantilla
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body" th:if="${rutinaCopia}">
+							<form id="copiarPlantillaFormulario" th:action="@{/copiarPlantillaFormulario}" th:object="${rutinaCopia}" onsubmit="copiarPlantillaFormulario(this, event)" method="post" novalidate>
+								<div class="form-row">
+				 					<input type="hidden" id="copiarPlantillaFormulario-id" th:field="*{id}" />
+				 					<div class="form-group col-12">
+						            	<label for="copiarPlantillaFormulario-nombre"> Nombre de la plantilla </label>
+						            	<input id="copiarPlantillaFormulario-nombre" type="text" class="form-control form-control-sm" th:field="*{nombre}" placeholder="Nombre de la rutina" maxlength="30" required/> 
+						            </div>
+						            <div class="form-group col-12">
+									    <label for="copiarPlantillaFormulario-comentariosEntrenador">Comentarios</label>
+									    <textarea id="copiarPlantillaFormulario-comentariosEntrenador" class="form-control form-control-sm" th:field="*{comentariosEntrenador}" placeholder="Comentarios" rows="3" required></textarea>
+									</div>
+									
+									<div class="form-group col-12">
+										<button id="copiarPlantillaFormularioSubmit" type="submit" class="btn btn-sm btn-azul" style="display: none;"><i class="fas fa-check"></i> Guardar cambios</button>
+									</div>  
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" data-dismiss="modal" class="btn btn-sm btn-outline-danger">Cancelar</button>
+							<a id="actualizarRutinaFormularioSubmitFake" href="#" onclick="$('#copiarPlantillaFormularioSubmit').click()" type="button" class="btn btn-sm btn-success">Guardar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal borrar plantilla -->
+			<div class="modal fade" id="borrarPlantillaModal" th:fragment="borrarPlantillaModalFragment" tabindex="-1" role="dialog" aria-labelledby="borrarPlantillaModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="borrarPlantillaModalLabel">
+								<i class="fas fa-exclamation-circle" style="color: #FA7268"></i>
+								Borrar plantilla
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">¿Estás seguro de quieres borrar la plantilla?</div>
+						<div class="modal-footer">
+							<button style="min-width: 40px;" type="button" data-dismiss="modal" class="btn btn-sm btn-outline-secondary">No</button>
+							<a style="min-width: 40px;" id="borrarPlantillaModalAceptar" href="#" onclick="borrarPlantillaAccion(this)" type="button" class="btn btn-sm btn-danger">Sí</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<script src="/js/plantillasPagina.js" th:src="@{/js/plantillasPagina.js}"></script>	
+		</div>
+
+	</body>
+
+</html>

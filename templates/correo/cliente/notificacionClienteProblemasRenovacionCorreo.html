@@ -1,0 +1,16 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoCliente}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Error renovación</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p>No hemos podido renovar tu suscripción debido a un error en el cobro. Es necesario que entres en tu área personal y sigas 
+   			los pasos indicados para realizar el pago y así completar el proceso de renovación. Si en 48 horas no se realizó el pago, la suscripción quedará cancelada. 
+   			Si tienes cualquier duda, por favor, contacta con nosotros.</p>
+   		</div>
+    </body>
+  </html>

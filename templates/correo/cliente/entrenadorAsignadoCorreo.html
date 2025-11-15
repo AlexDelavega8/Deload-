@@ -1,0 +1,15 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoCliente}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Entrenador asignado</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p>Te presentamos a tu entrenador <span th:text="${entrenadorNombre}"></span>. Para cualquier consulta o sugerencia ponte en contacto al siguiente correo electrónico:
+   			<a th:href="|mailto:${entrenadorMail}|" th:text="${entrenadorMail}"></a>, o puedes hacerlo directamente desde tu perfil personal en la sección "Mi entrenador".</p>
+   		</div>
+    </body>
+  </html>

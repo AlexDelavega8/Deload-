@@ -1,0 +1,104 @@
+<!doctype html>
+<html layout:decorate="~{plantillaEntrenador}">
+  <head>
+    <title>Clientes</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+	<div layout:fragment="submenu-titulo">
+		<span>Facturación</span>
+    </div>
+  		
+  	<div layout:fragment="content" style="height: 100vh;">
+  	
+		<!-- Filtros -->		
+		<form id="buscarSuscripcionCobroListaFormulario" th:action="@{/buscarSuscripcionCobroListaFormulario}" th:object="${buscarSuscripcionCobroListaFormulario}" onsubmit="buscarSuscripcionCobroListaFormulario(this, event)" method="post" novalidate>
+  			<div class="form-row">
+  				<div class="form-group col-auto">
+			    	<label th:for="${#ids.next('anho')}"> Año </label>
+			    	
+			    	<div class="input-group">
+						<input type="text" class="form-control" data-provide="datepicker" data-date-format="yyyy" data-date-language="es" data-date-max-view-mode="years" data-date-min-view-mode="years" data-date-start-view="years" data-date-autoclose="true" th:field="*{anho}" autocomplete="off"/> 
+					</div>
+			    </div>
+			    <div class="form-group col-auto">
+			    	<label th:for="${#ids.next('mesString')}"> Mes </label>
+			    	<div class="input-group">
+						<input type="text" class="form-control" data-provide="datepicker" data-date-language="es" data-date-max-view-mode="months" data-date-min-view-mode="months" data-date-start-view="months" data-date-autoclose="true" th:field="*{mesString}"  autocomplete="off"/> 
+			   			<input type="hidden" th:field="*{mes}"/>
+			   			<div class="input-group-append">
+					    	<button class="btn-borrar-input btn btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+					  	</div>
+					</div>
+			    </div>
+
+			    <div id="fechaRango" class="form-group col-auto">
+			    	<label th:for="${#ids.next('fechaEmisionRangoFin')}"> Rango de fechas </label>
+			    	
+			    	<div class="input-group input-daterange">
+			    		<div class="input-group">
+							<input type="text" size="10" class="form-control rango" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="es" data-date-today-btn="true" data-date-today-highlight="true" th:field="*{fechaEmisionRangoInicio}" data-date-autoclose="true" autocomplete="off" placeholder="Desde"/> 
+						    <input type="text" size="10" class="form-control rango" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="es" data-date-today-btn="true" data-date-today-highlight="true" th:field="*{fechaEmisionRangoFin}" data-date-autoclose="true" autocomplete="off" placeholder="Hasta"/> 
+							<div class="input-group-append">
+						    	<button class="btn-borrar-input btn btn-outline-secondary" type="button"><i class="fas fa-times"></i></button>
+						  	</div>
+						</div>
+					</div>
+			    </div>
+				
+				<div class="form-group col-auto">
+					<label th:for="${#ids.next('estadoCodigo')}"> Estado</label>
+					<select class="form-control selectpicker" th:field="*{estadoCodigoLista}" data-style="btn-select" title="Estado" multiple>
+						<option th:each="estado : ${estadoSeleccionLista}" th:value="${estado.codigo}" th:text="${estado.nombre}"></option>
+					</select>
+				</div>
+				
+				<div class="form-group col-auto mt-auto">
+					<button id="buscarSuscripcionCobroListaFormularioSubmit" type="submit" class="btn btn-outline-azul"><i class="fas fa-search"></i> Buscar</button>
+				</div>
+			    
+			    <div class="form-group col-auto ml-auto mt-auto">
+			    	<a th:href="@{/facturacion/exportacionCobros}" class="btn btn-outline-azul"><i class="fas fa-file-export"></i> Exportar</a>
+			    	<a th:href="@{/facturacion/exportacionCobrosHolded}" class="btn btn-outline-azul"><i class="fas fa-file-export"></i> Yolofacturo</a>
+			    </div>
+
+  			</div>
+  		</form>
+
+		<!-- Listado -->
+		<div id="suscripcionCobroLista" th:fragment="suscripcionCobroListaFragment" class="table-responsive tabla-cabecera-fija tabla-pantalla-completa">
+			<table class="table table-hover">
+				<thead class="thead-pocketrainer">
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Cantidad</th>
+						<th scope="col">Fecha emisión</th>
+						<th scope="col">Fecha cobro</th>
+						<th scope="col">Estado</th>
+						<th scope="col">Entrenador</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="suscripcionCobro, itemStat: ${suscripcionCobroLista}" th:with="cliente=${suscripcionCobro.suscripcion.cliente}">
+						<th scope="row">
+							<a th:href="${'clienteDetalle/'+cliente.id}" th:text="${cliente.nombreCompleto}"></a><br>
+							<span th:text="${cliente.telefono}"></span><br>
+							<span th:text="${cliente.email}"></span>
+						</th>
+						<td th:text="${suscripcionCobro.cantidad}"></td>
+						<td th:text="${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(suscripcionCobro.fechaHoraEmision), 'dd/MM/yyyy')}"></td>
+						<td th:text="${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(suscripcionCobro.fechaHoraCobro), 'dd/MM/yyyy')}"></td>
+						<td th:text="${suscripcionCobro.estado.nombre}"></td>
+						<td th:if="${suscripcionCobro.entrenador}" th:text="${suscripcionCobro.entrenador.nombreCompleto}"></td>
+						<td th:unless="${suscripcionCobro.entrenador}">No asignado</td>
+						
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	<script src="/js/facturacionPagina.js" th:src="@{/js/facturacionPagina.js}"></script>
+	</div>
+	
+  </body>
+</html>

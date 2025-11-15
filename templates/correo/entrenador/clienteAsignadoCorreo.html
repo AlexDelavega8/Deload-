@@ -1,0 +1,15 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoEntrenador}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Correo de error</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p> Tienes un nuevo cliente asignado, <span th:text="${clienteNombre}"></span>. Su teléfono es <span th:text="${clienteTelefono}"></span> y su preferencia de horario para la llamada es "<span th:text="${clienteHorarioTelefonico}"></span>". 
+   			 Llámalo antes de 24h para informarle de que cubra el resto de campos de su información y concertar la videoconferencia en un plazo máximo de 3 días laborables. Comienza cuanto antes a elaborar sus entrenamientos.</p>
+   		</div>
+    </body>
+  </html>

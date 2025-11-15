@@ -1,0 +1,14 @@
+  <!DOCTYPE html>
+  <html layout:decorate="~{correo/plantillas/plantillaCorreoCliente}" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Videoconferencia programada</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+  </head>
+   <body>
+   		<div layout:fragment="mensaje">
+   			<p>Programé una videoconferencia contigo para el siguiente día y hora: <span th:text="${#temporals.format(T(es.pocketrainer.util.FechaUtil).aClienteZoneId(fecha), 'dd/MM/yyyy HH:mm')}"></span>. Recibirás otro correo de recordatorio 15 minutos antes del comienzo.</p>
+   		</div>
+    </body>
+  </html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html layout:decorate="~{plantillaInicio}">
+  <head>
+    <title>Pago</title>
+  </head>
+  <body>
+
+	<div layout:fragment="content" class="container" style="min-height: 100vh">
+		<div class="row mb-4">
+			<div class="col">
+				<form id="pagoFormulario" th:action="${solicitudPagoInicial.urlPago}" method="post" novalidate>
+					<input type="hidden" name="Ds_SignatureVersion" th:value="${solicitudPagoInicial.dsSignatureVersion}"></input>
+					<input type="hidden" name="Ds_MerchantParameters" th:value="${solicitudPagoInicial.dsMerchantParameters}"></input>
+					<input type="hidden" name="Ds_Signature" th:value="${solicitudPagoInicial.dsSignature}"></input>
+					<button type="submit" class="btn btn-outline-azul" style="float: right;">Pagar <i class="fas fa-chevron-right"></i></button>
+				</form>
+				
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
